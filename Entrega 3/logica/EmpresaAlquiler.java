@@ -60,9 +60,7 @@ public class EmpresaAlquiler
 		lineas = LectorArchivo.leer("sedes.dat");
 		for(String linea : lineas) {
 			String []datos = linea.split(";");
-			ArrayList<Vehiculo> listaVehiculos = new ArrayList<Vehiculo>();
-			ArrayList<Empleado> listaEmpleados= new ArrayList<Empleado>();
-			ArrayList<Reserva> listaReservas= new ArrayList<Reserva>();
+			ArrayList<Sede> listaSedes;
 			Sede u = new Sede(datos[0], datos[1], datos[2],listaVehiculos,listaEmpleados,listaReservas); 
 			listaSedes.add(u);
 		}

@@ -26,6 +26,8 @@ public class AdminSede extends Usuario {
 	 */
 	
 	public void addEmpleado() {
+		
+		
 		// TODO implement me	
 	}
 	
