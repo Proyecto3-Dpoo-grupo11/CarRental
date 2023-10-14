@@ -43,7 +43,7 @@ public class Reserva
 		this.sedeEntrega = sedeEntrega;
 		this.fechaHoraRecogida = fechaHoraRecogida; //DURO
 		this.fechaHoraEntrega = fechaHoraEntrega; //DURO
-		this.placaVehiculo = placaVehiculo;
+		this.placaVehiculo = placaVehiculo; //instancia vehiculo que se va a usar tambien es valido
 		this.usernameCliente = usernameCliente;
 		this.tarifa = tarifa;
 		this.seguro = seguro;
@@ -74,9 +74,11 @@ public class Reserva
 	
 	
 	// al terminar la reserva ya se deberia hacer eso automaticamente
-	private void ocuparVehiculo(int duracion) {
+	private void ocuparVehiculo(int duracion, Vehiculo v) {
 		// TODO implement me	
 		//ACA SOLO SE CAMBIARIA EL ESTADO USANDO EL ENUM
+		
+		v.setEstados(Estados.NODISPONIBLE);
 	}
 	
 	//importantisimo, con los getters y setters sale, solo es que formateen el texto

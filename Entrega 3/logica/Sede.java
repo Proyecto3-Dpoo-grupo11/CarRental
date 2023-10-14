@@ -20,7 +20,7 @@ import java.util.ArrayList;
 	//listadeesetipodecarro = sede.mapa.get(tipodecarroquequiero)
 public class Sede
 {
-	public int codigoSede;
+	public String codigoSede;
 	public String ubicacion;
 	public String horarioAtencion;
 	
@@ -32,7 +32,7 @@ public class Sede
 	 * <!-- CONSTRUCTOR  -->
 	 * @generated
 	 */
-	public Sede(int codigoSede, String ubicacion, String horarioAtencion, ArrayList<Vehiculo> listaVehiculos,
+	public Sede(String codigoSede, String ubicacion, String horarioAtencion, ArrayList<Vehiculo> listaVehiculos,
 			ArrayList<Empleado> listaEmpleados, ArrayList<Reserva> listaReservas) {
 		super();
 		this.codigoSede = codigoSede;
