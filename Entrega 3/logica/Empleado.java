@@ -14,7 +14,7 @@ public class Empleado extends Usuario {
 	protected Roles cargo;
 
 	public Empleado(String username, String password, int codigoSede, Roles cargo) {
-		super(username, password);
+		super(username, password, cargo);
 		this.codigoSede = codigoSede;
 		this.cargo = Roles.EMPLEADO;
 		}

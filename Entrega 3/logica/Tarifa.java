@@ -1,5 +1,8 @@
 package logica;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * <!-- DOCUMENTACION -->
@@ -13,17 +16,19 @@ public class Tarifa
 	public int tarifaPorDia;
 	public int valorExtraConductorAdicional;
 	public int valorPorEntregaOtraSede;
+	public HashMap<String,Tarifa> mapaTarifa;
 	
 	/**
 	 * <!- CONSTURCTOR -->
 	 */
 	
-	public Tarifa(String categoria, int tarifaPorDia, int valorExtraConductorAdicional, int valorPorEntregaOtraSede) {
+	public Tarifa(String categoria, int tarifaPorDia, int valorExtraConductorAdicional, int valorPorEntregaOtraSede,HashMap<String,Tarifa>mapaTarifa) {
 		super();
 		this.categoria = categoria;
 		this.tarifaPorDia = tarifaPorDia;
 		this.valorExtraConductorAdicional = valorExtraConductorAdicional;
 		this.valorPorEntregaOtraSede = valorPorEntregaOtraSede;
+		this.mapaTarifa=mapaTarifa;
 	}
 
 	/**
@@ -31,9 +36,14 @@ public class Tarifa
 	 */
 	
 	
-	public void registrarTarifa() {
-		// TODO implement me	
+	public void registrarTarifa(String categoria, int tarifaPorDia, int valorExtraConductorAdicional, int valorPorEntregaOtraSede,HashMap<String,Tarifa>mapaTarifa) {
+		
+		// TODO implement me
+		Tarifa nuevaTarifa= new Tarifa(categoria, tarifaPorDia, valorExtraConductorAdicional, valorPorEntregaOtraSede, mapaTarifa);
+		mapaTarifa.put(categoria,nuevaTarifa);
+		
 	}
+	
 	
 	/**
 	 * <!-- GETTERS SETTERS -->
@@ -70,5 +80,14 @@ public class Tarifa
 	public void setValorPorEntregaOtraSede(int valorPorEntregaOtraSede) {
 		this.valorPorEntregaOtraSede = valorPorEntregaOtraSede;
 	}
+
+	public HashMap<String, Tarifa> getMapaTarifa() {
+		return mapaTarifa;
+	}
+
+	public void setMapaTarifa(HashMap<String, Tarifa> mapaTarifa) {
+		this.mapaTarifa = mapaTarifa;
+	}
+	
 }
 

@@ -11,15 +11,16 @@ public abstract class Usuario
 {
 	protected String username;
 	protected String password;
-	
+	protected Roles rol;
 	/**
 	 * <!-- CONSTRUCTOR -->
 	 */
 
-	public Usuario(String username, String password) {
+	public Usuario(String username, String password,Roles rol) {
 		super();
 		this.username = username;
 		this.password = password;
+		this.rol=rol ;
 	}
 
 	/**
@@ -38,6 +39,14 @@ public abstract class Usuario
 	//No pusimos getters para contrasena ya que no habra metodo cambiarContrasena()
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public Roles getRol() {
+		return rol;
 	}
 	
 }

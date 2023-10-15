@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import persistencia.LectorArchivo;
+import logica.AdminGeneral;
 
 /**
  * <!-- ACA VA DOCUMENTACION -->
@@ -12,16 +13,18 @@ import persistencia.LectorArchivo;
 
 public class EmpresaAlquiler
 {
-	static HashMap<String, Usuario> mapaUsuarios;
-	ArrayList<Sede> listaSedes;
+	public static HashMap<String, Usuario> mapaUsuarios;
+	static ArrayList<Sede> listaSedes;
+	static AdminGeneral admin;
 	
 	/**
 	 * <!-- CONSTRUCTOR -->
 	 */
 	
 	public EmpresaAlquiler() {
-		this.listaSedes = new  ArrayList<Sede>();
+		EmpresaAlquiler.listaSedes = new  ArrayList<Sede>();
 		EmpresaAlquiler.mapaUsuarios = new HashMap<String, Usuario>();
+		EmpresaAlquiler.admin= new AdminGeneral(null, null, null);
 	}
 	
 	/**
@@ -60,8 +63,9 @@ public class EmpresaAlquiler
 		lineas = LectorArchivo.leer("sedes.dat");
 		for(String linea : lineas) {
 			String []datos = linea.split(";");
-			ArrayList<Sede> listaSedes;
-			Sede u = new Sede(datos[0], datos[1], datos[2],listaVehiculos,listaEmpleados,listaReservas); 
+			ArrayList<Vehiculo> listaVehiculos = new ArrayList<Vehiculo>();
+			ArrayList<Reserva> listaReservas= new ArrayList<Reserva>();
+			Sede u = new Sede(datos[0], datos[1], datos[2],listaVehiculos,listaReservas); 
 			listaSedes.add(u);
 		}
 			
@@ -70,7 +74,7 @@ public class EmpresaAlquiler
 		
 		public String infoCarroEspecifico() {
 			//Busquedas, guardan variables
-			return ("el carro %s, esta en %s........."); //.format(codigocarro,ubicacion,etc)
+			return ("el carro %s, esta en %s........."); //.format(placacarro,ubicacion,etc)
 		}
 	
 	/**
@@ -82,7 +86,23 @@ public class EmpresaAlquiler
 	}
 
 	public void setListaSedes(ArrayList<Sede> listaSedes) {
-		this.listaSedes = listaSedes;
+		EmpresaAlquiler.listaSedes = listaSedes;
+	}
+
+	public static HashMap<String, Usuario> getMapaUsuarios() {
+		return mapaUsuarios;
+	}
+
+	public static void setMapaUsuarios(HashMap<String, Usuario> mapaUsuarios) {
+		EmpresaAlquiler.mapaUsuarios = mapaUsuarios;
+	}
+
+	public static AdminGeneral getAdmin() {
+		return admin;
+	}
+
+	public static void setAdmin(AdminGeneral admin) {
+		EmpresaAlquiler.admin = admin;
 	}
 	
 }

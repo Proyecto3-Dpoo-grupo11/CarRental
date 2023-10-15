@@ -1,5 +1,6 @@
 package logica;
 
+import java.util.HashMap;
 
 /**
  * <!-- DOCUMENTACION -->
@@ -10,21 +11,47 @@ public class Seguro
 {
 	
 	public String nombreSeguro;
+	public int tarifaPorDia;
+	public TipoSeguro tipoSeguro;
+	public static HashMap<String,Seguro> mapaSeguro;
 	
 	/**
 	 * <!-- CONSTRUCTOR -->
 	 */
-	public Seguro(String nombreSeguro) {
+	public Seguro(String nombreSeguro,int tarifaPorDia) {
 		super();
 		this.nombreSeguro = nombreSeguro;
+		this.tarifaPorDia =tarifaPorDia;
 	}
 
 	/**
 	 * <!-- METODOS DEL CONSTRUCTOR -->
 	 */
 	
-	public void registrarSeguro() {
-		// TODO implement me	
+	public static void registrarSeguro(String nombreSeguro,int tarifaPorDia) {
+		Seguro nuevoseguro= new Seguro(nombreSeguro, tarifaPorDia);
+		mapaSeguro.put(nombreSeguro,nuevoseguro);
+		
+		// TODO implement me
+		
+		
+		
+	}
+	public void modificarTarifa(String nombreSeguro,int nuevaTarifa ) {
+		
+		// TODO implement me
+		Seguro res=mapaSeguro.get(nombreSeguro);
+		res.tarifaPorDia= nuevaTarifa;
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	}
 
 	/**
@@ -38,4 +65,13 @@ public class Seguro
 	public void setNombreSeguro(String nombreSeguro) {
 		this.nombreSeguro = nombreSeguro;
 	}
+
+	public int getTarifaPorDia() {
+		return tarifaPorDia;
+	}
+
+	public void setTarifaPorDia(int tarifaPorDia) {
+		this.tarifaPorDia = tarifaPorDia;
+	}
+	
 }

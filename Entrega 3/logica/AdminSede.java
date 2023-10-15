@@ -16,7 +16,7 @@ public class AdminSede extends Usuario {
 	 */
 
 	public AdminSede(String username, String password, int codigoSede, Roles cargo) {
-		super(username, password);
+		super(username, password, cargo);
 		this.codigoSede = codigoSede;
 		this.cargo = Roles.EMPLEADO;
 		}
@@ -25,12 +25,20 @@ public class AdminSede extends Usuario {
 	 * <!-- METODOS DEL ADMIN DE SEDE -->
 	 */
 	
-	public void addEmpleado() {
-		
-		
-		// TODO implement me	
-	}
-	
+	public void addEmpleado(String username, String password) {
+        Empleado nuevoEmpleado = new Empleado(username, password, codigoSede, Roles.EMPLEADO);
+        listaEmpleados.add(nuevoEmpleado);
+    }
+
+    void deleteEmpleado(String username) {
+        Iterator<Empleado> iterator = listaEmpleados.iterator();
+        while (iterator.hasNext()) {
+            Empleado empleado = iterator.next();
+            if (empleado.getUsername().equals(username)) {
+                iterator.remove();
+            }
+    }
+}
 	public void deleteEmpleado() {
 		// TODO implement me	
 	}

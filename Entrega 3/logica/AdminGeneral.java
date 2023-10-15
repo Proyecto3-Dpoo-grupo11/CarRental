@@ -1,6 +1,8 @@
 package logica;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+
 import logica.EmpresaAlquiler;
 
 /**
@@ -17,7 +19,7 @@ public class AdminGeneral extends Usuario
 	 */
 	
 	public AdminGeneral(String username, String password, Roles cargo) {
-		super(username, password);
+		super(username, password, cargo);
 		this.cargo = Roles.ADMINISTRADORGENERAL;
 		}
 	
@@ -46,22 +48,44 @@ public class AdminGeneral extends Usuario
 		
 	}
 
-	public void nuevoVehiculo(String categoria,String placa,String marca,String codigoReservaActual,String color,String tipoTransmision,Estados Estados,String modelo) {
+	public void nuevoVehiculo(String categoria, String placa, String marca, String codigoReservaActual, String modelo,
+			String color, String tipoTransmision,Estados Estados, Sede sede) {
 		// TODO implement me
+
+		Vehiculo u =  new Vehiculo(categoria, placa, marca, codigoReservaActual, modelo, color, tipoTransmision,Estados);
+		sede.listaVehiculos.add(u);
+	}
+
+	public void borrarVehiculo(String placa, Sede sede) {
+		// TODO implement me
+		ArrayList<Vehiculo> lista = sede.listaVehiculos;
+		for (Vehiculo vehiculo : lista) {
+			if (vehiculo.placa == placa) {
+				lista.remove(vehiculo);
+
+			}
+
+		}
+	}
+	
+	public void addSede(String codigoSede, String ubicacion, String horarioAtencion, ArrayList<Vehiculo> listaVehiculos,
+			 ArrayList<Reserva> listaReservas) {
+		// TODO implement me, tiene que agregar a EmpresaAlquiler.listaSedes
+		Sede u = new Sede(codigoSede,ubicacion,horarioAtencion,listaVehiculos,listaReservas);
+		EmpresaAlquiler.listaSedes.add(u);
+	}
+	
+	public void eliminarSedes(String codigoSede) {
+		// TODO implement me	
+	
 		
-	Usuario u = new Vehiculo(categoria,placa,marca,codigoReservaActual,color,tipoTransmision,Estados,modelo);
-	}
-	
-	public void borrarVehiculo() {
-		// TODO implement me	
-	}
-	
-	public void addSede() {
-		// TODO implement me, tiene que agregar a EmpresaAlquiler.listaSedes	
-	}
-	
-	public void eliminarSedes() {
-		// TODO implement me	
+		for (Sede sedes : EmpresaAlquiler.listaSedes) {
+			if (sedes.codigoSede==codigoSede) {
+				EmpresaAlquiler.listaSedes.remove(sedes);
+			}
+			
+		}
+		
 	}
 	
 	//NO SE PUSO getters y setters porque no se necesitan y siempre daria el cargo.

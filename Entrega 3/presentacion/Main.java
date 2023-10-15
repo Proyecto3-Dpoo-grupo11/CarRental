@@ -13,6 +13,7 @@ import java.util.Scanner;
 
 import logica.AdminGeneral;
 import logica.EmpresaAlquiler;
+import logica.Roles;
 import logica.Usuario;
 
 public class Main {
@@ -28,12 +29,18 @@ public class Main {
 			System.out.println("Digite:\n"
 					+ "0. Salir\n"
 					+ "1. Cargar Archivo\n"
-					+ "2. \n");			
+					+ "2. Iniciar Sesion"
+					+ "3. Iniciar Sesion");			
 			op = sc.nextInt();
 			
 			if(op == 1) {				
 				this.empresa.leerArchivos();
-			}else if(op == 2) {
+			}
+			if(op == 2) {				
+				iniciarSesion();
+			
+			}else if(op == 3) {
+				crearCuenta();
 				
 			}
 		}while(op != 0);
@@ -42,6 +49,49 @@ public class Main {
 	
 	//TODO IMPLEMENTAR
 	private void iniciarSesion() {
+		this.empresa = new EmpresaAlquiler();
+		HashMap<String, Usuario>mapa=EmpresaAlquiler.getMapaUsuarios();
+		Usuario user= new AdminGeneral("Admin","contraseña",Roles.ADMINISTRADORGENERAL);
+		
+		mapa.put("Admin",user);
+		
+		boolean accesoApp=false;
+		while(!accesoApp) {
+		Scanner scanner = new Scanner(System.in);
+		
+		System.out.print("Ingrese su nombre de usuario");
+		String name = scanner.nextLine();
+		System.out.print("Ingrese su contraseña");
+		String password = scanner.nextLine();
+		
+		Usuario acceso= mapa.get(name);
+		if (acceso.getPassword()!=password){
+			System.out.println("Contraseña Incorrecta");
+			
+		}else {accesoApp=true;
+		
+		if(acceso.getRol()==Roles.ADMINISTRADORGENERAL) {
+			MenuAdministradorGeneral(name,password,acceso.getRol());
+		}
+		
+		if(acceso.getRol()==Roles.ADMINISTRADORSEDE) {}
+		
+		if(acceso.getRol()==Roles.EMPLEADO) {}
+		
+		if(acceso.getRol()==Roles.CLIENTE) {}
+		
+			}
+			
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		//if rol = admingeneral, entonces mostrar menu admin general
 		//if rol = cliente mostrar opciones
@@ -99,6 +149,52 @@ public class Main {
             e.printStackTrace();
         }
     }
+	
+	private void MenuAdministradorGeneral(String username, String password, Roles rol) {
+		this.empresa = new EmpresaAlquiler();
+		Scanner sc = new Scanner(System.in);
+		int op;
+		//TODO Aca hagan el menu. y relacionen con las demas clases
+		do {
+			System.out.println("Menu Administrador General"
+					+"Digite:\n"
+					+ "0. Salir\n"
+					+ "1. Crear Nuevo Administrador de la sede\n"
+					+ "2. Eliminar Administrador de la sede\n"
+					+ "3. Añadir nuevo Vehiculo\n"
+					+ "4. Borrar Vehiculo\n"
+					+ "5. Añadir nueva Sede\n"
+					+ "6. Eliminar Sede\n");			
+			op = sc.nextInt();
+			
+			if(op == 1) {				
+				this.empresa.leerArchivos();
+			}
+			if(op == 2) {			
+				System.out.println("Ingrese el codigo de la sede");
+				String CodSede = sc.nextLine();
+				EmpresaAlquiler.getAdmin().crearAdminSede(username, password,CodSede , Roles.ADMINISTRADORSEDE);;
+				
+			
+			}else if(op == 3) {
+				crearCuenta();
+				
+			}
+		}while(op != 0);
+		sc.close();
+	}
+		
+	}
+	private void MenuAdministradorSede() {
+		
+	}
+	private void Empleado() {
+		
+	}
+	private void Cliente() {
+		
+	}
+	
         
 	
 	

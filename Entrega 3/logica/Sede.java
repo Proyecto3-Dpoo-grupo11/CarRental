@@ -25,21 +25,22 @@ public class Sede
 	public String horarioAtencion;
 	
 	public ArrayList<Vehiculo> listaVehiculos;
-	public ArrayList<Empleado> listaEmpleados;
+	//public ArrayList<Empleado> listaEmpleados;
 	public ArrayList<Reserva> listaReservas;
+	
 	
 	/**
 	 * <!-- CONSTRUCTOR  -->
 	 * @generated
 	 */
 	public Sede(String codigoSede, String ubicacion, String horarioAtencion, ArrayList<Vehiculo> listaVehiculos,
-			ArrayList<Empleado> listaEmpleados, ArrayList<Reserva> listaReservas) {
+			 ArrayList<Reserva> listaReservas) {
 		super();
 		this.codigoSede = codigoSede;
 		this.ubicacion = ubicacion;
 		this.horarioAtencion = horarioAtencion;
 		this.listaVehiculos = listaVehiculos;
-		this.listaEmpleados = listaEmpleados;
+		//this.listaEmpleados = listaEmpleados;
 		this.listaReservas = listaReservas;
 	}
 	
@@ -47,18 +48,21 @@ public class Sede
 	 * <!-- FUNCIONES DEL ADMIN  -->
 	 */
 	
-	public void crearEmpleado() {
-		// TODO addlast a la lista de empleados	
+	public void crearEmpleado(){
 	}
 	
-	public void eliminarEmpleado() {
+	public void eliminarEmpleado(String codigoSede) {
+		
 		// TODO buscar y eliminar de la lista de empleados
 	}
 	
 	public void addVehiculo() {
 		//Aqui van a tener que crear nuevo objeto vehiculo y almacenarlo en el arraylist de aca.
+		
 	}
-
+	public void crearSeguros(String nombreSeguro, int tarifa ) {
+		Seguro.registrarSeguro(codigoSede,tarifa);
+	}
 	
 	/**
 	 * <!-- GETTERS AND SETTERS -->
