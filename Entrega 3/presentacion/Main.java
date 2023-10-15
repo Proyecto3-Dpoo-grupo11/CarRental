@@ -164,7 +164,8 @@ public class Main {
 					+ "3. Añadir nuevo Vehiculo\n"
 					+ "4. Borrar Vehiculo\n"
 					+ "5. Añadir nueva Sede\n"
-					+ "6. Eliminar Sede\n");			
+					+ "6. Eliminar Sede\n"	
+					+ "7. Eliminar Sede\n");
 			op = sc.nextInt();
 			
 			if(op == 1) {				

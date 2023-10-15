@@ -33,32 +33,20 @@ public class Reserva
 	public Tarifa tarifa;
 	public Seguro seguro;
 	public Vehiculo vehiculo;
+	public String rutaImagenConductorAdiciones;
+	public int calculoPrecioFinal;
+	public int cantidadConductoresAdicionales;
+	public int duracionPorDia;
+	public String textoFactura;
 	
 	/**
 	 * <!-- CONSTRUCTOR -->
 	 */
 	
-	public Reserva(String codigoReserva, ArrayList<String> listaConductoresAdicionales, String tipoDeCarro,
-			int sedeRecogida, int sedeEntrega, int nuevaSedeEntrega, String fechaHoraRecogida, String fechaHoraEntrega,
-			String placaVehiculo, String usernameCliente, Tarifa tarifa, Seguro seguro, Vehiculo vehiculo) {
-		super();
-		this.codigoReserva = codigoReserva;
-		this.listaConductoresAdicionales = listaConductoresAdicionales;
-		this.tipoDeCarro = tipoDeCarro;
-		this.sedeRecogida = sedeRecogida;
-		this.sedeEntrega = sedeEntrega;
-		this.nuevaSedeEntrega = nuevaSedeEntrega;
-		this.fechaHoraRecogida = fechaHoraRecogida;
-		this.fechaHoraEntrega = fechaHoraEntrega;
-		this.placaVehiculo = placaVehiculo;
-		this.usernameCliente = usernameCliente;
-		this.tarifa = tarifa;
-		this.seguro = seguro;
-		this.vehiculo = vehiculo;
-	}
 	
 	
 
+	
 	/**
 	 * <!-- METODOS DE LA RESERVA -->
 	 */
@@ -77,11 +65,41 @@ public class Reserva
 	
 
 
-	public double iniciarReserva() {
+
+
+
+	public Reserva(String codigoReserva, ArrayList<String> listaConductoresAdicionales, String tipoDeCarro,
+			int sedeRecogida, int sedeEntrega, int nuevaSedeEntrega, String fechaHoraRecogida, String fechaHoraEntrega,
+			String placaVehiculo, String usernameCliente, Tarifa tarifa, Seguro seguro, Vehiculo vehiculo,
+			String rutaImagenConductorAdiciones) {
+		super();
+		this.codigoReserva = codigoReserva;
+		this.listaConductoresAdicionales = listaConductoresAdicionales;
+		this.tipoDeCarro = tipoDeCarro;
+		this.sedeRecogida = sedeRecogida;
+		this.sedeEntrega = sedeEntrega;
+		this.nuevaSedeEntrega = nuevaSedeEntrega;
+		this.fechaHoraRecogida = fechaHoraRecogida;
+		this.fechaHoraEntrega = fechaHoraEntrega;
+		this.placaVehiculo = placaVehiculo;
+		this.usernameCliente = usernameCliente;
+		this.tarifa = tarifa;
+		this.seguro = seguro;
+		this.vehiculo = vehiculo;
+		this.rutaImagenConductorAdiciones = rutaImagenConductorAdiciones;
+		
+	}
+
+
+
+
+
+
+	public void iniciarReserva() {
 		//inicializaciones:
 		
 		HashMap<String, Tarifa> mapaTarifa = tarifa.getMapaTarifa();
-		Tarifa res=mapaTarifa.get(tarifa.categoria);
+		Tarifa valuesMapaTarifa=mapaTarifa.get(tarifa.categoria);
 		
 		
 		// Formato Fecha:YY//MM//DD//HH//MIN//SEG
@@ -96,23 +114,25 @@ public class Reserva
 		LocalDate startDate = LocalDate.of(Integer.parseInt(partesRecogida[0]),Integer.parseInt(partesRecogida[1]),Integer.parseInt(partesRecogida[2]));
         LocalDate endDate = LocalDate.of(Integer.parseInt(partesEntrega[0]),Integer.parseInt(partesEntrega[1]),Integer.parseInt(partesEntrega[2]));
         Period period = Period.between(startDate, endDate);
-        int days = period.getDays();
+        this.duracionPorDia = period.getDays();
 		
         
         
         
 		//cantidad_listaConductoresAdd:
-		int cantidad_listaConductoresAdd=listaConductoresAdicionales.size();
+		this.cantidadConductoresAdicionales=listaConductoresAdicionales.size();
 		//Tarifa por entregar en otra sede:
+		//Si nuevaSedeEntrega es igual a 0 es por que se entrega en la misma no hay cambio de sede
 		if (nuevaSedeEntrega==0) {
-			res.valorPorEntregaOtraSede=0;
+			valuesMapaTarifa.valorPorEntregaOtraSede=0;
 		}
 		
 		
 		//Calculo Total Precio
-		double calculo=(days*res.tarifaPorDia)+(cantidad_listaConductoresAdd*res.valorExtraConductorAdicional)+res.valorPorEntregaOtraSede;
+		this.calculoPrecioFinal=(duracionPorDia*valuesMapaTarifa.tarifaPorDia)+(cantidadConductoresAdicionales*valuesMapaTarifa.valorExtraConductorAdicional)+valuesMapaTarifa.valorPorEntregaOtraSede;
 		
-		ocuparVehiculo(days);
+		ocuparVehiculo(duracionPorDia);
+		
 		/*System.out.println("Felicidades!!! "+ usernameCliente+ "Usted ha reservado el vehiculo con placa"+placaVehiculo);
 		System.out.println("Su codigo de reserva es: ");
 		System.out.println(codigoReserva);
@@ -145,7 +165,8 @@ public class Reserva
 		
 		
 		
-		return calculo;
+		
+		
 		
 		
 		//ESTO NO SE PASA A CODIGO HASTA QUE resuelvan el formato de fechas y todo eso.
@@ -166,12 +187,41 @@ public class Reserva
 	}
 	
 	//importantisimo, con los getters y setters sale, solo es que formateen el texto
-	public void generarFactura(double calculo) {
+	public String generarFactura() {
 		// TODO implement me	
-		System.out.println("Su precio a pagar es: ");
-		System.out.println(calculo);
+		String PrintConductoresAdicionales="";
+		String PrintEntregarOtraSede="";
 		
-		return "Su factura fue blablabla ";
+		HashMap<String, Tarifa> mapaTarifa = tarifa.getMapaTarifa();
+		Tarifa valuesMapaTarifa=mapaTarifa.get(tarifa.categoria);
+		
+		//	logica Print conductores addicionales
+		if (cantidadConductoresAdicionales!=0) {
+				PrintConductoresAdicionales="Tarifa por conductor adicional: "+ 
+				valuesMapaTarifa.valorExtraConductorAdicional+" $"
+				+" x "+cantidadConductoresAdicionales + " conductores adicionales.\n" ;
+			
+		}
+		
+		if (valuesMapaTarifa.valorPorEntregaOtraSede!=0) {
+			PrintEntregarOtraSede="Tarifa por Entregar en otra sede: "+ 
+			valuesMapaTarifa.valorPorEntregaOtraSede+" $.\n";}
+			
+		
+	
+		return "Su factura es: "
+				//Print tarifa por dia
+				+"Tarifa por dia: "
+				+valuesMapaTarifa.tarifaPorDia+" $"+" x "+duracionPorDia+" Dias/n"
+				+"/n"
+				//Print conductores addicionales
+				+ PrintConductoresAdicionales
+				+ "\n"
+				+ PrintEntregarOtraSede
+				+ "\n"
+				+ "Total: \n"
+				+ calculoPrecioFinal
+				+" $.";
 	}
 	
 	/**
