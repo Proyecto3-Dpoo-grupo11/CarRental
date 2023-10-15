@@ -1,5 +1,9 @@
 package logica;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import logica.EmpresaAlquiler;
 
 /**
  * <!-- ACA DOCUMENTACION -->
@@ -13,10 +17,10 @@ public class AdminGeneral extends Usuario
 	/**
 	 * <!-- CONSTRUCTOR -->
 	 */
-
+	
 	public AdminGeneral(String username, String password, Roles cargo) {
-		super(username, password);
-		this.cargo = Roles.EMPLEADO;
+		super(username, password, cargo);
+		this.cargo = Roles.ADMINISTRADORGENERAL;
 		}
 	
 	/**
@@ -24,31 +28,64 @@ public class AdminGeneral extends Usuario
 	 */
 	
 	public void manejarEmpleados() {
-		// TODO implement me	
+		
+		
+		
+		
+		// TODO implement me
+		
 	}
 
-	public void crearAdminSede() {
-		// TODO implement me	
-	}
+	public void crearAdminSede(String username, String password, int codigoSede, Roles cargo) {
+		// TODO implement me
+		Usuario u = new AdminSede(username,password,codigoSede,cargo);		
+		EmpresaAlquiler.mapaUsuarios.put(username, u);	
+		}
 	
-	public void eliminarAdminSede() {
+	public void eliminarAdminSede(String username) {
 		// TODO implement me	
+		EmpresaAlquiler.mapaUsuarios.remove(username);
+		
 	}
 
-	public void nuevoVehiculo() {
-		// TODO implement me	
+	public void nuevoVehiculo(String categoria, String placa, String marca, String codigoReservaActual, String modelo,
+			String color, String tipoTransmision,Estados Estados, Sede sede) {
+		// TODO implement me
+
+		Vehiculo u =  new Vehiculo(categoria, placa, marca, codigoReservaActual, modelo, color, tipoTransmision,Estados);
+		sede.listaVehiculos.add(u);
+	}
+
+	public void borrarVehiculo(String placa, Sede sede) {
+		// TODO implement me
+		ArrayList<Vehiculo> lista = sede.listaVehiculos;
+		for (Vehiculo vehiculo : lista) {
+			if (vehiculo.placa == placa) {
+				lista.remove(vehiculo);
+
+			}
+
+		}
 	}
 	
-	public void borrarVehiculo() {
-		// TODO implement me	
+	public void addSede(String codigoSede, String ubicacion, String horarioAtencion, ArrayList<Vehiculo> listaVehiculos,
+			 ArrayList<Reserva> listaReservas) {
+		// TODO implement me, tiene que agregar a EmpresaAlquiler.listaSedes
+		Sede u = new Sede(codigoSede,ubicacion,horarioAtencion,listaVehiculos,listaReservas);
+		EmpresaAlquiler.listaSedes.add(u);
 	}
 	
-	public void addSede() {
-		// TODO implement me, tiene que agregar a EmpresaAlquiler.listaSedes	
-	}
-	
-	public void eliminarSedes() {
+	public void eliminarSedes(String codigoSede) {
 		// TODO implement me	
+	
+		
+		for (Sede sedes : EmpresaAlquiler.listaSedes) {
+			if (sedes.codigoSede==codigoSede) {
+				EmpresaAlquiler.listaSedes.remove(sedes);
+			}
+			
+		}
+		
 	}
 	
 	//NO SE PUSO getters y setters porque no se necesitan y siempre daria el cargo.

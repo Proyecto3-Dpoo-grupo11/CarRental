@@ -14,7 +14,7 @@ public class Empleado extends Usuario {
 	protected Roles cargo;
 
 	public Empleado(String username, String password, int codigoSede, Roles cargo) {
-		super(username, password);
+		super(username, password, cargo);
 		this.codigoSede = codigoSede;
 		this.cargo = Roles.EMPLEADO;
 		}
@@ -28,7 +28,9 @@ public class Empleado extends Usuario {
 		// TODO implement me	
 	}
 	
-	public Void crearCliente() {
+	public Void crearCliente(String username, String password, Roles cargo, String nombreCliente, String email, String telefono, String fechaNacimiento, String nacionalidad, String imagenCedula,String imagenLicencia, String metodoDePago, String numeroTarjeta, String fechaVencimiento) {
+		Usuario u = new Cliente(username,password,cargo,nombreCliente,email,telefono,fechaNacimiento,nacionalidad,imagenCedula,imagenCedula,metodoDePago,numeroTarjeta,fechaVencimiento);
+		EmpresaAlquiler.mapaUsuarios.put(username, u);
 		// TODO implement me
 		return null;	
 	}

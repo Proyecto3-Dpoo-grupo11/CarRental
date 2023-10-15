@@ -1,6 +1,10 @@
 package logica;
 import java.util.ArrayList;
-//import java.time.Duration;
+import java.util.HashMap;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.Period;
+
 //TODO Y HAY MAS QUE IMPROTAR
 
 /**
@@ -21,33 +25,39 @@ public class Reserva
 	public String tipoDeCarro; // yo sugiero cambiarlo a una enum, depende de si se pueden agregar mas tipos de vehiculos
 	public int sedeRecogida;
 	public int sedeEntrega;
+	public int nuevaSedeEntrega;
 	public String fechaHoraRecogida;
 	public String fechaHoraEntrega;
 	public String placaVehiculo;
 	public String usernameCliente;
 	public Tarifa tarifa;
 	public Seguro seguro;
+	public Vehiculo vehiculo;
 	
 	/**
 	 * <!-- CONSTRUCTOR -->
 	 */
 	
-	public Reserva(String codigoReserva, ArrayList<String> listaConductoresAdicionales,
-			String tipoDeCarro, int sedeRecogida, int sedeEntrega, String fechaHoraRecogida, String fechaHoraEntrega,
-			String placaVehiculo, String usernameCliente, Tarifa tarifa, Seguro seguro) {
+	public Reserva(String codigoReserva, ArrayList<String> listaConductoresAdicionales, String tipoDeCarro,
+			int sedeRecogida, int sedeEntrega, int nuevaSedeEntrega, String fechaHoraRecogida, String fechaHoraEntrega,
+			String placaVehiculo, String usernameCliente, Tarifa tarifa, Seguro seguro, Vehiculo vehiculo) {
 		super();
 		this.codigoReserva = codigoReserva;
 		this.listaConductoresAdicionales = listaConductoresAdicionales;
 		this.tipoDeCarro = tipoDeCarro;
 		this.sedeRecogida = sedeRecogida;
 		this.sedeEntrega = sedeEntrega;
-		this.fechaHoraRecogida = fechaHoraRecogida; //DURO
-		this.fechaHoraEntrega = fechaHoraEntrega; //DURO
+		this.nuevaSedeEntrega = nuevaSedeEntrega;
+		this.fechaHoraRecogida = fechaHoraRecogida;
+		this.fechaHoraEntrega = fechaHoraEntrega;
 		this.placaVehiculo = placaVehiculo;
 		this.usernameCliente = usernameCliente;
 		this.tarifa = tarifa;
 		this.seguro = seguro;
+		this.vehiculo = vehiculo;
 	}
+	
+	
 
 	/**
 	 * <!-- METODOS DE LA RESERVA -->
@@ -58,18 +68,91 @@ public class Reserva
 			//if usuario.cargo = ROLES.EMPLEADO ||  usuario.cargo = ROLES.CLIENTE
 			// then crear el conductor adicional y guardarlo en la reserva, no se si este metodo deberia
 			//ir aqui o la reserva, ahi miramos cuando lo implementemos
-	public void addConductorAdicional() {
+	public void addConductorAdicional(String rutaImagen) {
+		listaConductoresAdicionales.add(rutaImagen);
+		
 		// TODO implement me
 		//Va a pedir direccion de la imagen y se guarda como str en lista conductores adicionales
 	}
 	
-	
-	public String terminarReserva() {
+
+
+	public double iniciarReserva() {
+		//inicializaciones:
+		
+		HashMap<String, Tarifa> mapaTarifa = tarifa.getMapaTarifa();
+		Tarifa res=mapaTarifa.get(tarifa.categoria);
+		
+		
+		// Formato Fecha:YY//MM//DD//HH//MIN//SEG
+		
+		//String EjemploFecha = "23/10/25/13/34/01";
+		
+		//CalculoFecha:
+		String[] partesRecogida = fechaHoraRecogida.split("/");
+		String[] partesEntrega = fechaHoraEntrega.split("/");
+		
+		
+		LocalDate startDate = LocalDate.of(Integer.parseInt(partesRecogida[0]),Integer.parseInt(partesRecogida[1]),Integer.parseInt(partesRecogida[2]));
+        LocalDate endDate = LocalDate.of(Integer.parseInt(partesEntrega[0]),Integer.parseInt(partesEntrega[1]),Integer.parseInt(partesEntrega[2]));
+        Period period = Period.between(startDate, endDate);
+        int days = period.getDays();
+		
+        
+        
+        
+		//cantidad_listaConductoresAdd:
+		int cantidad_listaConductoresAdd=listaConductoresAdicionales.size();
+		//Tarifa por entregar en otra sede:
+		if (nuevaSedeEntrega==0) {
+			res.valorPorEntregaOtraSede=0;
+		}
+		
+		
+		//Calculo Total Precio
+		double calculo=(days*res.tarifaPorDia)+(cantidad_listaConductoresAdd*res.valorExtraConductorAdicional)+res.valorPorEntregaOtraSede;
+		
+		ocuparVehiculo(days);
+		/*System.out.println("Felicidades!!! "+ usernameCliente+ "Usted ha reservado el vehiculo con placa"+placaVehiculo);
+		System.out.println("Su codigo de reserva es: ");
+		System.out.println(codigoReserva);
+		System.out.println();
+		System.out.println();
+		System.out.println("Usted registro"+listaConductoresAdicionales.size()+"conductores adicionales");
+		System.out.println();
+		System.out.println();
+		System.out.println("Su vehiculo es del tipo: ");
+		System.out.println(tipoDeCarro);
+		System.out.println();
+		System.out.println();
+		System.out.println("Su vehiculo sera recogido en la sede: ");
+		System.out.println(sedeRecogida);
+		System.out.println();
+		System.out.println("En la fecha: ");
+		System.out.println(fechaHoraRecogida); 
+		System.out.println();
+		System.out.println();
+		System.out.println("Su vehiculo sera entregado en: ");
+		System.out.println(sedeEntrega);
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println("Su factura es");*/
+		
+		
+
+		;
+		
+		
+		
+		return calculo;
+		
+		
 		//ESTO NO SE PASA A CODIGO HASTA QUE resuelvan el formato de fechas y todo eso.
 		//duracion = fechaHoraEntrega - fechaHoraRecogida
 		//ocuparVehiculo(duracion);
 	
-		return fechaHoraEntrega;
+		
 	} //imprimir la factura al final de pronto osea llamar metodo generarfactura, la fecha y todo lo demas.
 	
 	
@@ -77,11 +160,17 @@ public class Reserva
 	private void ocuparVehiculo(int duracion) {
 		// TODO implement me	
 		//ACA SOLO SE CAMBIARIA EL ESTADO USANDO EL ENUM
+		
+		vehiculo.setEstados(Estados.NODISPONIBLE);
+		
 	}
 	
 	//importantisimo, con los getters y setters sale, solo es que formateen el texto
-	public String generarFactura() {
+	public void generarFactura(double calculo) {
 		// TODO implement me	
+		System.out.println("Su precio a pagar es: ");
+		System.out.println(calculo);
+		
 		return "Su factura fue blablabla ";
 	}
 	
