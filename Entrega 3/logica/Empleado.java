@@ -1,5 +1,7 @@
 package logica;
 
+import java.util.ArrayList;
+
 /**
  *   <!-- DOCUMENTACION ACA -->
  *   
@@ -35,8 +37,15 @@ public class Empleado extends Usuario {
 		return null;	
 	}
 	
-	public Void iniciarReserva() {
-		// TODO implement me
+	public Void iniciarReserva(String codigoReserva, String tipoDeCarro,
+			int sedeRecogida, int sedeEntrega, int nuevaSedeEntrega, String fechaHoraRecogida, String fechaHoraEntrega,
+			String placaVehiculo, String usernameCliente, Tarifa tarifa, Seguro seguro, Vehiculo vehiculo, String rutaImagenConductorAdiciones) {
+			// TODO implement me
+			ArrayList<String> listaConductoresAdicionales= new ArrayList<String>();
+			Reserva reserva= new Reserva(codigoReserva, listaConductoresAdicionales, tipoDeCarro, sedeRecogida, sedeEntrega, nuevaSedeEntrega, fechaHoraRecogida, fechaHoraEntrega, placaVehiculo, usernameCliente, tarifa, seguro, vehiculo, rutaImagenConductorAdiciones);
+			addConductorAdicional(rutaImagenConductorAdiciones,reserva);
+			int calculo =reserva.iniciarReserva();
+		
 		return null;	
 	}
 	
@@ -52,8 +61,9 @@ public class Empleado extends Usuario {
 	}
 	
 
-	public void addConductorAdicional() {
+	public void addConductorAdicional(String rutaImagen, Reserva reserva) {
 		// TODO implement me	
+		reserva.addConductorAdicional(rutaImagen);
 	}
 
 	/**

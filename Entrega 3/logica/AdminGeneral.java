@@ -87,6 +87,7 @@ public class AdminGeneral extends Usuario
 		}
 		
 	}
+	public void modificarSeguro() {}
 	
 	//NO SE PUSO getters y setters porque no se necesitan y siempre daria el cargo.
 }

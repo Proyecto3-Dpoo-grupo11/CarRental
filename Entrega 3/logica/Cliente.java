@@ -48,6 +48,7 @@ public class Cliente extends Usuario {
 	
 	private Void iniciarReserva() {
 		// TODO implement me
+		Reserva reserva= new Reserva();
 		return null;	
 	}
 	
