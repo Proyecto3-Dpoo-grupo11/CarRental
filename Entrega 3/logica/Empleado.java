@@ -11,28 +11,27 @@ import java.util.ArrayList;
 
 public class Empleado extends Usuario {
 	
+	private static final long serialVersionUID = 2L;
 	public String codigoSede;
 	protected Roles cargo;
-	private Sede sede;
+	public Sede sede;
 
-	public Empleado(String username, String password, String codigoSede, Roles cargo) {
+	public Empleado(String username, String password, String codigoSede, Roles cargo, Sede sede) {
 		super(username, password, cargo);
 		this.codigoSede = codigoSede;
 		this.cargo = Roles.EMPLEADO;
+		this.sede = sede;
 		}
 	
 	/**
 	 * <!-- METODOS REALIZABLES POR EMPLEADO -->
 	 */
 
-	
-	
-    ArrayList<Vehiculo> listaVehiculos = sede.getListaVehiculos();
     
     public void mandarMantenimiento(String placaVehiculo) {
 
         Vehiculo vehiculoAMantenimiento = null;
-        for (Vehiculo vehiculo : listaVehiculos) {
+        for (Vehiculo vehiculo : this.sede.getListaVehiculos()) {
             if (vehiculo.getPlaca().equals(placaVehiculo)) {
                 vehiculoAMantenimiento = vehiculo;
             }
@@ -50,7 +49,7 @@ public class Empleado extends Usuario {
     }
 
     public void reporteCarrosMantenimiento() {
-        for (Vehiculo vehiculo : listaVehiculos) {
+        for (Vehiculo vehiculo : this.sede.getListaVehiculos()) {
             if (vehiculo.getEstados() == Estados.NECESITAMANTENIMIENTO) {
                 System.out.println("Placa: " + vehiculo.getPlaca());
                 System.out.println("Marca: " + vehiculo.getMarca());
@@ -90,21 +89,13 @@ public class Empleado extends Usuario {
 	
 	public void generarEntrega(String CodigoReserva) {
 		sede.mapaReservas.get(CodigoReserva).entregaACliente();
-	
-		
-		
+
 	}
-	
-	
-	
+
 	public String cerrarGuardarReserva() {
 		// TODO implement me
 		return "";	
 	}
-	
-	
-	
-	
 
 	public void addConductorAdicionalAlIniciarReserva(String rutaImagen, Reserva reserva) {
 		// TODO implement me	
@@ -125,9 +116,7 @@ public class Empleado extends Usuario {
 	 * <!-- GETTERS AND SETTERS -->
 	 */
 
-	
 
-	
 	public Roles getCargo() { //Para comprobar si el rol si es en las demas funciones.
 		return cargo;
 	}

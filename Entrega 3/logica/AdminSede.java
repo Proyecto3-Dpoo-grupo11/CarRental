@@ -7,6 +7,7 @@ package logica;
 
 public class AdminSede extends Usuario {
 	
+	private static final long serialVersionUID = 2L;
 	public String codigoSede;
 	protected Roles cargo;
 	public Sede sede;

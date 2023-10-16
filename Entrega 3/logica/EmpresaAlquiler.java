@@ -2,20 +2,21 @@ package logica;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.io.Serializable;
 
 import persistencia.LectorArchivo;
 
 /**
  * <!-- ACA VA DOCUMENTACION -->
- * TODO  ahi vamos viendo que metodos metemos hasata ahora asi.  -->
+ *  Se usa la interfaz Serializable para que los objetos pueden ser convertidos en una secuencia de bytes 
+ *  y luego reconstruidos nuevamente a partir de esa secuencia de bytes, para la persistencia. -->
  */
 
-public class EmpresaAlquiler
+public class EmpresaAlquiler implements Serializable
 {
+	private static final long serialVersionUID = 1L; //este es el contrato que cumple del implement
 	public static HashMap<String, Usuario> mapaUsuarios;
 	static ArrayList<Sede> listaSedes;
-	
-	
 	
 	/**
 	 * <!-- CONSTRUCTOR -->
@@ -24,7 +25,6 @@ public class EmpresaAlquiler
 	public EmpresaAlquiler() {
 		EmpresaAlquiler.listaSedes = new  ArrayList<Sede>();
 		EmpresaAlquiler.mapaUsuarios = new HashMap<String, Usuario>();
-		
 	}
 	
 	/**
@@ -33,18 +33,37 @@ public class EmpresaAlquiler
 
 	public void leerArchivos() {
 		
-		HashMap<String, Usuario> mapa; //Se crea un adminGeneral ya que siempre tiene que haber 1
-		mapa =EmpresaAlquiler.getMapaUsuarios(); //Se le asigna una contrasena por defecto
-		Usuario u= new AdminGeneral("Admin","contraseña",Roles.ADMINISTRADORGENERAL);
+		Usuario u= new AdminGeneral("admin","1234",Roles.ADMINISTRADORGENERAL);
+		EmpresaAlquiler.mapaUsuarios.put("admin",u);
 		
-		mapa.put("Admin",u);
-		
+		//TODO IMPLEMENTAR SEDES
 		ArrayList<String> lineas;
+		lineas = LectorArchivo.leer("sedes.dat");
+		for(String linea : lineas) {
+			String []datos = linea.split(";");
+			ArrayList<Vehiculo> listaVehiculos = new ArrayList<Vehiculo>();
+			HashMap<String,Reserva> listaReservas= new HashMap<String,Reserva>();
+			Sede sede = new Sede(datos[0], datos[1], datos[2],listaVehiculos,listaReservas); 
+			listaSedes.add(sede);
+		}
+		
+		
 		lineas = LectorArchivo.leer("empleados.dat");
 		for(String linea : lineas) {
 			String []datos = linea.split(";");
-			Usuario user = new Empleado((datos[0]), datos[1], (datos[2]), Roles.EMPLEADO);
-			Empleado userEmpleado = new Empleado((datos[0]), datos[1], (datos[2]), Roles.EMPLEADO);//SE LLAMA AL CONSTRUCTOR DE EMPLEADO 		
+			
+			String codigoSedeBuscada = datos[2]; // Código de la sede que buscamos
+			Sede sedeEspecifica = null;
+			
+			//algoritmo para buscar la sede
+			for (Sede sede : listaSedes) {
+			    if (sede.getCodigoSede().equals(codigoSedeBuscada)) {
+			        sedeEspecifica = sede;
+			    }
+			}
+			
+			Usuario user = new Empleado((datos[0]), datos[1], (datos[2]), Roles.EMPLEADO, sedeEspecifica);
+			Empleado userEmpleado = new Empleado((datos[0]), datos[1], (datos[2]), Roles.EMPLEADO, sedeEspecifica);//SE LLAMA AL CONSTRUCTOR DE EMPLEADO 		
 			EmpresaAlquiler.mapaUsuarios.put(datos[0], user);
 			for(Sede sedes : EmpresaAlquiler.listaSedes) {
 				if (sedes.codigoSede==datos[2]) {
@@ -72,15 +91,7 @@ public class EmpresaAlquiler
 			EmpresaAlquiler.mapaUsuarios.put(datos[0], user);		
 		}
 		
-		//TODO IMPLEMENTAR SEDES
-		lineas = LectorArchivo.leer("sedes.dat");
-		for(String linea : lineas) {
-			String []datos = linea.split(";");
-			ArrayList<Vehiculo> listaVehiculos = new ArrayList<Vehiculo>();
-			HashMap<String,Reserva> listaReservas= new HashMap<String,Reserva>();
-			Sede sede = new Sede(datos[0], datos[1], datos[2],listaVehiculos,listaReservas); 
-			listaSedes.add(sede);
-		}
+		
 			
 		
 	}
@@ -107,25 +118,7 @@ public class EmpresaAlquiler
 			// TODO implement me
 				
 		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
 		
 	/**
 	 * <!-- GETTERS SETTERS -->
@@ -139,7 +132,7 @@ public class EmpresaAlquiler
 		EmpresaAlquiler.listaSedes = listaSedes;
 	}
 
-	public static HashMap<String, Usuario> getMapaUsuarios() {
+	public HashMap<String, Usuario> getMapaUsuarios() {
 		return mapaUsuarios;
 	}
 

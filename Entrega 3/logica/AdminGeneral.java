@@ -11,6 +11,7 @@ import java.util.HashMap;
 
 public class AdminGeneral extends Usuario
 {
+	private static final long serialVersionUID = 2L;
 	protected Roles cargo;
 	private Sede sede;
 	/**

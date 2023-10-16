@@ -1,13 +1,15 @@
 package logica;
 
+import java.io.Serializable;
 
 /**
  * <!-- DOCUMENTACION ACA -->
  * TODO leer comentario linea 14, sincroonizar eso con clase reserva -->
  */
 
-public class Vehiculo
+public class Vehiculo implements Serializable
 {
+	private static final long serialVersionUID = 4L;
 	public String categoria;
 	public String placa;
 	public String marca;

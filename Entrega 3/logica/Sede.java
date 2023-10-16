@@ -1,6 +1,7 @@
 package logica;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.io.Serializable;
 
 /**
  * <!-- DOCUMENTACION AQUI PORFA -->
@@ -19,8 +20,9 @@ import java.util.HashMap;
 
 //Se accederia tipodecarroquequiero
 	//listadeesetipodecarro = sede.mapa.get(tipodecarroquequiero)
-public class Sede
+public class Sede implements Serializable
 {
+	private static final long serialVersionUID = 3L;
 	public String codigoSede;
 	public String ubicacion;
 	public String horarioAtencion;
@@ -55,7 +57,7 @@ public class Sede
 	}
 
 	public void addEmpleado(String username, String password, Roles cargo) {
-        Empleado nuevoEmpleado = new Empleado(username, password,codigoSede, cargo);
+        Empleado nuevoEmpleado = new Empleado(username, password,codigoSede, cargo, this);
         mapaEmpleados.put(username,nuevoEmpleado);
     }
 

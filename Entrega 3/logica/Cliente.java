@@ -13,6 +13,7 @@ import java.util.Random;
 
 public class Cliente extends Usuario {
 	
+	private static final long serialVersionUID = 2L;
 	protected Roles cargo;
 	public String nombreCliente;
 	public String email;

@@ -1,5 +1,6 @@
 package logica;
 import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -17,9 +18,10 @@ import java.time.Period;
 //Esta se llamaria cuando se inicie la reserva desde cliente o desde empleado
 
 
-public class Reserva
+public class Reserva implements Serializable
 {
 	
+	private static final long serialVersionUID = 5L;
 	public String codigoReserva;
 	public ArrayList<String> listaConductoresAdicionales;
 	public String tipoDeCarro; // yo sugiero cambiarlo a una enum, depende de si se pueden agregar mas tipos de vehiculos

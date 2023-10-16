@@ -1,5 +1,5 @@
 package logica;
-
+import java.io.Serializable;
 /**
  * <!-- DOCUMENTACION -->
  * <!--  La clase padre, almacenada en un mapa en empresa alquiler.  -->
@@ -7,11 +7,12 @@ package logica;
  * TODO Falta lo de inciar sesion, no se si aqui o en empresa alquiler.
  */
 
-public abstract class Usuario
+public abstract class Usuario implements Serializable
 {
-	protected String username;
-	protected String password;
-	protected Roles rol;
+	private static final long serialVersionUID = 2L;
+	public String username;
+	public String password;
+	public Roles rol;
 	/**
 	 * <!-- CONSTRUCTOR -->
 	 */
