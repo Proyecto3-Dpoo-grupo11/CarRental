@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import logica.EmpresaAlquiler;
 
+
 /**
  * <!-- ACA DOCUMENTACION -->
  * <!--  TODO: Implementar los metodos -->
@@ -13,7 +14,7 @@ import logica.EmpresaAlquiler;
 public class AdminGeneral extends Usuario
 {
 	protected Roles cargo;
-	
+	private Sede sede;
 	/**
 	 * <!-- CONSTRUCTOR -->
 	 */
@@ -27,52 +28,76 @@ public class AdminGeneral extends Usuario
 	 * <!-- METODOS DEL ADMIN -->
 	 */
 	
-	public void manejarEmpleados() {
-		
-		
+	public void addEmpleado(String username, String password, Roles cargo) {
+		sede.addEmpleado(username, password, cargo);
+	}
+    public void deleteEmpleado(String username) {
+        sede.deleteEmpleado(username);
 		
 		
 		// TODO implement me
 		
 	}
 
-	public void crearAdminSede(String username, String password, int codigoSede, Roles cargo) {
+	public void crearAdminSede(String username, String password, String codigoSede, Roles cargo) {
 		// TODO implement me
 		Usuario u = new AdminSede(username,password,codigoSede,cargo);		
-		EmpresaAlquiler.mapaUsuarios.put(username, u);	
+		EmpresaAlquiler.mapaUsuarios.put(username, u);
+		
+			
 		}
+		
 	
-	public void eliminarAdminSede(String username) {
+	
+	public void eliminarAdminSede(String username,String codigoSede) {
 		// TODO implement me	
 		EmpresaAlquiler.mapaUsuarios.remove(username);
+		
+		
 		
 	}
 
 	public void nuevoVehiculo(String categoria, String placa, String marca, String codigoReservaActual, String modelo,
-			String color, String tipoTransmision,Estados Estados, Sede sede) {
-		// TODO implement me
+			String color, String tipoTransmision, Estados estados, String codigoSede) {
+		// TODO implement me 
 
-		Vehiculo u =  new Vehiculo(categoria, placa, marca, codigoReservaActual, modelo, color, tipoTransmision,Estados);
+		Vehiculo u =  new Vehiculo(categoria, placa, marca, codigoReservaActual, modelo, color, tipoTransmision,estados);
+		for (Sede sedes:EmpresaAlquiler.listaSedes ) {
+			if(sedes.codigoSede==codigoSede) {
+				sedes.listaVehiculos.add(u);
+			}
+		}
+		
+		
 		sede.listaVehiculos.add(u);
 	}
 
-	public void borrarVehiculo(String placa, Sede sede) {
+	public void borrarVehiculo(String placa,String codigoSede) {
 		// TODO implement me
-		ArrayList<Vehiculo> lista = sede.listaVehiculos;
-		for (Vehiculo vehiculo : lista) {
-			if (vehiculo.placa == placa) {
-				lista.remove(vehiculo);
+		
+		for (Sede sedes : EmpresaAlquiler.listaSedes) {
+			if (sedes.codigoSede == codigoSede) {
+				ArrayList<Vehiculo> lista = sedes.listaVehiculos;
+				for (Vehiculo vehiculo : lista) {
+					if (vehiculo.placa == placa) {
+						lista.remove(vehiculo);
+					}
 
+				}
 			}
-
 		}
 	}
 	
-	public void addSede(String codigoSede, String ubicacion, String horarioAtencion, ArrayList<Vehiculo> listaVehiculos,
-			 ArrayList<Reserva> listaReservas) {
-		// TODO implement me, tiene que agregar a EmpresaAlquiler.listaSedes
-		Sede u = new Sede(codigoSede,ubicacion,horarioAtencion,listaVehiculos,listaReservas);
-		EmpresaAlquiler.listaSedes.add(u);
+	public void addSede(String codigoSede, String ubicacion, String horarioAtencion) {
+		//Corregir 
+		HashMap<String,Reserva> mapaReserva = new HashMap<String, Reserva> ();
+		ArrayList<Vehiculo> listaVehiculos = new ArrayList<Vehiculo>();
+		//CREAR EL ADMIN SEDE, osea tienen que juntarlo con el metodo de add admin sede. no existe
+		//el uno sin el otro. 
+
+        Sede sede = new Sede(codigoSede, ubicacion, horarioAtencion, listaVehiculos, mapaReserva);
+        EmpresaAlquiler.listaSedes.add(sede);
+		
 	}
 	
 	public void eliminarSedes(String codigoSede) {

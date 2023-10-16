@@ -23,9 +23,9 @@ public class Reserva
 	public String codigoReserva;
 	public ArrayList<String> listaConductoresAdicionales;
 	public String tipoDeCarro; // yo sugiero cambiarlo a una enum, depende de si se pueden agregar mas tipos de vehiculos
-	public int sedeRecogida;
-	public int sedeEntrega;
-	public int nuevaSedeEntrega;
+	public String sedeRecogida;
+	public String sedeEntrega;
+	public String nuevaSedeEntrega;
 	public String fechaHoraRecogida;
 	public String fechaHoraEntrega;
 	public String placaVehiculo;
@@ -38,6 +38,7 @@ public class Reserva
 	public int cantidadConductoresAdicionales;
 	public int duracionPorDia;
 	public String textoFactura;
+	public Entrega estadoEntrega;
 	
 	/**
 	 * <!-- CONSTRUCTOR -->
@@ -68,10 +69,17 @@ public class Reserva
 
 
 
+	
+
+
+
+
+
+
 	public Reserva(String codigoReserva, ArrayList<String> listaConductoresAdicionales, String tipoDeCarro,
-			int sedeRecogida, int sedeEntrega, int nuevaSedeEntrega, String fechaHoraRecogida, String fechaHoraEntrega,
-			String placaVehiculo, String usernameCliente, Tarifa tarifa, Seguro seguro, Vehiculo vehiculo,
-			String rutaImagenConductorAdiciones) {
+			String sedeRecogida,String sedeEntrega, String nuevaSedeEntrega,String fechaHoraRecogida, String fechaHoraEntrega,
+			String placaVehiculo, String usernameCliente, String rutaImagenConductorAdiciones, int calculoPrecioFinal, int cantidadConductoresAdicionales,
+			int duracionPorDia, String textoFactura, Entrega estadoEntrega) {
 		super();
 		this.codigoReserva = codigoReserva;
 		this.listaConductoresAdicionales = listaConductoresAdicionales;
@@ -83,11 +91,12 @@ public class Reserva
 		this.fechaHoraEntrega = fechaHoraEntrega;
 		this.placaVehiculo = placaVehiculo;
 		this.usernameCliente = usernameCliente;
-		this.tarifa = tarifa;
-		this.seguro = seguro;
-		this.vehiculo = vehiculo;
 		this.rutaImagenConductorAdiciones = rutaImagenConductorAdiciones;
-		
+		this.calculoPrecioFinal = calculoPrecioFinal;
+		this.cantidadConductoresAdicionales = cantidadConductoresAdicionales;
+		this.duracionPorDia = duracionPorDia;
+		this.textoFactura = textoFactura;
+		this.estadoEntrega = estadoEntrega;
 	}
 
 
@@ -95,8 +104,17 @@ public class Reserva
 
 
 
-	public void iniciarReserva() {
+
+
+
+
+
+	
+
+	public String iniciarReserva() {
 		//inicializaciones:
+		
+		
 		
 		HashMap<String, Tarifa> mapaTarifa = tarifa.getMapaTarifa();
 		Tarifa valuesMapaTarifa=mapaTarifa.get(tarifa.categoria);
@@ -123,7 +141,7 @@ public class Reserva
 		this.cantidadConductoresAdicionales=listaConductoresAdicionales.size();
 		//Tarifa por entregar en otra sede:
 		//Si nuevaSedeEntrega es igual a 0 es por que se entrega en la misma no hay cambio de sede
-		if (nuevaSedeEntrega==0) {
+		if (nuevaSedeEntrega=="") {
 			valuesMapaTarifa.valorPorEntregaOtraSede=0;
 		}
 		
@@ -133,35 +151,40 @@ public class Reserva
 		
 		ocuparVehiculo(duracionPorDia);
 		
-		/*System.out.println("Felicidades!!! "+ usernameCliente+ "Usted ha reservado el vehiculo con placa"+placaVehiculo);
-		System.out.println("Su codigo de reserva es: ");
-		System.out.println(codigoReserva);
-		System.out.println();
-		System.out.println();
-		System.out.println("Usted registro"+listaConductoresAdicionales.size()+"conductores adicionales");
-		System.out.println();
-		System.out.println();
-		System.out.println("Su vehiculo es del tipo: ");
-		System.out.println(tipoDeCarro);
-		System.out.println();
-		System.out.println();
-		System.out.println("Su vehiculo sera recogido en la sede: ");
-		System.out.println(sedeRecogida);
-		System.out.println();
-		System.out.println("En la fecha: ");
-		System.out.println(fechaHoraRecogida); 
-		System.out.println();
-		System.out.println();
-		System.out.println("Su vehiculo sera entregado en: ");
-		System.out.println(sedeEntrega);
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println("Su factura es");*/
+		String factura30Porciento=generarFactura(30);
+		
+		String retorno="Felicidades!!! "+ usernameCliente+ "Usted ha reservado el vehiculo con placa"+placaVehiculo+"\n."
+		+"Su codigo de reserva es: "
+		+codigoReserva+"\n."
+		
+		+"Usted registro"+listaConductoresAdicionales.size()+"conductores adicionales"+"\n."
+		
+		+"Su vehiculo es del tipo: "+"\n."
+		+tipoDeCarro+"\n."
+		
+		+"Su vehiculo sera recogido en la sede: "
+		+sedeRecogida+"\n."
+		
+		+"En la fecha: "
+		+fechaHoraRecogida+"\n."
+		
+		+"Su vehiculo sera entregado en la sede: "
+		+sedeEntrega+"\n."
+		
+		+"Por un total de: "
+		+duracionPorDia
+		+" dias."
+		
+		+"En la fecha: "
+		+fechaHoraEntrega+"\n."
+		+"Recuerde que debe pagar el 30% del valor del alquiler \n. "
+		+"Su factura por el 30% es"
+		+factura30Porciento;
 		
 		
 
 		;
+		return retorno;
 		
 		
 		
@@ -178,6 +201,15 @@ public class Reserva
 	
 	
 	// al terminar la reserva ya se deberia hacer eso automaticamente
+	
+	void entregaACliente() {
+		generarFactura(70);
+		estadoEntrega=Entrega.ENTREGADOACIENTE;
+		
+		
+		
+	}
+	
 	private void ocuparVehiculo(int duracion) {
 		// TODO implement me	
 		//ACA SOLO SE CAMBIARIA EL ESTADO USANDO EL ENUM
@@ -187,32 +219,34 @@ public class Reserva
 	}
 	
 	//importantisimo, con los getters y setters sale, solo es que formateen el texto
-	public String generarFactura() {
+	public String generarFactura(int porcentaje) {
 		// TODO implement me	
+		porcentaje=porcentaje/100;
 		String PrintConductoresAdicionales="";
 		String PrintEntregarOtraSede="";
+		
 		
 		HashMap<String, Tarifa> mapaTarifa = tarifa.getMapaTarifa();
 		Tarifa valuesMapaTarifa=mapaTarifa.get(tarifa.categoria);
 		
+		
+		
 		//	logica Print conductores addicionales
 		if (cantidadConductoresAdicionales!=0) {
 				PrintConductoresAdicionales="Tarifa por conductor adicional: "+ 
-				valuesMapaTarifa.valorExtraConductorAdicional+" $"
+				(porcentaje*valuesMapaTarifa.valorExtraConductorAdicional)+" $"
 				+" x "+cantidadConductoresAdicionales + " conductores adicionales.\n" ;
 			
 		}
 		
 		if (valuesMapaTarifa.valorPorEntregaOtraSede!=0) {
 			PrintEntregarOtraSede="Tarifa por Entregar en otra sede: "+ 
-			valuesMapaTarifa.valorPorEntregaOtraSede+" $.\n";}
+			(porcentaje*valuesMapaTarifa.valorPorEntregaOtraSede)+" $.\n";}
 			
 		
 	
-		return "Su factura es: "
-				//Print tarifa por dia
-				+"Tarifa por dia: "
-				+valuesMapaTarifa.tarifaPorDia+" $"+" x "+duracionPorDia+" Dias/n"
+		return 	"Tarifa por dia: "
+				+(porcentaje*valuesMapaTarifa.tarifaPorDia)+" $"+" x "+duracionPorDia+" Dias/n"
 				+"/n"
 				//Print conductores addicionales
 				+ PrintConductoresAdicionales
@@ -220,7 +254,7 @@ public class Reserva
 				+ PrintEntregarOtraSede
 				+ "\n"
 				+ "Total: \n"
-				+ calculoPrecioFinal
+				+ (porcentaje*calculoPrecioFinal)
 				+" $.";
 	}
 	
@@ -252,21 +286,71 @@ public class Reserva
 		this.tipoDeCarro = tipoDeCarro;
 	}
 
-	public int getSedeRecogida() {
+	
+
+	public String getSedeRecogida() {
 		return sedeRecogida;
 	}
 
-	public void setSedeRecogida(int sedeRecogida) {
+
+
+
+
+
+
+
+
+
+
+
+
+	public void setSedeRecogida(String sedeRecogida) {
 		this.sedeRecogida = sedeRecogida;
 	}
 
-	public int getSedeEntrega() {
+
+
+
+
+
+
+
+
+
+
+
+
+	public String getSedeEntrega() {
 		return sedeEntrega;
 	}
 
-	public void setSedeEntrega(int sedeEntrega) {
+
+
+
+
+
+
+
+
+
+
+
+
+	public void setSedeEntrega(String sedeEntrega) {
 		this.sedeEntrega = sedeEntrega;
 	}
+
+
+
+
+
+
+
+
+
+
+
+
 
 	public String getFechaHoraRecogida() {
 		return fechaHoraRecogida;

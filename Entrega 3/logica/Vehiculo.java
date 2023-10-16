@@ -33,6 +33,10 @@ public class Vehiculo
 		this.tipoTransmision = tipoTransmision;
 		Estados = estados;
 	}
+	public void buscarVehiculo(String modelo) {
+		
+	}
+	
 	
 	/**
 	 * <!-- GETTERS SETTERS -->

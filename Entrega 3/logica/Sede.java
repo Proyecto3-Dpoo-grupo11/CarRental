@@ -1,5 +1,6 @@
 package logica;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * <!-- DOCUMENTACION AQUI PORFA -->
@@ -25,41 +26,51 @@ public class Sede
 	public String horarioAtencion;
 	
 	public ArrayList<Vehiculo> listaVehiculos;
-	//public ArrayList<Empleado> listaEmpleados;
-	public ArrayList<Reserva> listaReservas;
+	public HashMap<String,Empleado> mapaEmpleados;
+	public HashMap<String,Reserva> mapaReservas;
 	
 	
 	/**
 	 * <!-- CONSTRUCTOR  -->
 	 * @generated
 	 */
-	public Sede(String codigoSede, String ubicacion, String horarioAtencion, ArrayList<Vehiculo> listaVehiculos,
-			 ArrayList<Reserva> listaReservas) {
-		super();
-		this.codigoSede = codigoSede;
-		this.ubicacion = ubicacion;
-		this.horarioAtencion = horarioAtencion;
-		this.listaVehiculos = listaVehiculos;
-		//this.listaEmpleados = listaEmpleados;
-		this.listaReservas = listaReservas;
-	}
+	
 	
 	/**
 	 * <!-- FUNCIONES DEL ADMIN  -->
 	 */
 	
-	public void crearEmpleado(){
-	}
 	
-	public void eliminarEmpleado(String codigoSede) {
-		
-		// TODO buscar y eliminar de la lista de empleados
-	}
 	
-	public void addVehiculo() {
-		//Aqui van a tener que crear nuevo objeto vehiculo y almacenarlo en el arraylist de aca.
-		
+	
+
+	public Sede(String codigoSede, String ubicacion, String horarioAtencion, ArrayList<Vehiculo> listaVehiculos,
+			HashMap<String, Reserva> mapaReservas) {
+		super();
+		this.codigoSede = codigoSede;
+		this.ubicacion = ubicacion;
+		this.horarioAtencion = horarioAtencion;
+		this.listaVehiculos = listaVehiculos;
+		this.mapaReservas = mapaReservas;
 	}
+
+	public void addEmpleado(String username, String password, Roles cargo) {
+        Empleado nuevoEmpleado = new Empleado(username, password,codigoSede, cargo);
+        mapaEmpleados.put(username,nuevoEmpleado);
+    }
+
+    public void deleteEmpleado(String username) {
+        mapaEmpleados.remove(username);
+        }
+
+    public void addVehiculo(String categoria, String placa, String marca, String codigoReservaActual, String modelo, String color, String tipoTransmision, Estados estados) {
+        Vehiculo nuevoVehiculo = new Vehiculo(categoria, placa, marca, codigoReservaActual, modelo, color, tipoTransmision, estados);
+
+        listaVehiculos.add(nuevoVehiculo);
+    }
+    
+
+	
 	public void crearSeguros(String nombreSeguro, int tarifa ) {
 		Seguro.registrarSeguro(codigoSede,tarifa);
 	}
@@ -97,14 +108,29 @@ public class Sede
 		this.listaVehiculos = listaVehiculos;
 	}
 
+	public String getCodigoSede() {
+		return codigoSede;
+	}
 
-	public ArrayList<Reserva> getListaReservas() {
-		return listaReservas;
+	public void setCodigoSede(String codigoSede) {
+		this.codigoSede = codigoSede;
 	}
 
 
-	public void setListaReservas(ArrayList<Reserva> listaReservas) {
-		this.listaReservas = listaReservas;
+
+	public HashMap<String, Reserva> getMapaReservas() {
+		return mapaReservas;
 	}
+
+
+
+	public void setMapaReservas(HashMap<String, Reserva> mapaReservas) {
+		this.mapaReservas = mapaReservas;
+	}
+	
+	
+
+
+	
 }
 
