@@ -16,28 +16,38 @@ public class Vehiculo
 	public String tipoTransmision;
 	public Estados Estados;
 	private String modelo;
+	private String codigoSede;
 	
 	/**
 	 * <!-- CONSTRUCTORES -->
 	 */
 	
-	public Vehiculo(String categoria, String placa, String marca, String codigoReservaActual, String modelo, String color,
-			String tipoTransmision, logica.Estados estados) {
+	public Vehiculo(String categoria, String placa, String marca, String codigoReservaActual, String color,
+			String tipoTransmision, logica.Estados estados, String modelo, String codigoSede) {
 		super();
 		this.categoria = categoria;
 		this.placa = placa;
 		this.marca = marca;
 		this.codigoReservaActual = codigoReservaActual;
-		this.modelo = modelo;
 		this.color = color;
 		this.tipoTransmision = tipoTransmision;
 		Estados = estados;
+		this.modelo = modelo;
+		this.codigoSede = codigoSede;
 	}
+	
+	
 	public void buscarVehiculo(String modelo) {
 		
 	}
 	
 	
+
+
+
+
+
+
 	/**
 	 * <!-- GETTERS SETTERS -->
 	 */
@@ -105,6 +115,27 @@ public class Vehiculo
 	public void setEstados(Estados estados) {
 		Estados = estados;
 	}
+
+
+	public String getCodigoReservaActual() {
+		return codigoReservaActual;
+	}
+
+
+	public void setCodigoReservaActual(String codigoReservaActual) {
+		this.codigoReservaActual = codigoReservaActual;
+	}
+
+
+	public String getCodigoSede() {
+		return codigoSede;
+	}
+
+
+	public void setCodigoSede(String codigoSede) {
+		this.codigoSede = codigoSede;
+	}
+	
 
 	
 }

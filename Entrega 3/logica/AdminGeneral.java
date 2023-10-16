@@ -3,8 +3,6 @@ package logica;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import logica.EmpresaAlquiler;
-
 
 /**
  * <!-- ACA DOCUMENTACION -->
@@ -61,7 +59,7 @@ public class AdminGeneral extends Usuario
 			String color, String tipoTransmision, Estados estados, String codigoSede) {
 		// TODO implement me 
 
-		Vehiculo u =  new Vehiculo(categoria, placa, marca, codigoReservaActual, modelo, color, tipoTransmision,estados);
+		Vehiculo u =  new Vehiculo(categoria, placa, marca, codigoReservaActual, color, tipoTransmision, estados,modelo,codigoSede);
 		for (Sede sedes:EmpresaAlquiler.listaSedes ) {
 			if(sedes.codigoSede==codigoSede) {
 				sedes.listaVehiculos.add(u);
@@ -112,7 +110,19 @@ public class AdminGeneral extends Usuario
 		}
 		
 	}
-	public void modificarSeguro() {}
+	public void modificarSeguro(String nombreSeguroViejo, String nombreSeguroNuevo, int tarifaNueva) {
+		Seguro.mapaSeguro.remove(nombreSeguroViejo);
+		Seguro nuevoSeguro= new Seguro(nombreSeguroNuevo, tarifaNueva);
+		Seguro.mapaSeguro.put(nombreSeguroNuevo,nuevoSeguro);
+		
+		
+	}
+	public void cambiarContraseña(String userNameViejo,String userNameNuevo,String contraseñaNueva,Roles cargo) {
+		EmpresaAlquiler.mapaUsuarios.remove(userNameViejo);
+		Usuario u = new AdminGeneral(userNameNuevo,contraseñaNueva,cargo);
+		EmpresaAlquiler.mapaUsuarios.put(userNameNuevo,u);
+		
+	}
 	
 	//NO SE PUSO getters y setters porque no se necesitan y siempre daria el cargo.
 }

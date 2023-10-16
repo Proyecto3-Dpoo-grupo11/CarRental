@@ -43,39 +43,6 @@ public class Reserva
 	/**
 	 * <!-- CONSTRUCTOR -->
 	 */
-	
-	
-	
-
-	
-	/**
-	 * <!-- METODOS DE LA RESERVA -->
-	 */
-	
-	// TODO ACA DEBERIA IR LO DE COMPROBAR EL USUARIO, 
-			//si es empleado entonces si puede anadir esto, o si es usuario tambien (no se, miren documentacion)	
-			//if usuario.cargo = ROLES.EMPLEADO ||  usuario.cargo = ROLES.CLIENTE
-			// then crear el conductor adicional y guardarlo en la reserva, no se si este metodo deberia
-			//ir aqui o la reserva, ahi miramos cuando lo implementemos
-	public void addConductorAdicional(String rutaImagen) {
-		listaConductoresAdicionales.add(rutaImagen);
-		
-		// TODO implement me
-		//Va a pedir direccion de la imagen y se guarda como str en lista conductores adicionales
-	}
-	
-
-
-
-
-
-	
-
-
-
-
-
-
 	public Reserva(String codigoReserva, ArrayList<String> listaConductoresAdicionales, String tipoDeCarro,
 			String sedeRecogida,String sedeEntrega, String nuevaSedeEntrega,String fechaHoraRecogida, String fechaHoraEntrega,
 			String placaVehiculo, String usernameCliente, String rutaImagenConductorAdiciones, int calculoPrecioFinal, int cantidadConductoresAdicionales,
@@ -98,19 +65,23 @@ public class Reserva
 		this.textoFactura = textoFactura;
 		this.estadoEntrega = estadoEntrega;
 	}
-
-
-
-
-
-
-
-
-
-
-
 	
-
+	/**
+	 * <!-- METODOS DE LA RESERVA -->
+	 */
+	
+	// TODO ACA DEBERIA IR LO DE COMPROBAR EL USUARIO, 
+			//si es empleado entonces si puede anadir esto, o si es usuario tambien (no se, miren documentacion)	
+			//if usuario.cargo = ROLES.EMPLEADO ||  usuario.cargo = ROLES.CLIENTE
+			// then crear el conductor adicional y guardarlo en la reserva, no se si este metodo deberia
+			//ir aqui o la reserva, ahi miramos cuando lo implementemos
+	public void addConductorAdicional(String rutaImagen) {
+		listaConductoresAdicionales.add(rutaImagen);
+		
+		// TODO implement me
+		//Va a pedir direccion de la imagen y se guarda como str en lista conductores adicionales
+	}
+	
 	public String iniciarReserva() {
 		//inicializaciones:
 		
@@ -133,6 +104,7 @@ public class Reserva
         LocalDate endDate = LocalDate.of(Integer.parseInt(partesEntrega[0]),Integer.parseInt(partesEntrega[1]),Integer.parseInt(partesEntrega[2]));
         Period period = Period.between(startDate, endDate);
         this.duracionPorDia = period.getDays();
+        Duration duracionTotal = Duration.between(startDate, endDate);
 		
         
         
@@ -149,6 +121,14 @@ public class Reserva
 		//Calculo Total Precio
 		this.calculoPrecioFinal=(duracionPorDia*valuesMapaTarifa.tarifaPorDia)+(cantidadConductoresAdicionales*valuesMapaTarifa.valorExtraConductorAdicional)+valuesMapaTarifa.valorPorEntregaOtraSede;
 		
+		//añadir reserva
+		
+		
+		
+			
+			
+			
+			
 		ocuparVehiculo(duracionPorDia);
 		
 		String factura30Porciento=generarFactura(30);
@@ -174,7 +154,8 @@ public class Reserva
 		+"Por un total de: "
 		+duracionPorDia
 		+" dias."
-		
+		+"Duracion general de: "
+		+duracionTotal
 		+"En la fecha: "
 		+fechaHoraEntrega+"\n."
 		+"Recuerde que debe pagar el 30% del valor del alquiler \n. "
@@ -209,6 +190,7 @@ public class Reserva
 		
 		
 	}
+	
 	
 	private void ocuparVehiculo(int duracion) {
 		// TODO implement me	
@@ -257,6 +239,8 @@ public class Reserva
 				+ (porcentaje*calculoPrecioFinal)
 				+" $.";
 	}
+	
+	 
 	
 	/**
 	 * <!-- GETTERS SETTERS -->
