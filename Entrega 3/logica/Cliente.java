@@ -1,5 +1,6 @@
 package logica;
 
+import java.util.ArrayList;
 
 /**
  * <!--ACA DOCUMENTACION-->
@@ -46,10 +47,17 @@ public class Cliente extends Usuario {
 	 * <!--METODOS QUE USA EL CLIENTE-->
 	 */
 	
-	private Void iniciarReserva() {
-		// TODO implement me
-		Reserva reserva= new Reserva();
-		return null;	
+	private String iniciarReserva(String codigoReserva, String tipoDeCarro,
+			String sedeRecogida, String sedeEntrega, String nuevaSedeEntrega,String fechaHoraRecogida, String fechaHoraEntrega,
+			String placaVehiculo, String usernameCliente, String rutaImagenConductorAdiciones, int calculoPrecioFinal, int cantidadConductoresAdicionales,
+			int duracionPorDia, String textoFactura) {
+			
+			ArrayList<String> listaConductoresAdicionales= new ArrayList<String>();
+			Reserva reserva= new Reserva(codigoReserva, listaConductoresAdicionales, tipoDeCarro, sedeRecogida, sedeEntrega, nuevaSedeEntrega, fechaHoraRecogida, fechaHoraEntrega, placaVehiculo, usernameCliente, rutaImagenConductorAdiciones, 0,0, 0, "", Entrega.ESPERANDOASERENTREGADOACLIENTE);
+			String Mensaje =reserva.iniciarReserva();
+			
+		
+		return Mensaje ;	
 	}
 	
 	
@@ -61,6 +69,8 @@ public class Cliente extends Usuario {
 	public void getMetodoDePago() {
 		// TODO implement me	
 	}
+	
+	
 	
 	/**
 	 * <!--GETTERS SETTERS-->
@@ -143,5 +153,16 @@ public class Cliente extends Usuario {
 	public void setMetodoDePago(String metodoDePago) {
 		this.metodoDePago = metodoDePago;
 	}
+	public void getIniciarSecion(String codigoReserva, String tipoDeCarro,
+			String sedeRecogida, String sedeEntrega, String nuevaSedeEntrega,String fechaHoraRecogida, String fechaHoraEntrega,
+			String placaVehiculo, String usernameCliente, String rutaImagenConductorAdiciones, int calculoPrecioFinal, int cantidadConductoresAdicionales,
+			int duracionPorDia, String textoFactura) {
+		iniciarReserva(codigoReserva, tipoDeCarro, sedeRecogida, sedeEntrega, nuevaSedeEntrega, fechaHoraRecogida, fechaHoraEntrega, placaVehiculo, usernameCliente, rutaImagenConductorAdiciones, calculoPrecioFinal, cantidadConductoresAdicionales, duracionPorDia, textoFactura);
+	}
+	public void getCerrarSesion() {
+		cerrarGuardarReserva();
+	}
+	
+	
 }
 

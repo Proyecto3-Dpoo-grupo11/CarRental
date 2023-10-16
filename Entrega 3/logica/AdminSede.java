@@ -1,5 +1,8 @@
 package logica;
 
+import java.util.ArrayList;
+
+import javax.swing.text.html.HTMLDocument.Iterator;
 
 /**
  * <!-- ACA DOCUMENTACION -->
@@ -8,14 +11,15 @@ package logica;
 
 public class AdminSede extends Usuario {
 	
-	public int codigoSede;
+	public String codigoSede;
 	protected Roles cargo;
+	public Sede sede;
 	
 	/**
 	 * <!-- CONSTRUCTOR -->
 	 */
 
-	public AdminSede(String username, String password, int codigoSede, Roles cargo) {
+	public AdminSede(String username, String password, String codigoSede, Roles cargo) {
 		super(username, password, cargo);
 		this.codigoSede = codigoSede;
 		this.cargo = Roles.EMPLEADO;
@@ -25,36 +29,49 @@ public class AdminSede extends Usuario {
 	 * <!-- METODOS DEL ADMIN DE SEDE -->
 	 */
 	
-	public void addEmpleado(String username, String password) {
-        Empleado nuevoEmpleado = new Empleado(username, password, codigoSede, Roles.EMPLEADO);
-        listaEmpleados.add(nuevoEmpleado);
+	
+
+    /*public void addVehiculo(String categoria, String placa, String marca, String codigoReservaActual, String modelo, String color, String tipoTransmision, Estados estados) {
+        Vehiculo nuevoVehiculo = new Vehiculo(categoria, placa, marca, codigoReservaActual, modelo, color, tipoTransmision, estados);
+
+        sede.listaVehiculos.add(nuevoVehiculo);
+    }*/
+	
+	public void addEmpleado(String username, String password, Roles cargo) {
+		sede.addEmpleado(username, password, cargo);
+	}
+    public void deleteEmpleado(String username) {
+        sede.deleteEmpleado(username);
     }
 
-    void deleteEmpleado(String username) {
-        Iterator<Empleado> iterator = listaEmpleados.iterator();
-        while (iterator.hasNext()) {
-            Empleado empleado = iterator.next();
-            if (empleado.getUsername().equals(username)) {
-                iterator.remove();
-            }
-    }
-}
-	public void deleteEmpleado() {
-		// TODO implement me	
+			
+        		
+        		
+        /**
+    	 * <!-- GETTERS  y SETTERS -->
+    	 */
+
+	public String getCodigoSede() {
+		return codigoSede;
+	}
+
+	public void setCodigoSede(String codigoSede) {
+		this.codigoSede = codigoSede;
+	}
+
+	public Sede getSede() {
+		return sede;
+	}
+
+	public void setSede(Sede sede) {
+		this.sede = sede;
 	}
 	
 	/**
 	 * <!-- GETTERS SETTERS -->
 	 */
 
-	public int getSede() {
-		return codigoSede;
-	}
-
-	//esta seria la que use el admin generla si se quisiera implementar un cambio de sede
-	public void setSede(int codigoSede) {
-		this.codigoSede = codigoSede;
-	}
+	
 	//NO se necesita getters ni setters para el cargo, ya que solo hay un admin general.
 }
 
