@@ -63,8 +63,8 @@ public class Sede
         mapaEmpleados.remove(username);
         }
 
-    public void addVehiculo(String categoria, String placa, String marca, String codigoReservaActual, String modelo, String color, String tipoTransmision, Estados estados) {
-        Vehiculo nuevoVehiculo = new Vehiculo(categoria, placa, marca, codigoReservaActual, modelo, color, tipoTransmision, estados);
+    public void addVehiculo(String categoria, String placa, String marca, String codigoReservaActual, String modelo, String color, String tipoTransmision, Estados estados, String codigoSede) {
+        Vehiculo nuevoVehiculo = new Vehiculo(categoria, placa, marca, codigoReservaActual, color, tipoTransmision, estados,modelo,codigoSede);
 
         listaVehiculos.add(nuevoVehiculo);
     }

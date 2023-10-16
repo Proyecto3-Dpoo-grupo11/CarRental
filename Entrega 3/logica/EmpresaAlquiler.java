@@ -43,8 +43,15 @@ public class EmpresaAlquiler
 		lineas = LectorArchivo.leer("empleados.dat");
 		for(String linea : lineas) {
 			String []datos = linea.split(";");
-			Usuario user = new Empleado((datos[0]), datos[1], (datos[2]), Roles.EMPLEADO); //SE LLAMA AL CONSTRUCTOR DE EMPLEADO 		
-			EmpresaAlquiler.mapaUsuarios.put(datos[0], user);	//SE GUARDA EN EL MAPA EL USERNAME Y EL USUARIO 		
+			Usuario user = new Empleado((datos[0]), datos[1], (datos[2]), Roles.EMPLEADO);
+			Empleado userEmpleado = new Empleado((datos[0]), datos[1], (datos[2]), Roles.EMPLEADO);//SE LLAMA AL CONSTRUCTOR DE EMPLEADO 		
+			EmpresaAlquiler.mapaUsuarios.put(datos[0], user);
+			for(Sede sedes : EmpresaAlquiler.listaSedes) {
+				if (sedes.codigoSede==datos[2]) {
+					sedes.mapaEmpleados.put(datos[0], userEmpleado);
+				}
+			}
+				//SE GUARDA EN EL MAPA EL USERNAME Y EL USUARIO 		
 		}//ACA HAY QUE GUARDARLL EN LA SEDE QUE PERTENECE.
 
 
@@ -71,23 +78,34 @@ public class EmpresaAlquiler
 			String []datos = linea.split(";");
 			ArrayList<Vehiculo> listaVehiculos = new ArrayList<Vehiculo>();
 			HashMap<String,Reserva> listaReservas= new HashMap<String,Reserva>();
-			Sede user = new Sede(datos[0], datos[1], datos[2],listaVehiculos,listaReservas); 
-			listaSedes.add(user);
+			Sede sede = new Sede(datos[0], datos[1], datos[2],listaVehiculos,listaReservas); 
+			listaSedes.add(sede);
 		}
 			
 		
 	}
 		
-		public String infoCarroEspecifico() {
-			//Busquedas, guardan variables
-			return ("el carro %s, esta en %s........."); //.format(placacarro,ubicacion,etc)
+	public String infoCarroEspecifico(String placa) {
+		String retorno="";
+		for (Sede sedes : EmpresaAlquiler.listaSedes) {
+			for (Vehiculo vehiculo : sedes.listaVehiculos) {
+				if (vehiculo.placa == placa) {
+					retorno=(String.format("el carro de placa %s, esta en la sede%s.", placa, vehiculo.getCodigoSede()));
+				} else {
+					retorno="no existe este vehiculo";
+				}
+			}
 		}
+		// Busquedas, guardan variables
+		return retorno;
+
+	}
 		
-		public Void crearCliente(String username, String password, Roles cargo, String nombreCliente, String email, String telefono, String fechaNacimiento, String nacionalidad, String imagenCedula,String imagenLicencia, String metodoDePago, String numeroTarjeta, String fechaVencimiento) {
+		public void crearCliente(String username, String password, Roles cargo, String nombreCliente, String email, String telefono, String fechaNacimiento, String nacionalidad, String imagenCedula,String imagenLicencia, String metodoDePago, String numeroTarjeta, String fechaVencimiento) {
 			Usuario u = new Cliente(username,password,cargo,nombreCliente,email,telefono,fechaNacimiento,nacionalidad,imagenCedula,imagenCedula,metodoDePago,numeroTarjeta,fechaVencimiento);
 			EmpresaAlquiler.mapaUsuarios.put(username, u);
 			// TODO implement me
-			return null;	
+				
 		}
 		
 		

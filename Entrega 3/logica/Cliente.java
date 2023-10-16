@@ -1,6 +1,7 @@
 package logica;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * <!--ACA DOCUMENTACION-->
@@ -47,18 +48,27 @@ public class Cliente extends Usuario {
 	 * <!--METODOS QUE USA EL CLIENTE-->
 	 */
 	
-	private String iniciarReserva(String codigoReserva, String tipoDeCarro,
+	private String iniciarReserva(String codigoSede, String codigoReserva, String tipoDeCarro,
 			String sedeRecogida, String sedeEntrega, String nuevaSedeEntrega,String fechaHoraRecogida, String fechaHoraEntrega,
 			String placaVehiculo, String usernameCliente, String rutaImagenConductorAdiciones, int calculoPrecioFinal, int cantidadConductoresAdicionales,
 			int duracionPorDia, String textoFactura) {
 			
 			ArrayList<String> listaConductoresAdicionales= new ArrayList<String>();
-			Reserva reserva= new Reserva(codigoReserva, listaConductoresAdicionales, tipoDeCarro, sedeRecogida, sedeEntrega, nuevaSedeEntrega, fechaHoraRecogida, fechaHoraEntrega, placaVehiculo, usernameCliente, rutaImagenConductorAdiciones, 0,0, 0, "", Entrega.ESPERANDOASERENTREGADOACLIENTE);
+			
+			Reserva reserva= new Reserva(generarNumeroReserva(), listaConductoresAdicionales, tipoDeCarro, sedeRecogida, sedeEntrega, nuevaSedeEntrega, fechaHoraRecogida, fechaHoraEntrega, placaVehiculo, usernameCliente, rutaImagenConductorAdiciones, 0,0, 0, "", Entrega.ESPERANDOASERENTREGADOACLIENTE);
 			String Mensaje =reserva.iniciarReserva();
+			
+			for(Sede sedes : EmpresaAlquiler.listaSedes) {
+				if (sedes.codigoSede==codigoSede) {
+					sedes.mapaReservas.put(reserva.codigoReserva,reserva);
+				}
+					
+				}
 			
 		
 		return Mensaje ;	
 	}
+	
 	
 	
 	private String cerrarGuardarReserva() {
@@ -67,9 +77,21 @@ public class Cliente extends Usuario {
 	}
 	
 	public void getMetodoDePago() {
-		// TODO implement me	
+		// TODO implement me
+		setNumeroTarjeta(numeroTarjeta);
+		setFechaVencimiento(fechaVencimiento);
 	}
 	
+	public static String generarNumeroReserva() {
+        // Create a Random object
+        Random random = new Random();
+
+        // Generate a random integer between 1 and 100 (inclusive)
+        int randomNumber = random.nextInt(100) + 1;
+
+        // Convert the random number to a string
+        return String.valueOf(randomNumber);
+    }
 	
 	
 	/**
@@ -153,11 +175,11 @@ public class Cliente extends Usuario {
 	public void setMetodoDePago(String metodoDePago) {
 		this.metodoDePago = metodoDePago;
 	}
-	public void getIniciarSecion(String codigoReserva, String tipoDeCarro,
+	public void getIniciarSecion(String codigoSede,String codigoReserva, String tipoDeCarro,
 			String sedeRecogida, String sedeEntrega, String nuevaSedeEntrega,String fechaHoraRecogida, String fechaHoraEntrega,
 			String placaVehiculo, String usernameCliente, String rutaImagenConductorAdiciones, int calculoPrecioFinal, int cantidadConductoresAdicionales,
 			int duracionPorDia, String textoFactura) {
-		iniciarReserva(codigoReserva, tipoDeCarro, sedeRecogida, sedeEntrega, nuevaSedeEntrega, fechaHoraRecogida, fechaHoraEntrega, placaVehiculo, usernameCliente, rutaImagenConductorAdiciones, calculoPrecioFinal, cantidadConductoresAdicionales, duracionPorDia, textoFactura);
+		iniciarReserva(codigoSede,codigoReserva, tipoDeCarro, sedeRecogida, sedeEntrega, nuevaSedeEntrega, fechaHoraRecogida, fechaHoraEntrega, placaVehiculo, usernameCliente, rutaImagenConductorAdiciones, calculoPrecioFinal, cantidadConductoresAdicionales, duracionPorDia, textoFactura);
 	}
 	public void getCerrarSesion() {
 		cerrarGuardarReserva();

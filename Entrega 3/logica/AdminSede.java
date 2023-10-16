@@ -1,9 +1,5 @@
 package logica;
 
-import java.util.ArrayList;
-
-import javax.swing.text.html.HTMLDocument.Iterator;
-
 /**
  * <!-- ACA DOCUMENTACION -->
  * TODO Implementar los metodos. -->

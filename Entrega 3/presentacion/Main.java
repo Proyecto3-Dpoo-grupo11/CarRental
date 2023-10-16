@@ -6,10 +6,6 @@ package presentacion;
  * @generated
  */
 
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Scanner;
 
 import logica.AdminGeneral;
@@ -18,7 +14,6 @@ import logica.Cliente;
 import logica.Empleado;
 import logica.EmpresaAlquiler;
 import logica.Estados;
-import logica.Entrega;
 import logica.Roles;
 import logica.Usuario;
 
@@ -80,7 +75,16 @@ public class Main {
 
 					AdminGeneral accesoAdmiGeneral = (AdminGeneral) EmpresaAlquiler.mapaUsuarios.get(name);
 					MenuAdministradorGeneral(accesoAdmiGeneral);
+					if(name=="admin") {
+					
 
+					System.out.print("Ingrese su nuevo nombre de usuario");
+					String nuevoUser = scanner.nextLine();
+					System.out.print("Ingrese su contraseña");
+					String nuevoPassword = scanner.nextLine();
+					accesoAdmiGeneral.cambiarContraseña(name, nuevoUser, nuevoPassword, Roles.ADMINISTRADORGENERAL);
+					scanner.close();
+					}
 					// TODO admin general crear metodo cambiar contrasena
 
 				}
@@ -130,6 +134,9 @@ public class Main {
 	// se llama desde el main cuando el usuario seleccione que es un empleado y que
 	// quiere crear cuenta
 	private void crearCuenta(EmpresaAlquiler empresa) {
+		
+		
+		
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Crear un cliente:");
 
@@ -170,7 +177,7 @@ public class Main {
 		empresa.crearCliente(nuevoUsername, newPassword, Roles.CLIENTE, nombreCliente, email, telefono,
 				fechaNacimiento, nacionalidad, imagenCedula, imagenLicencia, metodoDePago, numeroTarjeta,
 				fechaVencimiento);
-	
+		sc.close();
 	}
 		
 
@@ -223,9 +230,6 @@ public class Main {
                 System.out.print("Ingrese la marca del vehículo: ");
                 String marca = sc.next();
 
-                System.out.print("Ingrese el código de reserva actual: ");
-                String codigoReservaActual = sc.next();
-
                 System.out.print("Ingrese el modelo del vehículo: ");
                 String modelo = sc.next();
 
@@ -236,9 +240,9 @@ public class Main {
                 String tipoTransmision = sc.next();
 
                 System.out.print("Ingrese el código de sede: ");
-                int codigoSede = sc.nextInt();
+                String codigoSede = sc.next();
                
-                accesoAdmiGeneral.nuevoVehiculo(categoria, placa, marca, codigoReservaActual, modelo, color, tipoTransmision,Estados.DISPONIBLE, "");
+                accesoAdmiGeneral.nuevoVehiculo(categoria, placa, marca, "", modelo, color, tipoTransmision,Estados.DISPONIBLE, codigoSede);
 			
 			}else if(op == 4) {
 				
@@ -271,8 +275,13 @@ public class Main {
                 accesoAdmiGeneral.eliminarSedes(codigoSede);
                         
 			}else if(op == 7) {
-				
-				accesoAdmiGeneral.modificarSeguro();
+				System.out.print("Ingrese el nombre del seguro que desea modificar: ");
+                String nombreSeguro = sc.next();
+                System.out.print("Ingrese el nombre del seguro nuevamente o escriba uno nuevo si desea cambiar el nombre: ");
+                String nuevoNombreSeguro = sc.next();
+                System.out.print("Ingrese la nueva tarifa del seguro: ");
+                int tarifaSeguro = sc.nextInt();
+				accesoAdmiGeneral.modificarSeguro(nombreSeguro,nuevoNombreSeguro,tarifaSeguro);
                 
 
 		}}while(op != 0);{
@@ -328,7 +337,7 @@ public class Main {
 		Scanner sc = new Scanner(System.in);
 		int opcion = 0;
 
-		while (opcion != 6) {
+		 do{
 			
 			
 			System.out.println("Menú de Empleado:");
@@ -392,8 +401,7 @@ public class Main {
 			} else if (opcion == 3) {
 				System.out.println("Iniciar una reserva:");
 
-				System.out.print("Ingrese el codigo de la reserva: ");
-				String codigoReserva = sc.next();
+				
 				System.out.print("Ingrese el tipo de carro: ");
 				String tipoDeCarro = sc.next();
 
@@ -416,7 +424,7 @@ public class Main {
 				String usernameCliente = sc.next();
 				
 				
-				empleado.iniciarReserva(codigoReserva, tipoDeCarro, sedeRecogida, sedeEntrega,"",
+				empleado.iniciarReserva("", tipoDeCarro, sedeRecogida, sedeEntrega,"",
 						fechaHoraRecogida, fechaHoraEntrega, placaVehiculo, usernameCliente,
 						"",0,0,0,"");
 			} else if (opcion == 4) {
@@ -453,6 +461,9 @@ public class Main {
 			} else {
 				System.out.println("Opción no válida. Inténtelo de nuevo.");
 			}
+		}while (opcion != 8); {
+			sc.close();
+			
 		}
 	}
 
@@ -460,7 +471,7 @@ public class Main {
 		Scanner sc = new Scanner(System.in);
 		int opcion = 0;
 
-		while (opcion != 4) {
+		do {
 			System.out.println("Menú de Cliente:");
 			System.out.println("1. Iniciar Reserva");
 			System.out.println("2. Cerrar y Guardar Reserva");
@@ -473,8 +484,8 @@ public class Main {
 				System.out.println("Iniciar Reserva:");
 				System.out.println("Iniciar una reserva:");
 
-				System.out.print("Ingrese el codigo de la reserva: ");
-				String codigoReserva = sc.next();
+				System.out.print("Ingrese el codigo de la sede donde se realizara la reserva: ");
+				String codigoSede = sc.next();
 				System.out.print("Ingrese el tipo de carro: ");
 				String tipoDeCarro = sc.next();
 
@@ -495,7 +506,7 @@ public class Main {
 
 				System.out.print("Ingrese el usuario del cliente: ");
 				String usernameCliente = sc.next();
-				cliente.getIniciarSecion(codigoReserva, tipoDeCarro, sedeRecogida, sedeEntrega,"",
+				cliente.getIniciarSecion(codigoSede,"", tipoDeCarro, sedeRecogida, sedeEntrega,"",
 						fechaHoraRecogida, fechaHoraEntrega, placaVehiculo, usernameCliente,
 						"",0,0,0,"");
 			} else if (opcion == 2) {
@@ -509,6 +520,8 @@ public class Main {
 			} else {
 				System.out.println("Opción no válida. Inténtelo de nuevo.");
 			}
+		}while (opcion != 4); {
+			sc.close();
 		}
 	}
 
