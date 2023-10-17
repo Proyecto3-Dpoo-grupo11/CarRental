@@ -15,6 +15,7 @@ public class Empleado extends Usuario {
 	public String codigoSede;
 	protected Roles cargo;
 	public Sede sede;
+	public EmpresaAlquiler empresa;
 
 	public Empleado(String username, String password, String codigoSede, Roles cargo, Sede sede) {
 		super(username, password, cargo);
@@ -69,12 +70,12 @@ public class Empleado extends Usuario {
 			addConductorAdicionalAlIniciarReserva(rutaImagenConductorAdiciones,reserva);
 			String Mensaje =reserva.iniciarReserva();
 			
-//			for(Sede sedes : EmpresaAlquiler.listaSedes) {
-//				if (sedes.codigoSede==codigoSede) {
-//					sedes.mapaReservas.put(reserva.codigoReserva,reserva);
-//				}
-//					
-//				}
+			for(Sede sedes : empresa.listaSedes) {
+				if (sedes.codigoSede==codigoSede) {
+					sedes.mapaReservas.put(reserva.codigoReserva,reserva);
+				}
+					
+			}
 			
 			//TODO aca tiene que llamarse desde el objeto sede que esta aca.
 			
@@ -98,13 +99,14 @@ public class Empleado extends Usuario {
 	}
 	public void addConductorAdicional(String rutaImagen, String codigoSede,String codigoReserva) {
 		// TODO IGUAL ACA LO DE LA SEDE	
-//		for (Sede sedes : EmpresaAlquiler.listaSedes) {
-//			if (sedes.codigoSede==codigoSede) {
-//				sedes.mapaReservas.get(codigoReserva)
-//				.listaConductoresAdicionales.add(rutaImagen);
-//			}
+		for (Sede sedes : empresa.listaSedes) {
+			if (sedes.codigoSede==codigoSede) {
+				sedes.mapaReservas.get(codigoReserva)
+			.listaConductoresAdicionales.add(rutaImagen);
+			}
 			
 		}
+	}
 	
 	/**
 	 * <!-- GETTERS AND SETTERS -->

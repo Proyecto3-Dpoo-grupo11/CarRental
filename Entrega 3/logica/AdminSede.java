@@ -9,18 +9,22 @@ public class AdminSede extends Usuario {
 	
 	private static final long serialVersionUID = 2L;
 	public String codigoSede;
-	protected Roles cargo;
+	
 	public Sede sede;
+	public EmpresaAlquiler empresa;
 	
 	/**
 	 * <!-- CONSTRUCTOR -->
 	 */
 
-	public AdminSede(String username, String password, String codigoSede, Roles cargo) {
-		super(username, password, cargo);
+	
+	public AdminSede(String username, String password, Roles rol, String codigoSede, Sede sede,EmpresaAlquiler empresa) {
+		super(username, password, rol);
 		this.codigoSede = codigoSede;
-		this.cargo = Roles.EMPLEADO;
-		}
+		this.sede = sede;
+		this.empresa = empresa;
+	}
+	
 	
 	/**
 	 * <!-- METODOS DEL ADMIN DE SEDE -->
@@ -35,11 +39,23 @@ public class AdminSede extends Usuario {
     }*/
 	
 	public void addEmpleado(String username, String password, Roles cargo) {
-		sede.addEmpleado(username, password, cargo);
+		for (Sede sedes:empresa.listaSedes ) {
+			if(sedes.codigoSede==codigoSede) {
+		Usuario u = new Empleado(username, password, codigoSede, Roles.EMPLEADO, sedes);
+		this.empresa.mapaUsuarios.put(username,u);
+		sedes.addEmpleado(username, password, cargo);
+		}
 	}
-    public void deleteEmpleado(String username) {
-        sede.deleteEmpleado(username);
+}
+	public void deleteEmpleado(String username) {
+    	for (Sede sedes:empresa.listaSedes ) {
+			if(sedes.codigoSede==codigoSede) {
+		empresa.mapaUsuarios.remove(username);		
+		sedes.deleteEmpleado(username);
+		}
+    	}
     }
+
         		
         /**
     	 * <!-- GETTERS  y SETTERS -->

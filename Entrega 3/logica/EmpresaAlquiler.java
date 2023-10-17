@@ -33,8 +33,8 @@ public class EmpresaAlquiler implements Serializable
 
 	public void leerArchivos() {
 		
-		Usuario u= new AdminGeneral("admin","0",Roles.ADMINISTRADORGENERAL, this);
-		this.mapaUsuarios.put("admin",u);
+		Usuario u= new AdminGeneral("0","0",Roles.ADMINISTRADORGENERAL, this);
+		this.mapaUsuarios.put("0",u);
 		
 		//TODO IMPLEMENTAR SEDES
 		ArrayList<String> lineas;
@@ -77,9 +77,12 @@ public class EmpresaAlquiler implements Serializable
 		lineas = LectorArchivo.leer("administradores.dat"); 
 		for(String linea : lineas) {
 			String []datos = linea.split(";");
-			Usuario user = new AdminSede(datos[0], datos[1], (datos[2]), Roles.ADMINISTRADORSEDE); // Polimorfismo porque creamos un usuario U pero como un adminsitrador Sede
+			for(Sede sedes : this.listaSedes) {
+				if (sedes.codigoSede==datos[2]) {
+					{
+			Usuario user = new AdminSede(datos[0], datos[1],Roles.ADMINISTRADORSEDE,(datos[2]),sedes,this); // Polimorfismo porque creamos un usuario U pero como un adminsitrador Sede
 			this.mapaUsuarios.put(datos[0], user);			
-		}
+		}}}}
 	
 //valuesMapa.Usuarios.Cliente.nombre
 		

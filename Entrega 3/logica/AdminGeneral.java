@@ -42,7 +42,7 @@ public class AdminGeneral extends Usuario
 
 	public void crearAdminSede(String username, String password, String codigoSede, Roles cargo) {
 		// TODO implement me
-		Usuario u = new AdminSede(username,password,codigoSede,cargo);		
+		Usuario u = new AdminSede(username,password,cargo,codigoSede,sede, empresa);		
 		empresa.mapaUsuarios.put(username, u);
 		
 			
@@ -60,32 +60,36 @@ public class AdminGeneral extends Usuario
 
 	public void nuevoVehiculo(String categoria, String placa, String marca, String codigoReservaActual, String modelo,
 			String color, String tipoTransmision, Estados estados, String codigoSede) {
-		// TODO implement me 
+		// TODO implement me
 
-		Vehiculo u =  new Vehiculo(categoria, placa, marca, codigoReservaActual, color, tipoTransmision, estados,modelo,codigoSede);
-//		for (Sede sedes:EmpresaAlquiler.listaSedes ) {
-//			if(sedes.codigoSede==codigoSede) {
-//				sedes.listaVehiculos.add(u);
-//			}
-//		}
-		//TODO hay que cambiar a sede.
+		Vehiculo u = new Vehiculo(categoria, placa, marca, codigoReservaActual, color, tipoTransmision, estados, modelo,
+				codigoSede);
+		for (Sede sedes : empresa.listaSedes) {
+			if (sedes.codigoSede == codigoSede) {
+				sedes.listaVehiculos.add(u);
+			}
+		}
+		// TODO hay que cambiar a sede.
+
 		
-		
-		sede.listaVehiculos.add(u);
 	}
 
-	public void borrarVehiculo(String placa,String codigoSede) {
+	public void borrarVehiculo(String placa, String codigoSede) {
 		// TODO implement me
-		
-//		for (Sede sedes : EmpresaAlquiler.listaSedes) {
-//			if (sedes.codigoSede == codigoSede) {
-//				ArrayList<Vehiculo> lista = sedes.listaVehiculos;
-//				for (Vehiculo vehiculo : lista) {
-//					if (vehiculo.placa == placa) {
-//						lista.remove(vehiculo);
-//					}
+
+		for (Sede sedes : empresa.listaSedes) {
+			if (sedes.codigoSede == codigoSede) {
+				ArrayList<Vehiculo> lista = sedes.listaVehiculos;
+				for (Vehiculo vehiculo : lista) {
+					if (vehiculo.placa == placa) {
+						lista.remove(vehiculo);
+					}
 
 				}
+			}
+		}
+	}
+			
 	
 	public void addSede(String codigoSede, String ubicacion, String horarioAtencion) {
 		//Corregir 
@@ -94,8 +98,8 @@ public class AdminGeneral extends Usuario
 		//CREAR EL ADMIN SEDE, osea tienen que juntarlo con el metodo de add admin sede. no existe
 		//el uno sin el otro. 
 
-        //Sede sede = new Sede(codigoSede, ubicacion, horarioAtencion, listaVehiculos, mapaReserva);
-        //EmpresaAlquiler.listaSedes.add(sede);
+       Sede sede = new Sede(codigoSede, ubicacion, horarioAtencion, listaVehiculos, mapaReserva);
+       empresa.listaSedes.add(sede);
 		
 	}
 	
@@ -103,12 +107,12 @@ public class AdminGeneral extends Usuario
 		// TODO implement me	
 	
 		
-//		for (Sede sedes : EmpresaAlquiler.listaSedes) {
-//			if (sedes.codigoSede==codigoSede) {
-//				EmpresaAlquiler.listaSedes.remove(sedes);
-//			}
-//			
-//		}
+		for (Sede sedes : empresa.listaSedes) {
+			if (sedes.codigoSede==codigoSede) {
+				empresa.listaSedes.remove(sedes);
+		}
+			
+		}
 		
 	}
 	public void modificarSeguro(String nombreSeguroViejo, String nombreSeguroNuevo, int tarifaNueva) {
