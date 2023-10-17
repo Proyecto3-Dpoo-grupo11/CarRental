@@ -14,13 +14,15 @@ public class AdminGeneral extends Usuario
 	private static final long serialVersionUID = 2L;
 	protected Roles cargo;
 	private Sede sede;
+	private EmpresaAlquiler empresa;
 	/**
 	 * <!-- CONSTRUCTOR -->
 	 */
 	
-	public AdminGeneral(String username, String password, Roles cargo) {
+	public AdminGeneral(String username, String password, Roles cargo, EmpresaAlquiler empresa) {
 		super(username, password, cargo);
 		this.cargo = Roles.ADMINISTRADORGENERAL;
+		this.empresa = empresa;
 		}
 	
 	/**
@@ -41,7 +43,7 @@ public class AdminGeneral extends Usuario
 	public void crearAdminSede(String username, String password, String codigoSede, Roles cargo) {
 		// TODO implement me
 		Usuario u = new AdminSede(username,password,codigoSede,cargo);		
-		EmpresaAlquiler.mapaUsuarios.put(username, u);
+		empresa.mapaUsuarios.put(username, u);
 		
 			
 		}
@@ -50,7 +52,7 @@ public class AdminGeneral extends Usuario
 	
 	public void eliminarAdminSede(String username,String codigoSede) {
 		// TODO implement me	
-		EmpresaAlquiler.mapaUsuarios.remove(username);
+		empresa.mapaUsuarios.remove(username);
 		
 		
 		
@@ -61,11 +63,12 @@ public class AdminGeneral extends Usuario
 		// TODO implement me 
 
 		Vehiculo u =  new Vehiculo(categoria, placa, marca, codigoReservaActual, color, tipoTransmision, estados,modelo,codigoSede);
-		for (Sede sedes:EmpresaAlquiler.listaSedes ) {
-			if(sedes.codigoSede==codigoSede) {
-				sedes.listaVehiculos.add(u);
-			}
-		}
+//		for (Sede sedes:EmpresaAlquiler.listaSedes ) {
+//			if(sedes.codigoSede==codigoSede) {
+//				sedes.listaVehiculos.add(u);
+//			}
+//		}
+		//TODO hay que cambiar a sede.
 		
 		
 		sede.listaVehiculos.add(u);
@@ -74,18 +77,15 @@ public class AdminGeneral extends Usuario
 	public void borrarVehiculo(String placa,String codigoSede) {
 		// TODO implement me
 		
-		for (Sede sedes : EmpresaAlquiler.listaSedes) {
-			if (sedes.codigoSede == codigoSede) {
-				ArrayList<Vehiculo> lista = sedes.listaVehiculos;
-				for (Vehiculo vehiculo : lista) {
-					if (vehiculo.placa == placa) {
-						lista.remove(vehiculo);
-					}
+//		for (Sede sedes : EmpresaAlquiler.listaSedes) {
+//			if (sedes.codigoSede == codigoSede) {
+//				ArrayList<Vehiculo> lista = sedes.listaVehiculos;
+//				for (Vehiculo vehiculo : lista) {
+//					if (vehiculo.placa == placa) {
+//						lista.remove(vehiculo);
+//					}
 
 				}
-			}
-		}
-	}
 	
 	public void addSede(String codigoSede, String ubicacion, String horarioAtencion) {
 		//Corregir 
@@ -94,8 +94,8 @@ public class AdminGeneral extends Usuario
 		//CREAR EL ADMIN SEDE, osea tienen que juntarlo con el metodo de add admin sede. no existe
 		//el uno sin el otro. 
 
-        Sede sede = new Sede(codigoSede, ubicacion, horarioAtencion, listaVehiculos, mapaReserva);
-        EmpresaAlquiler.listaSedes.add(sede);
+        //Sede sede = new Sede(codigoSede, ubicacion, horarioAtencion, listaVehiculos, mapaReserva);
+        //EmpresaAlquiler.listaSedes.add(sede);
 		
 	}
 	
@@ -103,12 +103,12 @@ public class AdminGeneral extends Usuario
 		// TODO implement me	
 	
 		
-		for (Sede sedes : EmpresaAlquiler.listaSedes) {
-			if (sedes.codigoSede==codigoSede) {
-				EmpresaAlquiler.listaSedes.remove(sedes);
-			}
-			
-		}
+//		for (Sede sedes : EmpresaAlquiler.listaSedes) {
+//			if (sedes.codigoSede==codigoSede) {
+//				EmpresaAlquiler.listaSedes.remove(sedes);
+//			}
+//			
+//		}
 		
 	}
 	public void modificarSeguro(String nombreSeguroViejo, String nombreSeguroNuevo, int tarifaNueva) {
@@ -119,9 +119,9 @@ public class AdminGeneral extends Usuario
 		
 	}
 	public void cambiarContraseña(String userNameViejo,String userNameNuevo,String contraseñaNueva,Roles cargo) {
-		EmpresaAlquiler.mapaUsuarios.remove(userNameViejo);
-		Usuario u = new AdminGeneral(userNameNuevo,contraseñaNueva,cargo);
-		EmpresaAlquiler.mapaUsuarios.put(userNameNuevo,u);
+		empresa.mapaUsuarios.remove(userNameViejo);
+		Usuario u = new AdminGeneral(userNameNuevo,contraseñaNueva,cargo, this.empresa);
+		empresa.mapaUsuarios.put(userNameNuevo,u);
 		
 	}
 	

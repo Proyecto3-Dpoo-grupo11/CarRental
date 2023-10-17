@@ -59,13 +59,6 @@ public class Empleado extends Usuario {
         }
     }
 	
-	public Void crearCliente(String username, String password, Roles cargo, String nombreCliente, String email, String telefono, String fechaNacimiento, String nacionalidad, String imagenCedula,String imagenLicencia, String metodoDePago, String numeroTarjeta, String fechaVencimiento) {
-		Usuario u = new Cliente(username,password,cargo,nombreCliente,email,telefono,fechaNacimiento,nacionalidad,imagenCedula,imagenCedula,metodoDePago,numeroTarjeta,fechaVencimiento);
-		EmpresaAlquiler.mapaUsuarios.put(username, u);
-		// TODO implement me
-		return null;	
-	}
-	
 	public String iniciarReserva(String codigoReserva, String tipoDeCarro,
 			String sedeRecogida, String sedeEntrega, String nuevaSedeEntrega,String fechaHoraRecogida, String fechaHoraEntrega,
 			String placaVehiculo, String usernameCliente, String rutaImagenConductorAdiciones, int calculoPrecioFinal, int cantidadConductoresAdicionales,
@@ -76,12 +69,14 @@ public class Empleado extends Usuario {
 			addConductorAdicionalAlIniciarReserva(rutaImagenConductorAdiciones,reserva);
 			String Mensaje =reserva.iniciarReserva();
 			
-			for(Sede sedes : EmpresaAlquiler.listaSedes) {
-				if (sedes.codigoSede==codigoSede) {
-					sedes.mapaReservas.put(reserva.codigoReserva,reserva);
-				}
-					
-				}
+//			for(Sede sedes : EmpresaAlquiler.listaSedes) {
+//				if (sedes.codigoSede==codigoSede) {
+//					sedes.mapaReservas.put(reserva.codigoReserva,reserva);
+//				}
+//					
+//				}
+			
+			//TODO aca tiene que llamarse desde el objeto sede que esta aca.
 			
 		
 		return Mensaje ;	
@@ -102,16 +97,15 @@ public class Empleado extends Usuario {
 		reserva.addConductorAdicional(rutaImagen);
 	}
 	public void addConductorAdicional(String rutaImagen, String codigoSede,String codigoReserva) {
-		// TODO implement me	
-		for (Sede sedes : EmpresaAlquiler.listaSedes) {
-			if (sedes.codigoSede==codigoSede) {
-				sedes.mapaReservas.get(codigoReserva)
-				.listaConductoresAdicionales.add(rutaImagen);
-			}
+		// TODO IGUAL ACA LO DE LA SEDE	
+//		for (Sede sedes : EmpresaAlquiler.listaSedes) {
+//			if (sedes.codigoSede==codigoSede) {
+//				sedes.mapaReservas.get(codigoReserva)
+//				.listaConductoresAdicionales.add(rutaImagen);
+//			}
 			
 		}
-	}
-
+	
 	/**
 	 * <!-- GETTERS AND SETTERS -->
 	 */

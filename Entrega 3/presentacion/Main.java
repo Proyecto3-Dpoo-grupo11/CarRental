@@ -70,13 +70,13 @@ public class Main {
 				String name = reader.readLine();
 				System.out.print("Ingrese su contraseña: ");
 				String password = reader.readLine();
-				Usuario accesoGeneral = EmpresaAlquiler.mapaUsuarios.get(name);
+				Usuario accesoGeneral = this.empresa.mapaUsuarios.get(name);
 				
 				if (accesoGeneral != null && accesoGeneral.getPassword().equals(password)) {
 					accesoApp = true;
 
 					if (accesoGeneral.getRol() == Roles.ADMINISTRADORGENERAL) {
-						AdminGeneral accesoAdmiGeneral = (AdminGeneral) EmpresaAlquiler.mapaUsuarios.get(name);
+						AdminGeneral accesoAdmiGeneral = (AdminGeneral) this.empresa.mapaUsuarios.get(name);
 						MenuAdministradorGeneral(accesoAdmiGeneral);
 						
 						if ("admin".equals(name)) {
@@ -89,17 +89,17 @@ public class Main {
 					}
 
 					if (accesoGeneral.getRol() == Roles.ADMINISTRADORSEDE) {
-						AdminSede accesoAdminSede = (AdminSede) EmpresaAlquiler.mapaUsuarios.get(name);
+						AdminSede accesoAdminSede = (AdminSede) this.empresa.mapaUsuarios.get(name);
 						MenuAdministradorSede(accesoAdminSede);
 					}
 
 					if (accesoGeneral.getRol() == Roles.EMPLEADO) {
-						Empleado accesoEmpleado = (Empleado) EmpresaAlquiler.mapaUsuarios.get(name);
+						Empleado accesoEmpleado = (Empleado) this.empresa.mapaUsuarios.get(name);
 						MenuEmpleado(accesoEmpleado);
 					}
 
 					if (accesoGeneral.getRol() == Roles.CLIENTE) {
-						Cliente accesoCliente = (Cliente) EmpresaAlquiler.mapaUsuarios.get(name);
+						Cliente accesoCliente = (Cliente) this.empresa.mapaUsuarios.get(name);
 						MenuCliente(accesoCliente);
 					}
 				} else {

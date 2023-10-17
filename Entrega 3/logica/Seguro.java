@@ -1,5 +1,6 @@
 package logica;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 /**
@@ -7,9 +8,10 @@ import java.util.HashMap;
  * TODO nada solo implementar el metodo y relacionarlo desde reserva
  */
 
-public class Seguro
+public class Seguro implements Serializable
 {
 	
+	private static final long serialVersionUID = 7L;
 	public String nombreSeguro;
 	public int tarifaPorDia;
 	public TipoSeguro tipoSeguro;

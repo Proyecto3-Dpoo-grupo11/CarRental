@@ -59,12 +59,13 @@ public class Cliente extends Usuario {
 			Reserva reserva= new Reserva(generarNumeroReserva(), listaConductoresAdicionales, tipoDeCarro, sedeRecogida, sedeEntrega, nuevaSedeEntrega, fechaHoraRecogida, fechaHoraEntrega, placaVehiculo, usernameCliente, rutaImagenConductorAdiciones, 0,0, 0, "", Entrega.ESPERANDOASERENTREGADOACLIENTE);
 			String Mensaje =reserva.iniciarReserva();
 			
-			for(Sede sedes : EmpresaAlquiler.listaSedes) {
-				if (sedes.codigoSede==codigoSede) {
-					sedes.mapaReservas.put(reserva.codigoReserva,reserva);
-				}
+			//TODO CAMBIAR A INSTANCIA SEDE
+//			for(Sede sedes : EmpresaAlquiler.listaSedes) {
+//				if (sedes.codigoSede==codigoSede) {
+//					sedes.mapaReservas.put(reserva.codigoReserva,reserva);
+//				}
 					
-				}
+				
 			
 		
 		return Mensaje ;	

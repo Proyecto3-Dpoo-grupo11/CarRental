@@ -40,9 +40,6 @@ public class AdminSede extends Usuario {
     public void deleteEmpleado(String username) {
         sede.deleteEmpleado(username);
     }
-
-			
-        		
         		
         /**
     	 * <!-- GETTERS  y SETTERS -->
