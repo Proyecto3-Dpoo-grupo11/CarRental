@@ -1,4 +1,4 @@
-package persistencia;
+package control;
 
 import logica.EmpresaAlquiler;
 import java.io.*;

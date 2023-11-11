@@ -2,9 +2,10 @@ package logica;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.io.Serializable;
 
-import persistencia.LectorArchivo;
+import control.LectorArchivo;
+
+import java.io.Serializable;
 
 /**
  * <!-- ACA VA DOCUMENTACION -->

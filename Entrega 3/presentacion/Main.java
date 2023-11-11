@@ -3,6 +3,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import control.PersistenciaEmpresaAlquiler;
 import logica.AdminGeneral;
 import logica.AdminSede;
 import logica.Cliente;
@@ -11,7 +12,6 @@ import logica.EmpresaAlquiler;
 import logica.Estados;
 import logica.Roles;
 import logica.Usuario;
-import persistencia.PersistenciaEmpresaAlquiler;
 
 public class Main {
 	
