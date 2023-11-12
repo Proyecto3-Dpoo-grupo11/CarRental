@@ -44,6 +44,7 @@ public class AdminGeneral extends Usuario
 		// TODO implement me
 		Usuario u = new AdminSede(username,password,cargo,codigoSede,sede, empresa);		
 		empresa.mapaUsuarios.put(username, u);
+		 int a=1;
 		
 			
 		}
