@@ -43,9 +43,9 @@ public class FPrincipal {
                     } else if (tipoUsuario == 2) {
                         menuOpcionesPanel.setMenu(new MAdminSede());
                     } else if (tipoUsuario == 3) {
-                        menuOpcionesPanel.setMenu(new MEmpleado());
+                        menuOpcionesPanel.setMenu(new MEmpleado(loginPanel.control, loginPanel.getUsernameField().getText()));
                     } else if (tipoUsuario == 4) {
-                        menuOpcionesPanel.setMenu(new MCliente());
+                        menuOpcionesPanel.setMenu(new MCliente(loginPanel.control, loginPanel.getUsernameField().getText()));
                     } else if (tipoUsuario == 5) {
                         menuOpcionesPanel.setMenu(new MCrearCliente(loginPanel.control)); 
                         //Solo se le pasa a este porque es el unico que tendra que acceder directamente a los metodos de la empresa
