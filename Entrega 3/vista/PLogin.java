@@ -1,4 +1,4 @@
-package vista;
+	package vista;
 
 import javax.swing.*;
 
@@ -94,4 +94,8 @@ public class PLogin extends JPanel {
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
         propertyChangeSupport.addPropertyChangeListener(listener);
     }
+	
+	public JTextField getUsernameField() {
+		return usernameField;
+	}
 }

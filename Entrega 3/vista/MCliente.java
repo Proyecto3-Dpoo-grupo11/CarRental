@@ -1,6 +1,9 @@
 package vista;
 
 import javax.swing.*;
+
+import control.Control;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,7 +12,7 @@ public class MCliente extends JPanel implements IOpciones {
     private static final long serialVersionUID = 1L;
     private JPanel clientePanel;
 
-    public MCliente() {
+    public MCliente(Control control, String username) {
         setLayout(new BorderLayout());
 
         clientePanel = new JPanel();
@@ -29,19 +32,54 @@ public class MCliente extends JPanel implements IOpciones {
 
         // Configurar listeners para cada botón
         btnIniciarReserva.addActionListener(new ActionListener() {
-            @Override
+             
             public void actionPerformed(ActionEvent e) {
                 // Lógica para la opción "Iniciar Reserva"
-                // Puedes abrir un nuevo cuadro de diálogo para ingresar la información necesario
+            	JButton btnPress = (JButton) e.getSource();
+                String coordenada = btnPress.getActionCommand();
+                if(coordenada.equals("Iniciar Reserva")){
+                
+                }
             }
         });
-
-        // Repite lo mismo para los demás botones...
+        btnCerrarGuardarReserva.addActionListener(new ActionListener() {
+             
+            public void actionPerformed(ActionEvent e) {
+                // Lógica para la opción "Cerrar y Guardar Reserva"
+            	JButton btnPress = (JButton) e.getSource();
+                String coordenada = btnPress.getActionCommand();
+                if(coordenada.equals("Cerrar y Guardar Reserva")){
+                	control.getCerrarSesion(username);
+                }
+            }
+        });
+        btnVerMetodoPago.addActionListener(new ActionListener() {
+             
+            public void actionPerformed(ActionEvent e) {
+            	// Lógica para la opción "Ver Metodo de Pago"
+            	JButton btnPress = (JButton) e.getSource();
+                String coordenada = btnPress.getActionCommand();
+                if(coordenada.equals("Ver Método de Pago")){
+                	control.getMetodoDePago(username);
+                }
+            }
+        });
+        btnSalir.addActionListener(new ActionListener() {
+             
+            public void actionPerformed(ActionEvent e) {
+                // Lógica para la opción "Salir"
+            	JButton btnPress = (JButton) e.getSource();
+                String coordenada = btnPress.getActionCommand();
+                if(coordenada.equals("Salir")){
+                	
+                }
+            }
+        });
 
         add(clientePanel, BorderLayout.CENTER);
     }
 
-    @Override
+     
     public Component getVisualComponent() {
         return this;
     }

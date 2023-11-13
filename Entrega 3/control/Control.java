@@ -1,5 +1,7 @@
 package control;
 
+import java.util.List;
+
 import logica.AdminGeneral;
 import logica.AdminSede;
 import logica.Cliente;
@@ -100,4 +102,41 @@ public class Control {
                                  numeroTarjeta, fechaVencimiento); //TODO Revisar.
         }
     }
+    public void mandarMantenimiento(String placaMan, String username) {
+		Empleado accesoEmpleado = (Empleado) this.empresa.mapaUsuarios.get(username);
+		accesoEmpleado.mandarMantenimiento(placaMan);
+	}
+
+	public void cerrarGuardarReserva(String username) {
+		Empleado accesoEmpleado = (Empleado) this.empresa.mapaUsuarios.get(username);
+		accesoEmpleado.cerrarGuardarReserva();
+	}
+
+	public List<List<String>> reporteCarrosMantenimiento(String username) {
+		Empleado accesoEmpleado = (Empleado) this.empresa.mapaUsuarios.get(username);
+		List<List<String>> resp = accesoEmpleado.reporteCarrosMantenimiento();
+		return resp;
+	}
+
+	public void generarEntrega(String code, String username) {
+		Empleado accesoEmpleado = (Empleado) this.empresa.mapaUsuarios.get(username);
+		accesoEmpleado.generarEntrega(code);
+	}
+
+	public void addConductorAdicional(String imagen, String code, String code2, String username) {
+		Empleado accesoEmpleado = (Empleado) this.empresa.mapaUsuarios.get(username);
+		accesoEmpleado.addConductorAdicional(imagen, code, code2);
+		
+	}
+
+	public void getCerrarSesion(String username) {
+		Cliente accesoCliente = (Cliente) this.empresa.mapaUsuarios.get(username);
+		accesoCliente.getCerrarSesion();
+	}
+
+	public void getMetodoDePago(String username) {
+		Cliente accesoCliente = (Cliente) this.empresa.mapaUsuarios.get(username);
+		accesoCliente.getMetodoDePago();
+		
+	}
 }

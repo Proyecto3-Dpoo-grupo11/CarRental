@@ -1,6 +1,7 @@
 package logica;
 
 import java.util.ArrayList;
+import java.util.List;
 /**
  *   <!-- DOCUMENTACION ACA -->
  *   
@@ -49,15 +50,19 @@ public class Empleado extends Usuario {
         }
     }
 
-    public void reporteCarrosMantenimiento() {
+    public List<List<String>> reporteCarrosMantenimiento() {
+        List<String> carro = new ArrayList<>();
+        List<List<String>> resp = new ArrayList<>();
         for (Vehiculo vehiculo : this.sede.getListaVehiculos()) {
-            if (vehiculo.getEstados() == Estados.NECESITAMANTENIMIENTO) {
-                System.out.println("Placa: " + vehiculo.getPlaca());
-                System.out.println("Marca: " + vehiculo.getMarca());
-                System.out.println("Modelo: " + vehiculo.getModelo());
-                System.out.println("Categoría: " + vehiculo.getCategoria());
+            if (vehiculo.getEstados().equals(Estados.NECESITAMANTENIMIENTO)) {
+            	carro.add("Placa: " + vehiculo.getPlaca());
+            	carro.add("Marca: " + vehiculo.getMarca());
+            	carro.add("Modelo: " + vehiculo.getModelo());
+            	carro.add("Categoría: " + vehiculo.getCategoria());
+            	resp.add(carro);
             }
         }
+        return resp;
     }
 	
 	public String iniciarReserva(String codigoReserva, String tipoDeCarro,
