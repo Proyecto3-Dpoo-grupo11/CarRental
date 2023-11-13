@@ -45,6 +45,7 @@ public class FPrincipal {
                     } else if (tipoUsuario == 3) {
                         menuOpcionesPanel.setMenu(new MEmpleado(loginPanel.control, loginPanel.getUsernameField().getText()));
                     } else if (tipoUsuario == 4) {
+                    	
                         menuOpcionesPanel.setMenu(new MCliente(loginPanel.control, loginPanel.getUsernameField().getText()));
                     } else if (tipoUsuario == 5) {
                         menuOpcionesPanel.setMenu(new MCrearCliente(loginPanel.control)); 
