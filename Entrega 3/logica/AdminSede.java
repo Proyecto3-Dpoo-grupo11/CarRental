@@ -40,16 +40,16 @@ public class AdminSede extends Usuario {
 	
 	public void addEmpleado(String username, String password, Roles cargo) {
 		for (Sede sedes:empresa.listaSedes ) {
-			if(sedes.codigoSede==codigoSede) {
+			if(sedes.codigoSede.equals(codigoSede)) {
 		Usuario u = new Empleado(username, password, codigoSede, Roles.EMPLEADO, sedes);
-		this.empresa.mapaUsuarios.put(username,u);
+		empresa.mapaUsuarios.put(username,u);
 		sedes.addEmpleado(username, password, cargo);
 		}
 	}
 }
 	public void deleteEmpleado(String username) {
     	for (Sede sedes:empresa.listaSedes ) {
-			if(sedes.codigoSede==codigoSede) {
+			if(sedes.codigoSede.equals(codigoSede)) {
 		empresa.mapaUsuarios.remove(username);		
 		sedes.deleteEmpleado(username);
 		}

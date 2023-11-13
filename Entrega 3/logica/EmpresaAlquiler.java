@@ -43,8 +43,9 @@ public class EmpresaAlquiler implements Serializable
 		for(String linea : lineas) {
 			String []datos = linea.split(";");
 			ArrayList<Vehiculo> listaVehiculos = new ArrayList<Vehiculo>();
-			HashMap<String,Reserva> listaReservas= new HashMap<String,Reserva>();
-			Sede sede = new Sede(datos[0], datos[1], datos[2],listaVehiculos,listaReservas); 
+			HashMap<String,Reserva> mapaReservas= new HashMap<String,Reserva>();
+			HashMap<String,Empleado>mapaEmpleados= new HashMap<String,Empleado>();
+			Sede sede = new Sede(datos[0], datos[1], datos[2],listaVehiculos,mapaReservas,mapaEmpleados); 
 			listaSedes.add(sede);
 		}
 		

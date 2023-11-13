@@ -96,10 +96,11 @@ public class AdminGeneral extends Usuario
 		//Corregir 
 		HashMap<String,Reserva> mapaReserva = new HashMap<String, Reserva> ();
 		ArrayList<Vehiculo> listaVehiculos = new ArrayList<Vehiculo>();
+		HashMap<String,Empleado> mapaEmpleado = new HashMap<String, Empleado> ();
 		//CREAR EL ADMIN SEDE, osea tienen que juntarlo con el metodo de add admin sede. no existe
 		//el uno sin el otro. 
 
-       Sede sede = new Sede(codigoSede, ubicacion, horarioAtencion, listaVehiculos, mapaReserva);
+       Sede sede = new Sede(codigoSede, ubicacion, horarioAtencion, listaVehiculos,mapaReserva, mapaEmpleado);
        empresa.listaSedes.add(sede);
 		
 	}

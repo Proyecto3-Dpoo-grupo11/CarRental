@@ -47,13 +47,14 @@ public class Sede implements Serializable
 	
 
 	public Sede(String codigoSede, String ubicacion, String horarioAtencion, ArrayList<Vehiculo> listaVehiculos,
-			HashMap<String, Reserva> mapaReservas) {
+			HashMap<String, Reserva> mapaReservas,HashMap<String,Empleado> mapaEmpleados ) {
 		super();
 		this.codigoSede = codigoSede;
 		this.ubicacion = ubicacion;
 		this.horarioAtencion = horarioAtencion;
 		this.listaVehiculos = listaVehiculos;
 		this.mapaReservas = mapaReservas;
+		this.mapaEmpleados=mapaEmpleados;
 	}
 
 	public void addEmpleado(String username, String password, Roles cargo) {
