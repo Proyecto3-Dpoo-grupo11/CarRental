@@ -63,13 +63,13 @@ public class MAdminSede extends JPanel implements IOpciones {
                 String coordenada = botonPresionado.getActionCommand();
                 
                 //opcion 1:
-                if(coordenada.equals("Grafica")) {
+                if(coordenada.equals("Eliminar Empleado")) {
                 	String[] res=dialogEliminarEmpleado(adminSedePanel);
-                	Sede sede=((logica.AdminSede) Control.usuarioActual).BuscadorSedesede();
-                	ArrayList<Vehiculo> lista =sede.listaVehiculos;
+                	if (res!=null) {
+                	((logica.AdminSede) Control.usuarioActual).deleteEmpleado(res[0]);
+                	}
                 	
-                	CarAvailabilityGraph graph= new CarAvailabilityGraph(coordenada, sede,lista);
-                	graph.setVisible(true);
+                	
                 } 
             }
         });
@@ -85,7 +85,7 @@ public class MAdminSede extends JPanel implements IOpciones {
                 String coordenada = botonPresionado.getActionCommand();
                 
                 //opcion 1:
-                if(coordenada.equals("Ver Grafica Vehiculos Disponibles")) {
+                if(coordenada.equals("Grafica")) {
                 	
                 	
                 	Sede sede=((logica.AdminSede) Control.usuarioActual).BuscarSede();
