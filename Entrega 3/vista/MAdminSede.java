@@ -73,7 +73,29 @@ public class MAdminSede extends JPanel implements IOpciones {
                 } 
             }
         });
-        
+        btnGrafica.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Lógica para la opción "Eliminar Empleado"
+                // Puedes abrir un nuevo cuadro de diálogo para ingresar la información necesario
+            	//datos = popDialogCrearAdminSede();
+            	// Lógica para la opción "Crear Nuevo Empleado"
+                // Puedes abrir un nuevo cuadro de diálogo para ingresar la información necesario
+            	JButton botonPresionado = (JButton) e.getSource();
+                String coordenada = botonPresionado.getActionCommand();
+                
+                //opcion 1:
+                if(coordenada.equals("Ver Grafica Vehiculos Disponibles")) {
+                	
+                	
+                	Sede sede=((logica.AdminSede) Control.usuarioActual).BuscarSede();
+                	ArrayList<Vehiculo> listaVehiculos=((logica.AdminSede) Control.usuarioActual).BuscarSede().listaVehiculos;
+                	CarAvailabilityGraph graph =new CarAvailabilityGraph(coordenada, sede,listaVehiculos );
+                	graph.setVisible(true);
+                	
+                } 
+            }
+        });
 
         add(adminSedePanel, BorderLayout.CENTER);
     }
