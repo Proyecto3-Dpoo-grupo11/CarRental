@@ -55,6 +55,14 @@ public class AdminSede extends Usuario {
 		}
     	}
     }
+	public Sede BuscadorSedesede() {
+		for (Sede sedes:empresa.listaSedes ) {
+			if(sedes.codigoSede.equals(codigoSede)) {
+				return sedes;
+		}
+	}
+		return null;
+	}
 
         		
         /**

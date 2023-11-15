@@ -4,10 +4,13 @@ import javax.swing.*;
 
 import control.Control;
 import logica.Roles;
+import logica.Sede;
+import logica.Vehiculo;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class MAdminSede extends JPanel implements IOpciones {
     private static final long serialVersionUID = 1L;
@@ -22,10 +25,12 @@ public class MAdminSede extends JPanel implements IOpciones {
         // Crear botones para cada opción
         JButton btnCrearEmpleado = new JButton("Crear Nuevo Empleado");
         JButton btnEliminarEmpleado = new JButton("Eliminar Empleado");
+        JButton btnGrafica = new JButton("Grafica");
 
         // Agregar botones al panel
         adminSedePanel.add(btnCrearEmpleado);
         adminSedePanel.add(btnEliminarEmpleado);
+        adminSedePanel.add(btnGrafica);
 
         // Configurar listeners para cada botón
         btnCrearEmpleado.addActionListener(new ActionListener() {
@@ -58,14 +63,17 @@ public class MAdminSede extends JPanel implements IOpciones {
                 String coordenada = botonPresionado.getActionCommand();
                 
                 //opcion 1:
-                if(coordenada.equals("Eliminar Empleado")) {
+                if(coordenada.equals("Grafica")) {
                 	String[] res=dialogEliminarEmpleado(adminSedePanel);
-                	if (res!=null) {
-                	((logica.AdminSede) Control.usuarioActual).deleteEmpleado(res[0]);
-                	}
+                	Sede sede=((logica.AdminSede) Control.usuarioActual).BuscadorSedesede();
+                	ArrayList<Vehiculo> lista =sede.listaVehiculos;
+                	
+                	CarAvailabilityGraph graph= new CarAvailabilityGraph(coordenada, sede,lista);
+                	graph.setVisible(true);
                 } 
             }
         });
+        
 
         add(adminSedePanel, BorderLayout.CENTER);
     }
