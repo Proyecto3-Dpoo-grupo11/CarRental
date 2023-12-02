@@ -17,6 +17,7 @@ public class FPrincipal {
     public FPrincipal() {
         frame = new JFrame("Empresa Alquiler");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
         frame.setSize(800, 600);
         frame.setLayout(new BorderLayout());
         
@@ -29,7 +30,7 @@ public class FPrincipal {
 
         // Crea el panel de login
         loginPanel = new PLogin();
-        
+                
      // Crea el panel menu, que a su vez contiene todos los menus de usuarios
         menuOpcionesPanel = new PMenuOpciones();        
         loginPanel.addPropertyChangeListener(new PropertyChangeListener() {
@@ -59,16 +60,6 @@ public class FPrincipal {
             }
         });
         
-//        statusLabel.addPropertyChangeListener(new PropertyChangeListener() {
-//        	@Override
-//            public void propertyChange(PropertyChangeEvent evt) {
-//                if ("dialogoCrearUsuario".equals(evt.getPropertyName()) && (Boolean) evt.getNewValue()) {
-//                	
-//                    revalidarFrame();
-//                }
-//            }
-//        });
-//        
         
         //Anade al frame
         frame.add(menuOpcionesPanel, BorderLayout.CENTER);
@@ -87,12 +78,26 @@ public class FPrincipal {
 	public void start() {
         frame.setVisible(true);
     }
+	
+	public void end() {
+        frame.setVisible(false);
+        loginPanel.control.GuardarEmpresa();
+    }
 
     public static void main(String[] args) {
+    	
+    	FPrincipal fprincipal = new FPrincipal();
+        
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-            	FPrincipal lightsOutApp = new FPrincipal();
-                lightsOutApp.start();
+            	fprincipal.start();
+            }
+        });
+        
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            public void run() {
+                // Llamar al método deseado antes de cerrar la aplicación
+            	fprincipal.end();
             }
         });
     }

@@ -13,7 +13,6 @@ import java.util.List;
 public class MEmpleado extends JPanel implements IOpciones {
     private static final long serialVersionUID = 1L;
     private JPanel empleadoPanel;
-    private JTextField placaField;
     private JTextField entregaCode;
     private JTextField rutaImagen;
     private JTextField sedeCode;
@@ -55,14 +54,16 @@ public class MEmpleado extends JPanel implements IOpciones {
                 String coordenada = btnPress.getActionCommand();
                 // Lógica para la opción "Mandar Vehículo a Mantenimiento"
                 if(coordenada.equals("Mandar Vehículo a Mantenimiento")){
-	            	add(new JLabel("Ingrese la placa del vehículo:"));
-	                placaField = new JTextField();
-	                add(placaField);
-	                String placaMan = placaField.getText();
-	                control.mandarMantenimiento(placaMan, username);
+                	
+                	String[] res = mandarVehiculoMantenimiento();
+                	((logica.Empleado)Control.usuarioActual).mandarMantenimiento(res[0]);
+	            	
                 }
             }
         });
+        
+        //ESTO SE VA
+        
         btnCrearCliente.addActionListener(new ActionListener() {
              
             public void actionPerformed(ActionEvent e) {
@@ -84,6 +85,8 @@ public class MEmpleado extends JPanel implements IOpciones {
                 // Lógica para la opción "Iniciar Reserva"
                 if(coordenada.equals("Iniciar Reserva")){
                 	
+                	String[] res = IniciarReserva();
+                	((logica.Empleado)Control.usuarioActual).iniciarReserva(res[0], res[1], res[2],res[3], res[4], res[5], res[6], res[7], res[8], res[9], Integer.parseInt(res[10]), Integer.parseInt(res[11]), Integer.parseInt(res[12]), res[13]);
                 }
             }
         });
@@ -162,7 +165,8 @@ public class MEmpleado extends JPanel implements IOpciones {
 
         add(empleadoPanel, BorderLayout.CENTER);
     }
-    public void ListaPanelReporte(List<List<String>> data, List<String> columnNames) {
+    
+	public void ListaPanelReporte(List<List<String>> data, List<String> columnNames) {
         setLayout(new BorderLayout());
         
         String[] columnArray = new String[columnNames.size()];
@@ -180,6 +184,210 @@ public class MEmpleado extends JPanel implements IOpciones {
         // Agrega el JScrollPane al panel
         add(scrollPane, BorderLayout.CENTER);
     }
+    
+	protected String[] mandarVehiculoMantenimiento() {
+    	String[] res = dialogVehiculoMantenimiento(this);
+    	return res;
+	}
+	
+    public static String[] dialogVehiculoMantenimiento(JPanel parent) {
+        // Create the JDialog
+        JDialog dialog = new JDialog();
+        dialog.setTitle("Añadir Vehiculo Mantenimiento");
+        dialog.setModal(true);
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        dialog.setLayout(new GridLayout(4, 2, 10, 10)); // Updated GridLayout with increased gaps
+        dialog.setLocationRelativeTo(SwingUtilities.getWindowAncestor(parent));
+        
+        JLabel warningLabelMantenimiento = new JLabel(" ");
+        dialog.add(warningLabelMantenimiento);
+     
+        JTextField placaField;
+        dialog.add(new JLabel("Ingrese la placa del vehículo:"));
+        placaField = new JTextField();
+        dialog.add(placaField);        
+
+        // Create buttons
+        JButton acceptButton = new JButton("Aceptar");
+        JButton cancelButton = new JButton("Cancelar");
+
+        // Add action listeners to the buttons
+        acceptButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Check if any of the text fields is empty
+                if (placaField.getText().isEmpty()) {
+                    // Display a warning message near the text fields
+                    warningLabelMantenimiento.setText(placaField.getText().isEmpty() ? "Llene este espacio!" : " ");
+                } else {
+                    // Close the dialog if all text fields are filled
+                    dialog.dispose();
+                }
+            }
+        });
+
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dialog.dispose(); // Close the dialog
+            }
+        });
+
+        // Add buttons to the dialog
+        dialog.add(acceptButton);
+        dialog.add(cancelButton);
+
+        // Set the size and make the dialog visible
+        dialog.setSize(400, 200); // Adjusted size
+        dialog.setVisible(true);
+
+        // Check which button was clicked and return values accordingly
+        if (placaField.getText().isEmpty()) {
+            return null; // Return null if any of the text fields is empty (Cancel clicked)
+        } else {
+            // Return values entered in the text fields (Accept clicked)
+            return new String[]{placaField.getText()};
+        }
+    }
+    
+    protected String[] IniciarReserva() {
+    	String[] res = dialogIniciarReserva(this);
+    	return res;
+	}
+    
+    public static String[] dialogIniciarReserva(JPanel parent) {
+        // Crear el JDialog
+        JDialog dialog = new JDialog();
+        dialog.setTitle("Iniciar Reserva");
+        dialog.setModal(true);
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        dialog.setLayout(new GridLayout(19, 2, 15, 5)); // 19 filas para 19 parámetros
+        dialog.setLocationRelativeTo(SwingUtilities.getWindowAncestor(parent));
+     
+        JTextField codigoReservaField = new JTextField();
+        dialog.add(new JLabel("Código de Reserva:"));
+        dialog.add(codigoReservaField);
+
+        JTextField tipoDeCarroField = new JTextField();
+        dialog.add(new JLabel("Tipo de Carro:"));
+        dialog.add(tipoDeCarroField);
+
+        JTextField sedeRecogidaField = new JTextField();
+        dialog.add(new JLabel("Sede de Recogida:"));
+        dialog.add(sedeRecogidaField);
+
+        JTextField sedeEntregaField = new JTextField();
+        dialog.add(new JLabel("Sede de Entrega:"));
+        dialog.add(sedeEntregaField);
+
+        JTextField nuevaSedeEntregaField = new JTextField();
+        dialog.add(new JLabel("Nueva Sede de Entrega:"));
+        dialog.add(nuevaSedeEntregaField);
+
+        JTextField fechaHoraRecogidaField = new JTextField();
+        dialog.add(new JLabel("Fecha y Hora de Recogida:"));
+        dialog.add(fechaHoraRecogidaField);
+
+        JTextField fechaHoraEntregaField = new JTextField();
+        dialog.add(new JLabel("Fecha y Hora de Entrega:"));
+        dialog.add(fechaHoraEntregaField);
+
+        JTextField placaVehiculoField = new JTextField();
+        dialog.add(new JLabel("Placa del Vehículo:"));
+        dialog.add(placaVehiculoField);
+
+        JTextField usernameClienteField = new JTextField();
+        dialog.add(new JLabel("Nombre de Usuario del Cliente:"));
+        dialog.add(usernameClienteField);
+
+        JTextField rutaImagenConductorAdicionesField = new JTextField();
+        dialog.add(new JLabel("Ruta Imagen Conductor Adicional:"));
+        dialog.add(rutaImagenConductorAdicionesField);
+
+        JTextField calculoPrecioFinalField = new JTextField();
+        dialog.add(new JLabel("Cálculo del Precio Final:"));
+        dialog.add(calculoPrecioFinalField);
+
+        JTextField cantidadConductoresAdicionalesField = new JTextField();
+        dialog.add(new JLabel("Cantidad de Conductores Adicionales:"));
+        dialog.add(cantidadConductoresAdicionalesField);
+
+        JTextField duracionPorDiaField = new JTextField();
+        dialog.add(new JLabel("Duración por Día:"));
+        dialog.add(duracionPorDiaField);
+
+        JTextField textoFacturaField = new JTextField();
+        dialog.add(new JLabel("Texto de la Factura:"));
+        dialog.add(textoFacturaField);
+        
+        JLabel warningLabel = new JLabel(" ");
+        dialog.add(warningLabel);
+        
+        JLabel warningLabel2 = new JLabel(" ");
+        dialog.add(warningLabel2);
+
+        // Crear botones
+        JButton acceptButton = new JButton("Aceptar");
+        JButton cancelButton = new JButton("Cancelar");
+
+        // Agregar ActionListener a los botones
+        acceptButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	dialog.dispose();	
+            }
+        });
+
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dialog.dispose(); // Cerrar el diálogo
+            }
+        });
+
+        // Agregar botones al diálogo
+        dialog.add(acceptButton);
+        dialog.add(cancelButton);
+
+        // Establecer tamaño y hacer visible el diálogo
+        dialog.setSize(600, 600); // Ajusta el tamaño según tus necesidades
+        dialog.setVisible(true);
+
+        // Retornar valores ingresados en los campos de texto
+        if (codigoReservaField.getText().isEmpty() || tipoDeCarroField.getText().isEmpty() || 
+            sedeRecogidaField.getText().isEmpty() || sedeEntregaField.getText().isEmpty() || 
+            nuevaSedeEntregaField.getText().isEmpty() || fechaHoraRecogidaField.getText().isEmpty() || 
+            fechaHoraEntregaField.getText().isEmpty() || placaVehiculoField.getText().isEmpty() || 
+            usernameClienteField.getText().isEmpty() || rutaImagenConductorAdicionesField.getText().isEmpty() || 
+            calculoPrecioFinalField.getText().isEmpty() || cantidadConductoresAdicionalesField.getText().isEmpty() || 
+            duracionPorDiaField.getText().isEmpty() || textoFacturaField.getText().isEmpty()) {
+        	
+        	
+            return null; // Retornar null si algún campo está vacío (cancelado)
+            
+            
+            
+        } else {
+            // Retornar valores ingresados en los campos de texto (aceptado)
+            return new String[]{
+                codigoReservaField.getText(),
+                tipoDeCarroField.getText(),
+                sedeRecogidaField.getText(),
+                sedeEntregaField.getText(),
+                nuevaSedeEntregaField.getText(),
+                fechaHoraRecogidaField.getText(),
+                fechaHoraEntregaField.getText(),
+                placaVehiculoField.getText(),
+                usernameClienteField.getText(),
+                rutaImagenConductorAdicionesField.getText(),
+                calculoPrecioFinalField.getText(),
+                cantidadConductoresAdicionalesField.getText(),
+                duracionPorDiaField.getText(),
+                textoFacturaField.getText()
+            };
+        }
+    }
+    
     public Component getVisualComponent() {
         return this;
     }

@@ -79,13 +79,8 @@ public class Empleado extends Usuario {
 				if (sedes.codigoSede==codigoSede) {
 					sedes.mapaReservas.put(reserva.codigoReserva,reserva);
 				}
-					
-			}
-			
-			//TODO aca tiene que llamarse desde el objeto sede que esta aca.
-			
-		
-		return Mensaje ;	
+			}			
+		return Mensaje;
 	}
 	
 	public void generarEntrega(String CodigoReserva) {
@@ -95,7 +90,7 @@ public class Empleado extends Usuario {
 
 	public String cerrarGuardarReserva() {
 		// TODO implement me
-		return "";	
+		return "";
 	}
 
 	public void addConductorAdicionalAlIniciarReserva(String rutaImagen, Reserva reserva) {
@@ -109,14 +104,12 @@ public class Empleado extends Usuario {
 				sedes.mapaReservas.get(codigoReserva)
 			.listaConductoresAdicionales.add(rutaImagen);
 			}
-			
 		}
 	}
 	
 	/**
 	 * <!-- GETTERS AND SETTERS -->
 	 */
-
 
 	public Roles getCargo() { //Para comprobar si el rol si es en las demas funciones.
 		return cargo;
@@ -134,5 +127,4 @@ public class Empleado extends Usuario {
 	public void setCargo(Roles cargo) {
 		this.cargo = cargo;
 	}
-	
 }

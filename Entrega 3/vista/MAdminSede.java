@@ -88,8 +88,10 @@ public class MAdminSede extends JPanel implements IOpciones {
                 if(coordenada.equals("Grafica")) {
                 	
                 	
-                	Sede sede=((logica.AdminSede) Control.usuarioActual).BuscarSede();
-                	ArrayList<Vehiculo> listaVehiculos=((logica.AdminSede) Control.usuarioActual).BuscarSede().listaVehiculos;
+                	//Sede sede=((logica.AdminSede) Control.usuarioActual).BuscarSede();
+                	//ArrayList<Vehiculo> listaVehiculos=((logica.AdminSede) Control.usuarioActual).BuscarSede().listaVehiculos;
+                	Sede sede=((logica.AdminSede) Control.usuarioActual).BuscadorSedesede();
+                	ArrayList<Vehiculo> listaVehiculos=((logica.AdminSede) Control.usuarioActual).BuscadorSedesede().listaVehiculos;
                 	CarAvailabilityGraph graph =new CarAvailabilityGraph(coordenada, sede,listaVehiculos );
                 	graph.setVisible(true);
                 	

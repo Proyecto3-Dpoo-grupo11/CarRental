@@ -30,7 +30,10 @@ public class Control {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		};
-
+	}
+	
+	public void GuardarEmpresa() {
+		PersistenciaEmpresaAlquiler.guardarEmpresaAlquiler(this.empresa);
 	}
 	
 	public int iniciarSesion(String username, char[] password) {
@@ -106,6 +109,7 @@ public class Control {
 		Empleado accesoEmpleado = (Empleado) this.empresa.mapaUsuarios.get(username);
 		accesoEmpleado.mandarMantenimiento(placaMan);
 	}
+    
 
 	public void cerrarGuardarReserva(String username) {
 		Empleado accesoEmpleado = (Empleado) this.empresa.mapaUsuarios.get(username);
