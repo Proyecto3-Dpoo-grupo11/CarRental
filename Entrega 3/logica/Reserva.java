@@ -2,6 +2,7 @@ package logica;
 import java.util.ArrayList;
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Random;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Period;
@@ -132,6 +133,7 @@ public class Reserva implements Serializable
 			
 			
 		ocuparVehiculo(duracionPorDia);
+		int randomNumber = new Random().nextInt(100) + 1;
 		
 		String factura30Porciento=generarFactura(30);
 		
@@ -162,7 +164,8 @@ public class Reserva implements Serializable
 		+fechaHoraEntrega+"\n."
 		+"Recuerde que debe pagar el 30% del valor del alquiler \n. "
 		+"Su factura por el 30% es"
-		+factura30Porciento;
+		+factura30Porciento+
+		"Numero de transaccion";
 		
 		
 

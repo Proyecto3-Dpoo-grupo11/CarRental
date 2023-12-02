@@ -13,6 +13,8 @@ public class MCliente extends JPanel implements IOpciones {
     private JPanel clientePanel;
 
     public MCliente(Control control, String username) {
+    	
+    	
         setLayout(new BorderLayout());
 
         clientePanel = new JPanel();

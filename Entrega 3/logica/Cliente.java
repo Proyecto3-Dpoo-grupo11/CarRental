@@ -23,8 +23,11 @@ public class Cliente extends Usuario {
 	public String imagenCedula; //TODO .... No se como se hace para aceptar imagenes png
 	public String imagenLicencia;
 	public String metodoDePago; 
-	protected String numeroTarjeta;
-	protected String fechaVencimiento;
+	// Datos de la tarjeta del cliente
+	public String numeroClaveTarjeta;
+	public String fechaVencimiento;
+	public int saldo;
+	
 	
 	/**
 	 * <!--CONSTRUCTOR-->
@@ -40,7 +43,7 @@ public class Cliente extends Usuario {
 		this.imagenCedula = imagenCedula; //TODO ... Cambiar a imagen png
 		this.imagenLicencia = imagenCedula;
 		this.metodoDePago = metodoDePago; 
-		this.numeroTarjeta = numeroTarjeta;
+		this.numeroClaveTarjeta = numeroTarjeta;
 		this.fechaVencimiento = fechaVencimiento;
 		
 	}
@@ -80,7 +83,7 @@ public class Cliente extends Usuario {
 	
 	public void getMetodoDePago() {
 		// TODO implement me
-		setNumeroTarjeta(numeroTarjeta);
+		setNumeroTarjeta(numeroClaveTarjeta);
 		setFechaVencimiento(fechaVencimiento);
 	}
 	
@@ -94,6 +97,7 @@ public class Cliente extends Usuario {
         // Convert the random number to a string
         return String.valueOf(randomNumber);
     }
+	
 	
 	
 	/**
@@ -157,13 +161,13 @@ public class Cliente extends Usuario {
 	}
 
 	public String getNumeroTarjeta() {
-		return numeroTarjeta;
+		return numeroClaveTarjeta;
 	}
 
 	//La idea seria hacer un metodo arriba que solo te deje extraer estos valores si eres empleado, ya que recuerden
 	//Que el empleado tambien puede crear un cliente. Si no se puede entonces dejenlos publicos y ya.
 	private void setNumeroTarjeta(String numeroTarjeta) {
-		this.numeroTarjeta = numeroTarjeta;
+		this.numeroClaveTarjeta = numeroTarjeta;
 	}
 
 	private String getFechaVencimiento() {
@@ -185,6 +189,14 @@ public class Cliente extends Usuario {
 	}
 	public void getCerrarSesion() {
 		cerrarGuardarReserva();
+	}
+
+	public int getSaldo() {
+		return saldo;
+	}
+
+	public void setSaldo(int saldo) {
+		this.saldo = saldo;
 	}
 	
 	

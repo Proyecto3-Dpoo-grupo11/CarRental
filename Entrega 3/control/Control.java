@@ -143,4 +143,9 @@ public class Control {
 		accesoCliente.getMetodoDePago();
 		
 	}
+	public Cliente getCliente(String username) {
+		Cliente accesoCliente = (Cliente) this.empresa.mapaUsuarios.get(username);
+		return accesoCliente;
+		
+	}
 }
