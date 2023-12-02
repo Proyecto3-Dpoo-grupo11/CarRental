@@ -12,11 +12,20 @@ public class PMenuOpciones extends JPanel {
     private IOpciones menu;
     private JLabel welcomeLabel;
     private JLabel userLabel;
+    private int usuarioActual;
 
-    public PMenuOpciones() {
-        setBackground(Color.GRAY);
-        // Agregar un mensaje de bienvenida
-        this.welcomeLabel = new JLabel("Bienvenido a la empresa de alquiler. Por favor, inicie sesión.");
+    public PMenuOpciones(int usuarioActual) {
+    	
+    	this.usuarioActual = usuarioActual;
+    	
+    	if (this.usuarioActual == 0) {
+	        setBackground(Color.GRAY);
+	        this.welcomeLabel = new JLabel("Bienvenido señor funcionario. Por favor, inicie sesión.");
+    	} else {
+    		 setBackground(Color.BLACK);
+ 	        this.welcomeLabel = new JLabel("Bienvenido señor cliente. Por favor, inicie sesión.");
+    	}
+    	
         this.welcomeLabel.setFont(new Font("Montserrat", Font.PLAIN, 17));
         this.welcomeLabel.setForeground(Color.WHITE);
         
@@ -36,7 +45,7 @@ public class PMenuOpciones extends JPanel {
             setLayout(new BorderLayout());
         	
             try {
-                this.userLabel = new JLabel("Bienvenido a la empresa de alquiler señor " + Control.usuarioActual.getUsername() + ".");
+                this.userLabel = new JLabel("Bienvenido a la empresa de alquiler, " + Control.usuarioActual.getUsername() + ".");
             } catch (Exception e) {
                 // Manejar la excepción
                 e.printStackTrace(); // O imprime un mensaje de error

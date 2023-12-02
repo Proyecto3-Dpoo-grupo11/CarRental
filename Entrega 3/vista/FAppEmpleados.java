@@ -23,7 +23,7 @@ public class FAppEmpleados {
             }
         });
     	
-        frame = new JFrame("Empresa Alquiler");
+        frame = new JFrame("Alquiler App Empleados");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         frame.setSize(800, 600);
@@ -37,15 +37,17 @@ public class FAppEmpleados {
         }       
 
         // Crea el panel de login
-        loginPanel = new PLogin();
+        loginPanel = new PLogin(0);
                 
      // Crea el panel menu, que a su vez contiene todos los menus de usuarios
-        menuOpcionesPanel = new PMenuOpciones();        
+        menuOpcionesPanel = new PMenuOpciones(0);        
         loginPanel.addPropertyChangeListener(new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 if ("usuarioAutenticado".equals(evt.getPropertyName())) {
                     int tipoUsuario = (int) evt.getNewValue();
+                    
+                    String mensaje = "Lo sentimos pero el usuario actual no puede ser autenticado como funcionario.";
                     
                     if (tipoUsuario == 1) {
                         menuOpcionesPanel.setMenu(new MAdminGeneral());
@@ -54,12 +56,8 @@ public class FAppEmpleados {
                     } else if (tipoUsuario == 3) {
                         menuOpcionesPanel.setMenu(new MEmpleado(loginPanel.control, loginPanel.getUsernameField().getText()));
                     } else if (tipoUsuario == 4) {
-                    	
-                        menuOpcionesPanel.setMenu(new MCliente(loginPanel.control, loginPanel.getUsernameField().getText()));
-                    } else if (tipoUsuario == 5) {
-                        menuOpcionesPanel.setMenu(new MCrearCliente(loginPanel.control)); 
-                        //Solo se le pasa a este porque es el unico que tendra que acceder directamente a los metodos de la empresa
-                    }
+                        JOptionPane.showMessageDialog(null, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
+                    } 
                     
                     menuOpcionesPanel.mostrarMenu();
                     

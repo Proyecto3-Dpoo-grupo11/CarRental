@@ -17,8 +17,11 @@ public class PLogin extends JPanel {
     private JButton createAccountButton;
     public Control control;
     private PropertyChangeSupport propertyChangeSupport;
+    private int menuActual; //0 para empleado 1 para cliente
 
-    public PLogin() {
+    public PLogin(int menuActual) {
+    	
+    	this.menuActual = menuActual;
     	
     	this.control = new Control();
     	
@@ -38,7 +41,6 @@ public class PLogin extends JPanel {
 
         
         loginButton = new JButton("      Iniciar Sesión     ");
-        createAccountButton = new JButton("Crear Usuario Nuevo");
 
         add(usernameLabel);
         add(usernameField);
@@ -47,8 +49,19 @@ public class PLogin extends JPanel {
         add(passwordField);
         add(Box.createVerticalStrut(30)); // Agrega otro espacio de 30 píxeles
         add(loginButton);
-        add(createAccountButton);
+        
      
+        if (this.menuActual == 1) {
+        	createAccountButton = new JButton("Crear Usuario Nuevo");
+        	add(createAccountButton);
+        	
+        	createAccountButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    crearUsuario();
+                }
+            });
+        }
 
         // Set up action listeners
         loginButton.addActionListener(new ActionListener() {
@@ -58,13 +71,6 @@ public class PLogin extends JPanel {
                 String username = usernameField.getText();
                 char[] password = passwordField.getPassword();
                 autenticarUsuario(username, password);
-            }
-        });
-
-        createAccountButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                crearUsuario();
             }
         });
     }
@@ -80,13 +86,13 @@ public class PLogin extends JPanel {
             propertyChangeSupport.firePropertyChange("usuarioAutenticado", null, numConfirmacion);  // Notifica a PMenuOpciones
 
         } else {
-        	//TODO ACA DEBE MANDAR UN POPOUT DICIENDO NOO SE ENCONOTRO EL USUARIO
+            JOptionPane.showMessageDialog(null, "No se encontro al usuario, intente de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
+
         }
 	}
 	
 	
 	protected void crearUsuario() {
-		//propertyChangeSupport.firePropertyChange("dialogoCrearUsuario", false, true); //si se quisiera decir algo al view
 		propertyChangeSupport.firePropertyChange("usuarioAutenticado", null, 5); //El 5 esta predispuesto para poner el menu crearUsuario
 		
 	}
