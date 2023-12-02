@@ -8,13 +8,21 @@ import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class FPrincipal {
+public class FAppEmpleados {
     private JFrame frame;
     private PLogin loginPanel;
     private PMenuOpciones menuOpcionesPanel;
     private JLabel statusLabel;
 
-    public FPrincipal() {
+    public FAppEmpleados() {
+    	
+    	Runtime.getRuntime().addShutdownHook(new Thread() {
+            public void run() {
+                // Llamar al método deseado antes de cerrar la aplicación
+            	end();
+            }
+        });
+    	
         frame = new JFrame("Empresa Alquiler");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
@@ -84,21 +92,5 @@ public class FPrincipal {
         loginPanel.control.GuardarEmpresa();
     }
 
-    public static void main(String[] args) {
-    	
-    	FPrincipal fprincipal = new FPrincipal();
-        
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-            	fprincipal.start();
-            }
-        });
-        
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            public void run() {
-                // Llamar al método deseado antes de cerrar la aplicación
-            	fprincipal.end();
-            }
-        });
-    }
+    
 }
