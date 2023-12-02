@@ -6,5 +6,5 @@ protected int monto;
 protected int NumCuenta;
 protected int NumTransaccion;
 
-public void realizarPago() {}
+public abstract void realizarPago();
 }
