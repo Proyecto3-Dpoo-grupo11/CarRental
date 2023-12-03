@@ -46,9 +46,8 @@ public class PMenuOpciones extends JPanel {
         	
             try {
                 this.userLabel = new JLabel("Bienvenido a la empresa de alquiler, " + Control.usuarioActual.getUsername() + ".");
-            } catch (Exception e) {
+            } catch (NullPointerException e) {
                 // Manejar la excepción
-                e.printStackTrace(); // O imprime un mensaje de error
                 this.userLabel = new JLabel("Bienvenido a la empresa de alquiler, Invitado.");
             }
         	
