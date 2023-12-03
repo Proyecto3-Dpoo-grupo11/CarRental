@@ -4,7 +4,7 @@ import logica.Cliente;
 
 
 public class MPayU extends MMetodosDePago {
-
+String nombre= "PayU";
 	public MPayU(Cliente cliente, int monto, int numCuenta, int numTransaccion) {
 		super(cliente, monto, numCuenta, numTransaccion);
 		// TODO Auto-generated constructor stub

@@ -42,6 +42,7 @@ public class Reserva implements Serializable
 	public int duracionPorDia;
 	public String textoFactura;
 	public Entrega estadoEntrega;
+	public int numeroTransaccion;
 	
 	/**
 	 * <!-- CONSTRUCTOR -->
@@ -133,6 +134,7 @@ public class Reserva implements Serializable
 			
 		ocuparVehiculo(duracionPorDia);
 		int randomNumber = new Random().nextInt(100) + 1;
+		this.numeroTransaccion=randomNumber;
 		
 		String factura30Porciento=generarFactura(30);
 		
@@ -164,7 +166,7 @@ public class Reserva implements Serializable
 		+"Recuerde que debe pagar el 30% del valor del alquiler \n. "
 		+"Su factura por el 30% es"
 		+factura30Porciento+
-		"Numero de transaccion";
+		"Numero de transaccion"+ numeroTransaccion;
 		
 		
 
@@ -396,6 +398,14 @@ public class Reserva implements Serializable
 
 	public void setCalculoPrecioFinal(int calculoPrecioFinal) {
 		this.calculoPrecioFinal = calculoPrecioFinal;
+	}
+
+	public int getNumeroTransaccion() {
+		return numeroTransaccion;
+	}
+
+	public void setNumeroTransaccion(int numeroTransaccion) {
+		this.numeroTransaccion = numeroTransaccion;
 	}
 	
 	

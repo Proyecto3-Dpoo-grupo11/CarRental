@@ -9,6 +9,7 @@ protected Cliente cliente;
 protected int monto;
 protected int NumCuenta;
 protected int NumTransaccion;
+protected String nombre;
 
 
 
@@ -18,6 +19,7 @@ public  MMetodosDePago(Cliente cliente, int monto, int numCuenta, int numTransac
 	this.monto = monto;
 	NumCuenta = numCuenta;
 	NumTransaccion = numTransaccion;
+	
 }
 
 

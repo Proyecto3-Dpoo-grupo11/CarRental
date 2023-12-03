@@ -6,6 +6,7 @@ import logica.Cliente;
 
 public class MPayPal extends MMetodosDePago {
 	int saldo;
+	int nombre;
 	public MPayPal(Cliente cliente, int monto, int numCuenta, int numTransaccion) {
 		super(cliente, monto, numCuenta, numTransaccion);
 		// TODO Auto-generated constructor stub

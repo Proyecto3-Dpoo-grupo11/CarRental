@@ -6,17 +6,26 @@ import control.Control;
 import logica.Entrega;
 import logica.Roles;
 
+
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 
 public class MCliente extends JPanel implements IOpciones {
     private static final long serialVersionUID = 1L;
     private JPanel clientePanel;
+    
+    private int numeroTarjeta;
 
     public MCliente(Control control, String username) {
     	
-    	
+    	numeroTarjeta=0;
         setLayout(new BorderLayout());
 
         clientePanel = new JPanel();
@@ -37,18 +46,67 @@ public class MCliente extends JPanel implements IOpciones {
         // Configurar listeners para cada botón
         btnIniciarReserva.addActionListener(new ActionListener() {
              
-            public void actionPerformed(ActionEvent e) {
+            
+			public void actionPerformed(ActionEvent e) {
                 // Lógica para la opción "Iniciar Reserva"
             	JButton btnPress = (JButton) e.getSource();
                 String coordenada = btnPress.getActionCommand();
                 if(coordenada.equals("Iniciar Reserva")){
                 	String[] res = IniciarReserva();
                 	
-                	((logica.Cliente)Control.usuarioActual).iniciarReserva(res[0],res[1], res[2],res[3], res[4], res[5], res[6], res[7], res[8], res[9],Integer.parseInt( res[11]));
-                	((logica.Cliente)Control.usuarioActual).getPrecioFinal();
+                	((logica.Cliente)Control.usuarioActual).iniciarReserva(res[0],res[1], res[2],
+                			res[3], res[4], res[5], res[6], res[7], res[8], res[9],Integer.parseInt( res[10]));
+                	
+                	MCliente.this.numeroTarjeta=Integer.parseInt(res[11]);
+                	String filePath = "data/metodos de pago.txt";
+                	ArrayList<String> lines = readLinesFromFile(filePath);
+
+                	JDialog dialog = new JDialog();
+                	dialog.setTitle("Metodos de pago");
+                	dialog.setModal(true);
+                	dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+                	dialog.setLayout(new GridLayout(19, 2, 15, 5)); // 19 filas para 19 parámetros
+                	
+                     // Check if lines are successfully read
+                     if (lines != null) {
+                         // Print the lines read from the file
+                         for (String line : lines) {
+                              CargaDinamica carga = new CargaDinamica(line,((logica.Cliente)Control.usuarioActual),((logica.Cliente)Control.usuarioActual).getPrecioFinal(),Integer.parseInt(res[11]),((logica.Cliente)Control.usuarioActual).getNumeroTransaccion());
+                              String nombreClase=carga.pagos.nombre;
+                              if (nombreClase!=null) {
+                            	  JButton botonNuevo=new JButton(nombreClase);
+                            	  botonNuevo.addActionListener(botonesListener);
+                            	  dialog.add(botonNuevo);
+                            	  
+                              }
+                         }
+                     } else {
+                         System.out.println("An error occurred while reading the file.");
+                     }
+                    
+                	
                 }
             }
+            ActionListener botonesListener = new ActionListener() {
+            	@Override
+            	public void actionPerformed(ActionEvent e) {
+            		JButton botonPresionado = (JButton) e.getSource();
+            		String coordenada = botonPresionado.getActionCommand();
+            		
+            		
+            		
+            		if(coordenada.equals("PayU")) {
+            			CargaDinamica carga = new CargaDinamica("MPayU.java",((logica.Cliente)Control.usuarioActual),((logica.Cliente)Control.usuarioActual).getPrecioFinal(),MCliente.this.numeroTarjeta,((logica.Cliente)Control.usuarioActual).getNumeroTransaccion());
+                        carga.pagos.realizarPago();;	
+            			
+            			
+            		}
+            		
+            	}
+            };
         });
+        
+        
         btnCerrarGuardarReserva.addActionListener(new ActionListener() {
              
             public void actionPerformed(ActionEvent e) {
@@ -139,21 +197,13 @@ public class MCliente extends JPanel implements IOpciones {
         dialog.add(new JLabel("Ruta Imagen Conductor Adicional:"));
         dialog.add(rutaImagenConductorAdicionesField);
 
-        JTextField calculoPrecioFinalField = new JTextField();
-        dialog.add(new JLabel("Cálculo del Precio Final:"));
-        dialog.add(calculoPrecioFinalField);
-
         JTextField cantidadConductoresAdicionalesField = new JTextField();
         dialog.add(new JLabel("Cantidad de Conductores Adicionales:"));
         dialog.add(cantidadConductoresAdicionalesField);
 
-        JTextField duracionPorDiaField = new JTextField();
-        dialog.add(new JLabel("Duración por Día:"));
-        dialog.add(duracionPorDiaField);
-
-        JTextField textoFacturaField = new JTextField();
+        JTextField numeroCuenta = new JTextField();
         dialog.add(new JLabel("Texto de la Factura:"));
-        dialog.add(textoFacturaField);
+        dialog.add(numeroCuenta);
         
         JLabel warningLabel = new JLabel(" ");
         dialog.add(warningLabel);
@@ -194,8 +244,7 @@ public class MCliente extends JPanel implements IOpciones {
             nuevaSedeEntregaField.getText().isEmpty() || fechaHoraRecogidaField.getText().isEmpty() || 
             fechaHoraEntregaField.getText().isEmpty() || placaVehiculoField.getText().isEmpty() || 
             usernameClienteField.getText().isEmpty() || rutaImagenConductorAdicionesField.getText().isEmpty() || 
-            calculoPrecioFinalField.getText().isEmpty() || cantidadConductoresAdicionalesField.getText().isEmpty() || 
-            duracionPorDiaField.getText().isEmpty() || textoFacturaField.getText().isEmpty()) {
+             cantidadConductoresAdicionalesField.getText().isEmpty() || numeroCuenta.getText().isEmpty() ) {
         	
         	
             return null; // Retornar null si algún campo está vacío (cancelado)
@@ -215,15 +264,30 @@ public class MCliente extends JPanel implements IOpciones {
                 placaVehiculoField.getText(),//7
                 usernameClienteField.getText(),//8
                 rutaImagenConductorAdicionesField.getText(),//9
-                calculoPrecioFinalField.getText(),//10
-                cantidadConductoresAdicionalesField.getText(),//11
-                duracionPorDiaField.getText(),//12
-                textoFacturaField.getText()//13
+                cantidadConductoresAdicionalesField.getText(),//10
+                numeroCuenta.getText(),//11  
+                
+                
             };
         }
     }
      
-    public Component getVisualComponent() {
-        return this;
+    public static ArrayList<String> readLinesFromFile(String filePath) {
+        Path path = Paths.get(filePath);
+
+        try {
+            // Read all lines from the file into an ArrayList of Strings
+            return new ArrayList<>(Files.readAllLines(path));
+        } catch (IOException e) {
+            // Handle the case where an exception occurs during file reading
+            e.printStackTrace();
+            return null; // Or handle the error as needed
+        }
     }
+
+	@Override
+	public Component getVisualComponent() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

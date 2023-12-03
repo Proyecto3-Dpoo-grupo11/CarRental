@@ -28,6 +28,7 @@ public class Cliente extends Usuario {
 	public String fechaVencimiento;
 	public int saldo;
 	public int precioFinal;
+	public int numeroTransaccion;
 	
 	
 	/**
@@ -61,6 +62,9 @@ public class Cliente extends Usuario {
 					 Entrega.ENTREGADOACIENTE);
 			String Mensaje =reserva.iniciarReserva();
 			setPrecioFinal(reserva.getCalculoPrecioFinal());
+			setNumeroTransaccion(reserva.getCalculoPrecioFinal());
+			
+			
 			
 			
 			//TODO CAMBIAR A INSTANCIA SEDE
@@ -201,6 +205,14 @@ public class Cliente extends Usuario {
 
 	public void setPrecioFinal(int precioFinal) {
 		this.precioFinal = precioFinal;
+	}
+
+	public int getNumeroTransaccion() {
+		return numeroTransaccion;
+	}
+
+	public void setNumeroTransaccion(int numeroTransaccion) {
+		this.numeroTransaccion = numeroTransaccion;
 	}
 	
 	
