@@ -83,7 +83,6 @@ public class Reserva implements Serializable
 		String[] partesRecogida = fechaHoraRecogida.split("/");
 		String[] partesEntrega = fechaHoraEntrega.split("/");
 		
-		
 		LocalDate startDate = LocalDate.of(Integer.parseInt(partesRecogida[0]),Integer.parseInt(partesRecogida[1]),Integer.parseInt(partesRecogida[2]));
         LocalDate endDate = LocalDate.of(Integer.parseInt(partesEntrega[0]),Integer.parseInt(partesEntrega[1]),Integer.parseInt(partesEntrega[2]));
         Period period = Period.between(startDate, endDate);
