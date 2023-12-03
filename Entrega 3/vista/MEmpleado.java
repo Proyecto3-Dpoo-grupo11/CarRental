@@ -86,7 +86,7 @@ public class MEmpleado extends JPanel implements IOpciones {
                 if(coordenada.equals("Iniciar Reserva")){
                 	
                 	String[] res = IniciarReserva();
-                	((logica.Empleado)Control.usuarioActual).iniciarReserva(res[0], res[1], res[2],res[3], res[4], res[5], res[6], res[7], res[8], res[9], Integer.parseInt(res[10]), Integer.parseInt(res[11]), Integer.parseInt(res[12]), res[13]);
+                	((logica.Empleado)Control.usuarioActual).iniciarReserva(res[0],res[1], res[2],res[3], res[4], res[5], res[6], res[7], res[8], res[9],Integer.parseInt( res[11]));
                 }
             }
         });

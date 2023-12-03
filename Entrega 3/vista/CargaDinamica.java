@@ -1,5 +1,6 @@
-package logica;
+package vista;
 
 public class CargaDinamica {
+	
 
 }

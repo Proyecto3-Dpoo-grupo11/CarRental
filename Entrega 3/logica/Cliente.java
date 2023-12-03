@@ -27,6 +27,7 @@ public class Cliente extends Usuario {
 	public String numeroClaveTarjeta;
 	public String fechaVencimiento;
 	public int saldo;
+	public int precioFinal;
 	
 	
 	/**
@@ -52,15 +53,15 @@ public class Cliente extends Usuario {
 	 * <!--METODOS QUE USA EL CLIENTE-->
 	 */
 	
-	private String iniciarReserva(String codigoSede, String codigoReserva, String tipoDeCarro,
+	public String iniciarReserva(String codigoReserva, String tipoDeCarro,
 			String sedeRecogida, String sedeEntrega, String nuevaSedeEntrega,String fechaHoraRecogida, String fechaHoraEntrega,
-			String placaVehiculo, String usernameCliente, String rutaImagenConductorAdiciones, int calculoPrecioFinal, int cantidadConductoresAdicionales,
-			int duracionPorDia, String textoFactura) {
-			
-			ArrayList<String> listaConductoresAdicionales= new ArrayList<String>();
-			
-			Reserva reserva= new Reserva(generarNumeroReserva(), listaConductoresAdicionales, tipoDeCarro, sedeRecogida, sedeEntrega, nuevaSedeEntrega, fechaHoraRecogida, fechaHoraEntrega, placaVehiculo, usernameCliente, rutaImagenConductorAdiciones, 0,0, 0, "", Entrega.ESPERANDOASERENTREGADOACLIENTE);
+			String placaVehiculo, String usernameCliente, String rutaImagenConductorAdiciones, int cantidadConductoresAdicionales) {
+			Reserva reserva= new Reserva(codigoReserva,tipoDeCarro,sedeRecogida,sedeEntrega, nuevaSedeEntrega,fechaHoraRecogida,fechaHoraEntrega,
+					placaVehiculo,usernameCliente,rutaImagenConductorAdiciones, cantidadConductoresAdicionales,
+					 Entrega.ENTREGADOACIENTE);
 			String Mensaje =reserva.iniciarReserva();
+			setPrecioFinal(reserva.getCalculoPrecioFinal());
+			
 			
 			//TODO CAMBIAR A INSTANCIA SEDE
 //			for(Sede sedes : EmpresaAlquiler.listaSedes) {
@@ -181,12 +182,7 @@ public class Cliente extends Usuario {
 	public void setMetodoDePago(String metodoDePago) {
 		this.metodoDePago = metodoDePago;
 	}
-	public void getIniciarSecion(String codigoSede,String codigoReserva, String tipoDeCarro,
-			String sedeRecogida, String sedeEntrega, String nuevaSedeEntrega,String fechaHoraRecogida, String fechaHoraEntrega,
-			String placaVehiculo, String usernameCliente, String rutaImagenConductorAdiciones, int calculoPrecioFinal, int cantidadConductoresAdicionales,
-			int duracionPorDia, String textoFactura) {
-		iniciarReserva(codigoSede,codigoReserva, tipoDeCarro, sedeRecogida, sedeEntrega, nuevaSedeEntrega, fechaHoraRecogida, fechaHoraEntrega, placaVehiculo, usernameCliente, rutaImagenConductorAdiciones, calculoPrecioFinal, cantidadConductoresAdicionales, duracionPorDia, textoFactura);
-	}
+	
 	public void getCerrarSesion() {
 		cerrarGuardarReserva();
 	}
@@ -198,6 +194,16 @@ public class Cliente extends Usuario {
 	public void setSaldo(int saldo) {
 		this.saldo = saldo;
 	}
+
+	public int getPrecioFinal() {
+		return precioFinal;
+	}
+
+	public void setPrecioFinal(int precioFinal) {
+		this.precioFinal = precioFinal;
+	}
+	
+	
 	
 	
 }

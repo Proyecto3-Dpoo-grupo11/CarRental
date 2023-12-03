@@ -46,13 +46,13 @@ public class Reserva implements Serializable
 	/**
 	 * <!-- CONSTRUCTOR -->
 	 */
-	public Reserva(String codigoReserva, ArrayList<String> listaConductoresAdicionales, String tipoDeCarro,
+	public Reserva(String codigoReserva,  String tipoDeCarro,
 			String sedeRecogida,String sedeEntrega, String nuevaSedeEntrega,String fechaHoraRecogida, String fechaHoraEntrega,
-			String placaVehiculo, String usernameCliente, String rutaImagenConductorAdiciones, int calculoPrecioFinal, int cantidadConductoresAdicionales,
-			int duracionPorDia, String textoFactura, Entrega estadoEntrega) {
+			String placaVehiculo, String usernameCliente, String rutaImagenConductorAdiciones, int cantidadConductoresAdicionales,
+			 Entrega estadoEntrega) {
 		super();
 		this.codigoReserva = codigoReserva;
-		this.listaConductoresAdicionales = listaConductoresAdicionales;
+		
 		this.tipoDeCarro = tipoDeCarro;
 		this.sedeRecogida = sedeRecogida;
 		this.sedeEntrega = sedeEntrega;
@@ -62,10 +62,9 @@ public class Reserva implements Serializable
 		this.placaVehiculo = placaVehiculo;
 		this.usernameCliente = usernameCliente;
 		this.rutaImagenConductorAdiciones = rutaImagenConductorAdiciones;
-		this.calculoPrecioFinal = calculoPrecioFinal;
+		
 		this.cantidadConductoresAdicionales = cantidadConductoresAdicionales;
-		this.duracionPorDia = duracionPorDia;
-		this.textoFactura = textoFactura;
+		
 		this.estadoEntrega = estadoEntrega;
 	}
 	
@@ -188,7 +187,8 @@ public class Reserva implements Serializable
 	
 	// al terminar la reserva ya se deberia hacer eso automaticamente
 	
-	void entregaACliente() {
+	
+	public void entregaACliente() {
 		generarFactura(70);
 		estadoEntrega=Entrega.ENTREGADOACIENTE;
 		
@@ -280,6 +280,7 @@ public class Reserva implements Serializable
 	public String getSedeRecogida() {
 		return sedeRecogida;
 	}
+	
 
 
 
@@ -388,6 +389,15 @@ public class Reserva implements Serializable
 	public void setSeguro(Seguro seguro) {
 		this.seguro = seguro;
 	}
+
+	public int getCalculoPrecioFinal() {
+		return calculoPrecioFinal;
+	}
+
+	public void setCalculoPrecioFinal(int calculoPrecioFinal) {
+		this.calculoPrecioFinal = calculoPrecioFinal;
+	}
+	
 	
 	
 	
