@@ -65,13 +65,12 @@ public class Empleado extends Usuario {
         return resp;
     }
 	
-	public String iniciarReserva(String codigoReserva, String tipoDeCarro,
-			String sedeRecogida, String sedeEntrega, String nuevaSedeEntrega,String fechaHoraRecogida, String fechaHoraEntrega,
-			String placaVehiculo, String usernameCliente, String rutaImagenConductorAdiciones, int calculoPrecioFinal, int cantidadConductoresAdicionales,
-			int duracionPorDia, String textoFactura) {
+	public String iniciarReserva(TipoVehiculo tipoDeCarro,
+			String sedeRecogida, String sedeEntrega,String fechaHoraRecogida, String fechaHoraEntrega,
+			String usernameCliente, String rutaImagenConductorAdiciones, int duracionPorDia) {
 			// TODO implement me
 			ArrayList<String> listaConductoresAdicionales= new ArrayList<String>();
-			Reserva reserva= new Reserva(codigoReserva, listaConductoresAdicionales, tipoDeCarro, sedeRecogida, sedeEntrega, nuevaSedeEntrega, fechaHoraRecogida, fechaHoraEntrega, placaVehiculo, usernameCliente, rutaImagenConductorAdiciones, 0,0, 0, "", Entrega.ESPERANDOASERENTREGADOACLIENTE);
+			Reserva reserva= new Reserva(Reserva.generarNumeroReserva(), listaConductoresAdicionales, tipoDeCarro, sedeRecogida, sedeEntrega, fechaHoraRecogida, fechaHoraEntrega, usernameCliente, rutaImagenConductorAdiciones, 0,0, Entrega.ESPERANDOASERENTREGADOACLIENTE);
 			addConductorAdicionalAlIniciarReserva(rutaImagenConductorAdiciones,reserva);
 			String Mensaje =reserva.iniciarReserva();
 			

@@ -2,20 +2,10 @@ package logica;
 import java.util.ArrayList;
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Random;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Period;
-
-//TODO Y HAY MAS QUE IMPROTAR
-
-/**
- * <!-- ACA VA LA DOCUMENTACION -->
- * TODO constructor, un monton, implementar las relaciones y demas cosas, los metodos etc. 
- * 
- *  PERO ES MEJOR que empiecen desde implementar el metodo crear reserva en cliente y empleado y ahi trabajen 
- *  con esta clase como quieran.-->
- */
-//Esta se llamaria cuando se inicie la reserva desde cliente o desde empleado
 
 
 public class Reserva implements Serializable
@@ -24,7 +14,7 @@ public class Reserva implements Serializable
 	private static final long serialVersionUID = 5L;
 	public String codigoReserva;
 	public ArrayList<String> listaConductoresAdicionales;
-	public String tipoDeCarro; // yo sugiero cambiarlo a una enum, depende de si se pueden agregar mas tipos de vehiculos
+	public TipoVehiculo tipoDeCarro; //enum
 	public String sedeRecogida;
 	public String sedeEntrega;
 	public String nuevaSedeEntrega;
@@ -36,7 +26,7 @@ public class Reserva implements Serializable
 	public Seguro seguro;
 	public Vehiculo vehiculo;
 	public String rutaImagenConductorAdiciones;
-	public int calculoPrecioFinal;
+	public double calculoPrecioFinal;
 	public int cantidadConductoresAdicionales;
 	public int duracionPorDia;
 	public String textoFactura;
@@ -45,26 +35,22 @@ public class Reserva implements Serializable
 	/**
 	 * <!-- CONSTRUCTOR -->
 	 */
-	public Reserva(String codigoReserva, ArrayList<String> listaConductoresAdicionales, String tipoDeCarro,
-			String sedeRecogida,String sedeEntrega, String nuevaSedeEntrega,String fechaHoraRecogida, String fechaHoraEntrega,
-			String placaVehiculo, String usernameCliente, String rutaImagenConductorAdiciones, int calculoPrecioFinal, int cantidadConductoresAdicionales,
-			int duracionPorDia, String textoFactura, Entrega estadoEntrega) {
+	public Reserva(String codigoReserva, ArrayList<String> listaConductoresAdicionales, TipoVehiculo tipoDeCarro,
+			String sedeRecogida,String sedeEntrega,String fechaHoraRecogida, String fechaHoraEntrega,
+		    String usernameCliente, String rutaImagenConductorAdiciones, int cantidadConductoresAdicionales,
+			int duracionPorDia, Entrega estadoEntrega) {
 		super();
 		this.codigoReserva = codigoReserva;
 		this.listaConductoresAdicionales = listaConductoresAdicionales;
 		this.tipoDeCarro = tipoDeCarro;
 		this.sedeRecogida = sedeRecogida;
 		this.sedeEntrega = sedeEntrega;
-		this.nuevaSedeEntrega = nuevaSedeEntrega;
 		this.fechaHoraRecogida = fechaHoraRecogida;
 		this.fechaHoraEntrega = fechaHoraEntrega;
-		this.placaVehiculo = placaVehiculo;
 		this.usernameCliente = usernameCliente;
 		this.rutaImagenConductorAdiciones = rutaImagenConductorAdiciones;
-		this.calculoPrecioFinal = calculoPrecioFinal;
 		this.cantidadConductoresAdicionales = cantidadConductoresAdicionales;
 		this.duracionPorDia = duracionPorDia;
-		this.textoFactura = textoFactura;
 		this.estadoEntrega = estadoEntrega;
 	}
 	
@@ -72,11 +58,7 @@ public class Reserva implements Serializable
 	 * <!-- METODOS DE LA RESERVA -->
 	 */
 	
-	// TODO ACA DEBERIA IR LO DE COMPROBAR EL USUARIO, 
-			//si es empleado entonces si puede anadir esto, o si es usuario tambien (no se, miren documentacion)	
-			//if usuario.cargo = ROLES.EMPLEADO ||  usuario.cargo = ROLES.CLIENTE
-			// then crear el conductor adicional y guardarlo en la reserva, no se si este metodo deberia
-			//ir aqui o la reserva, ahi miramos cuando lo implementemos
+
 	public void addConductorAdicional(String rutaImagen) {
 		listaConductoresAdicionales.add(rutaImagen);
 		
@@ -108,9 +90,6 @@ public class Reserva implements Serializable
         this.duracionPorDia = period.getDays();
         Duration duracionTotal = Duration.between(startDate, endDate);
 		
-        
-        
-        
 		//cantidad_listaConductoresAdd:
 		this.cantidadConductoresAdicionales=listaConductoresAdicionales.size();
 		//Tarifa por entregar en otra sede:
@@ -119,18 +98,11 @@ public class Reserva implements Serializable
 			valuesMapaTarifa.valorPorEntregaOtraSede=0;
 		}
 		
+		double calculoPrecioAntesDePrima = (duracionPorDia*valuesMapaTarifa.tarifaPorDia)+(cantidadConductoresAdicionales*valuesMapaTarifa.valorExtraConductorAdicional)+(valuesMapaTarifa.valorPorEntregaOtraSede);
+				
+		double porcentajePrima = this.tipoDeCarro.getPorcentajeComision();
+		this.calculoPrecioFinal= calculoPrecioAntesDePrima  + calculoPrecioAntesDePrima * porcentajePrima;
 		
-		//Calculo Total Precio
-		this.calculoPrecioFinal=(duracionPorDia*valuesMapaTarifa.tarifaPorDia)+(cantidadConductoresAdicionales*valuesMapaTarifa.valorExtraConductorAdicional)+valuesMapaTarifa.valorPorEntregaOtraSede;
-		
-		//añadir reserva
-		
-		
-		
-			
-			
-			
-			
 		ocuparVehiculo(duracionPorDia);
 		
 		String factura30Porciento=generarFactura(30);
@@ -169,17 +141,6 @@ public class Reserva implements Serializable
 		;
 		return retorno;
 		
-		
-		
-		
-		
-		
-		
-		//ESTO NO SE PASA A CODIGO HASTA QUE resuelvan el formato de fechas y todo eso.
-		//duracion = fechaHoraEntrega - fechaHoraRecogida
-		//ocuparVehiculo(duracion);
-	
-		
 	} //imprimir la factura al final de pronto osea llamar metodo generarfactura, la fecha y todo lo demas.
 	
 	
@@ -189,9 +150,18 @@ public class Reserva implements Serializable
 		generarFactura(70);
 		estadoEntrega=Entrega.ENTREGADOACIENTE;
 		
-		
-		
 	}
+	
+	public static String generarNumeroReserva() {
+        // Create a Random object
+        Random random = new Random();
+
+        // Generate a random integer between 1 and 100 (inclusive)
+        int randomNumber = random.nextInt(100) + 1;
+
+        // Convert the random number to a string
+        return String.valueOf(randomNumber);
+    }
 	
 	
 	private void ocuparVehiculo(int duracion) {
@@ -202,32 +172,25 @@ public class Reserva implements Serializable
 		
 	}
 	
-	//importantisimo, con los getters y setters sale, solo es que formateen el texto
 	public String generarFactura(int porcentaje) {
 		// TODO implement me	
 		porcentaje=porcentaje/100;
 		String PrintConductoresAdicionales="";
 		String PrintEntregarOtraSede="";
 		
-		
 		HashMap<String, Tarifa> mapaTarifa = tarifa.getMapaTarifa();
 		Tarifa valuesMapaTarifa=mapaTarifa.get(tarifa.categoria);
-		
-		
 		
 		//	logica Print conductores addicionales
 		if (cantidadConductoresAdicionales!=0) {
 				PrintConductoresAdicionales="Tarifa por conductor adicional: "+ 
 				(porcentaje*valuesMapaTarifa.valorExtraConductorAdicional)+" $"
 				+" x "+cantidadConductoresAdicionales + " conductores adicionales.\n" ;
-			
 		}
 		
 		if (valuesMapaTarifa.valorPorEntregaOtraSede!=0) {
 			PrintEntregarOtraSede="Tarifa por Entregar en otra sede: "+ 
 			(porcentaje*valuesMapaTarifa.valorPorEntregaOtraSede)+" $.\n";}
-			
-		
 	
 		return 	"Tarifa por dia: "
 				+(porcentaje*valuesMapaTarifa.tarifaPorDia)+" $"+" x "+duracionPorDia+" Dias/n"
@@ -264,79 +227,29 @@ public class Reserva implements Serializable
 		this.listaConductoresAdicionales = listaConductoresAdicionales;
 	}
 
-	public String getTipoDeCarro() {
+	public TipoVehiculo getTipoDeCarro() {
 		return tipoDeCarro;
 	}
 
-	public void setTipoDeCarro(String tipoDeCarro) {
+	public void setTipoDeCarro(TipoVehiculo tipoDeCarro) {
 		this.tipoDeCarro = tipoDeCarro;
 	}
-
-	
 
 	public String getSedeRecogida() {
 		return sedeRecogida;
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
 	public void setSedeRecogida(String sedeRecogida) {
 		this.sedeRecogida = sedeRecogida;
 	}
-
-
-
-
-
-
-
-
-
-
-
-
 
 	public String getSedeEntrega() {
 		return sedeEntrega;
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
 	public void setSedeEntrega(String sedeEntrega) {
 		this.sedeEntrega = sedeEntrega;
 	}
-
-
-
-
-
-
-
-
-
-
-
-
 
 	public String getFechaHoraRecogida() {
 		return fechaHoraRecogida;

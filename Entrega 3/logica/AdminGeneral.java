@@ -43,9 +43,7 @@ public class AdminGeneral extends Usuario
 	public void crearAdminSede(String username, String password, String codigoSede, Roles cargo) {
 		// TODO implement me
 		Usuario u = new AdminSede(username,password,cargo,codigoSede,sede, empresa);		
-		empresa.mapaUsuarios.put(username, u);
-		 int a=1;
-		
+		empresa.mapaUsuarios.put(username, u);		
 			
 		}
 		
@@ -60,11 +58,11 @@ public class AdminGeneral extends Usuario
 	}
 
 	public void nuevoVehiculo(String categoria, String placa, String marca, String codigoReservaActual, String modelo,
-			String color, String tipoTransmision, Estados estados, String codigoSede) {
+			String color, String tipoTransmision, Estados estados, String codigoSede,  TipoVehiculo tipoVehiculo) {
 		// TODO implement me
 
 		Vehiculo u = new Vehiculo(categoria, placa, marca, codigoReservaActual, color, tipoTransmision, estados, modelo,
-				codigoSede);
+				codigoSede, tipoVehiculo);
 		for (Sede sedes : empresa.listaSedes) {
 			if (sedes.codigoSede == codigoSede) {
 				sedes.listaVehiculos.add(u);

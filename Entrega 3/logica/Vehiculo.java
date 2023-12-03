@@ -19,13 +19,14 @@ public class Vehiculo implements Serializable
 	public Estados Estados;
 	private String modelo;
 	private String codigoSede;
+	private TipoVehiculo tipoVehiculo;
 	
 	/**
 	 * <!-- CONSTRUCTORES -->
 	 */
 	
 	public Vehiculo(String categoria, String placa, String marca, String codigoReservaActual, String color,
-			String tipoTransmision, logica.Estados estados, String modelo, String codigoSede) {
+			String tipoTransmision, logica.Estados estados, String modelo, String codigoSede, TipoVehiculo tipoVehiculo) {
 		super();
 		this.categoria = categoria;
 		this.placa = placa;
@@ -36,6 +37,7 @@ public class Vehiculo implements Serializable
 		Estados = estados;
 		this.modelo = modelo;
 		this.codigoSede = codigoSede;
+		this.tipoVehiculo = tipoVehiculo;
 	}
 	
 	

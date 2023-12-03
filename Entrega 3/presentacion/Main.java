@@ -216,7 +216,7 @@ public class Main {
                     System.out.print("Ingrese el código de sede: ");
                     String codigoSede = reader.readLine();
 
-                    accesoAdmiGeneral.nuevoVehiculo(categoria, placa, marca, "", modelo, color, tipoTransmision, Estados.DISPONIBLE, codigoSede);
+                   // accesoAdmiGeneral.nuevoVehiculo(categoria, placa, marca, "", modelo, color, tipoTransmision, Estados.DISPONIBLE, codigoSede);
 
                 } else if (op == 4) {
                     System.out.print("Ingrese la placa del vehículo que desea eliminar: ");

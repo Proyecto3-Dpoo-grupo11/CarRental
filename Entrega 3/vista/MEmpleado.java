@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 import control.Control;
+import logica.TipoVehiculo;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -85,8 +86,33 @@ public class MEmpleado extends JPanel implements IOpciones {
                 // Lógica para la opción "Iniciar Reserva"
                 if(coordenada.equals("Iniciar Reserva")){
                 	
-                	String[] res = IniciarReserva();
-                	((logica.Empleado)Control.usuarioActual).iniciarReserva(res[0], res[1], res[2],res[3], res[4], res[5], res[6], res[7], res[8], res[9], Integer.parseInt(res[10]), Integer.parseInt(res[11]), Integer.parseInt(res[12]), res[13]);
+                	String[] res = IniciarReserva(); //res[1 es tipo de vehiculo
+                	
+                	if (res!=null) {                		
+                		TipoVehiculo tipo = null;
+                        switch (res[7]) {
+                            case "Automóvil":
+                                tipo = TipoVehiculo.AUTOMOVIL;
+                                break;
+                            case "Moto":
+                                tipo = TipoVehiculo.MOTO;
+                                break;
+                            case "ATV":
+                                tipo = TipoVehiculo.ATV;
+                                break;
+                            case "Bicicleta":
+                                tipo = TipoVehiculo.BICICLETA;
+                                break;
+                            case "Bicicleta Eléctrica":
+                                tipo = TipoVehiculo.BICICLETA_ELECTRICA;
+                                break;
+                            case "Patineta Eléctrica":
+                                tipo = TipoVehiculo.PATINETA_ELECTRICA;
+                                break;
+                        }
+                	
+                    	((logica.Empleado)Control.usuarioActual).iniciarReserva(tipo, res[0], res[1],res[2], res[3], res[4], res[5], Integer.parseInt(res[6]));
+                }
                 }
             }
         });
@@ -263,14 +289,11 @@ public class MEmpleado extends JPanel implements IOpciones {
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         dialog.setLayout(new GridLayout(19, 2, 15, 5)); // 19 filas para 19 parámetros
         dialog.setLocationRelativeTo(SwingUtilities.getWindowAncestor(parent));
-     
-        JTextField codigoReservaField = new JTextField();
-        dialog.add(new JLabel("Código de Reserva:"));
-        dialog.add(codigoReservaField);
-
-        JTextField tipoDeCarroField = new JTextField();
-        dialog.add(new JLabel("Tipo de Carro:"));
-        dialog.add(tipoDeCarroField);
+        
+        dialog.add(new JLabel("Seleccione el tipo de vehículo:"));
+        String[] tiposVehiculo = {"Automóvil", "Moto", "ATV", "Bicicleta", "Bicicleta Eléctrica", "Patineta Eléctrica"};
+        JComboBox<String> tipoVehiculoComboBox = new JComboBox<>(tiposVehiculo);
+        dialog.add(tipoVehiculoComboBox);
 
         JTextField sedeRecogidaField = new JTextField();
         dialog.add(new JLabel("Sede de Recogida:"));
@@ -280,10 +303,6 @@ public class MEmpleado extends JPanel implements IOpciones {
         dialog.add(new JLabel("Sede de Entrega:"));
         dialog.add(sedeEntregaField);
 
-        JTextField nuevaSedeEntregaField = new JTextField();
-        dialog.add(new JLabel("Nueva Sede de Entrega:"));
-        dialog.add(nuevaSedeEntregaField);
-
         JTextField fechaHoraRecogidaField = new JTextField();
         dialog.add(new JLabel("Fecha y Hora de Recogida:"));
         dialog.add(fechaHoraRecogidaField);
@@ -292,33 +311,17 @@ public class MEmpleado extends JPanel implements IOpciones {
         dialog.add(new JLabel("Fecha y Hora de Entrega:"));
         dialog.add(fechaHoraEntregaField);
 
-        JTextField placaVehiculoField = new JTextField();
-        dialog.add(new JLabel("Placa del Vehículo:"));
-        dialog.add(placaVehiculoField);
-
         JTextField usernameClienteField = new JTextField();
         dialog.add(new JLabel("Nombre de Usuario del Cliente:"));
         dialog.add(usernameClienteField);
 
         JTextField rutaImagenConductorAdicionesField = new JTextField();
         dialog.add(new JLabel("Ruta Imagen Conductor Adicional:"));
-        dialog.add(rutaImagenConductorAdicionesField);
-
-        JTextField calculoPrecioFinalField = new JTextField();
-        dialog.add(new JLabel("Cálculo del Precio Final:"));
-        dialog.add(calculoPrecioFinalField);
-
-        JTextField cantidadConductoresAdicionalesField = new JTextField();
-        dialog.add(new JLabel("Cantidad de Conductores Adicionales:"));
-        dialog.add(cantidadConductoresAdicionalesField);
+        dialog.add(rutaImagenConductorAdicionesField);   
 
         JTextField duracionPorDiaField = new JTextField();
         dialog.add(new JLabel("Duración por Día:"));
         dialog.add(duracionPorDiaField);
-
-        JTextField textoFacturaField = new JTextField();
-        dialog.add(new JLabel("Texto de la Factura:"));
-        dialog.add(textoFacturaField);
         
         JLabel warningLabel = new JLabel(" ");
         dialog.add(warningLabel);
@@ -354,13 +357,11 @@ public class MEmpleado extends JPanel implements IOpciones {
         dialog.setVisible(true);
 
         // Retornar valores ingresados en los campos de texto
-        if (codigoReservaField.getText().isEmpty() || tipoDeCarroField.getText().isEmpty() || 
-            sedeRecogidaField.getText().isEmpty() || sedeEntregaField.getText().isEmpty() || 
-            nuevaSedeEntregaField.getText().isEmpty() || fechaHoraRecogidaField.getText().isEmpty() || 
-            fechaHoraEntregaField.getText().isEmpty() || placaVehiculoField.getText().isEmpty() || 
+        if ( sedeRecogidaField.getText().isEmpty() || sedeEntregaField.getText().isEmpty() || 
+             fechaHoraRecogidaField.getText().isEmpty() || 
+            fechaHoraEntregaField.getText().isEmpty() ||
             usernameClienteField.getText().isEmpty() || rutaImagenConductorAdicionesField.getText().isEmpty() || 
-            calculoPrecioFinalField.getText().isEmpty() || cantidadConductoresAdicionalesField.getText().isEmpty() || 
-            duracionPorDiaField.getText().isEmpty() || textoFacturaField.getText().isEmpty()) {
+            duracionPorDiaField.getText().isEmpty()) {
         	
         	
             return null; // Retornar null si algún campo está vacío (cancelado)
@@ -370,20 +371,14 @@ public class MEmpleado extends JPanel implements IOpciones {
         } else {
             // Retornar valores ingresados en los campos de texto (aceptado)
             return new String[]{
-                codigoReservaField.getText(),
-                tipoDeCarroField.getText(),
                 sedeRecogidaField.getText(),
                 sedeEntregaField.getText(),
-                nuevaSedeEntregaField.getText(),
                 fechaHoraRecogidaField.getText(),
                 fechaHoraEntregaField.getText(),
-                placaVehiculoField.getText(),
                 usernameClienteField.getText(),
                 rutaImagenConductorAdicionesField.getText(),
-                calculoPrecioFinalField.getText(),
-                cantidadConductoresAdicionalesField.getText(),
                 duracionPorDiaField.getText(),
-                textoFacturaField.getText()
+                (String) tipoVehiculoComboBox.getSelectedItem()
             };
         }
     }

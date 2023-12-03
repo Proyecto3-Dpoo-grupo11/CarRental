@@ -5,6 +5,7 @@ import javax.swing.*;
 import control.Control;
 import logica.Estados;
 import logica.Roles;
+import logica.TipoVehiculo;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -84,15 +85,31 @@ public class MAdminGeneral extends JPanel implements IOpciones {
                 
                 //opcion 1:
                 if(coordenada.equals("Añadir Nuevo Vehículo")) {
-                	String[] res=dialogAñadirVehiculo(adminGeneralPanel);
-                	if (res!=null) {
-                	//String categoria, String placa, String marca, String codigoReservaActual, String modelo,
-        			//String color, String tipoTransmision, Estados estados, String codigoSede
-                	
-                	//textFieldCategoriaVehiculo.getText().isEmpty()11 || textFieldPlacaVehiculo.getText().isEmpty()11 || textFieldMarcaVehiculo.getText().isEmpty()33 
-            		//|| textFieldModeloVehiculo.getText().isEmpty()44 || textFieldColorVehiculo.getText().isEmpty()55 || textFieldTipoTransmisionVehiculo.getText().isEmpty()66	
-            		//|| textFieldCodigoSede.getText().isEmpty())77
-                	((logica.AdminGeneral) Control.usuarioActual).nuevoVehiculo(res[0], res[1],res[2], "0", res[3], res[4], res[5], Estados.DISPONIBLE, res[6]);
+                	String[] res= dialogAñadirVehiculo(adminGeneralPanel);
+                	if (res!=null) {                		
+                		TipoVehiculo tipo = null;
+                        switch (res[7]) {
+                            case "Automóvil":
+                                tipo = TipoVehiculo.AUTOMOVIL;
+                                break;
+                            case "Moto":
+                                tipo = TipoVehiculo.MOTO;
+                                break;
+                            case "ATV":
+                                tipo = TipoVehiculo.ATV;
+                                break;
+                            case "Bicicleta":
+                                tipo = TipoVehiculo.BICICLETA;
+                                break;
+                            case "Bicicleta Eléctrica":
+                                tipo = TipoVehiculo.BICICLETA_ELECTRICA;
+                                break;
+                            case "Patineta Eléctrica":
+                                tipo = TipoVehiculo.PATINETA_ELECTRICA;
+                                break;
+                        }
+                        
+                	((logica.AdminGeneral) Control.usuarioActual).nuevoVehiculo(res[0], res[1],res[2], "0", res[3], res[4], res[5], Estados.DISPONIBLE, res[6], tipo);
                 	}
                 } 	
             }
@@ -361,6 +378,13 @@ public class MAdminGeneral extends JPanel implements IOpciones {
         JLabel warningLabelColorVehiculo = new JLabel(" ");
         JLabel warningLabelTipoTransmisionVehiculo = new JLabel(" ");
         JLabel warningLabelCodigoSede = new JLabel(" ");
+        
+        dialog.add(new JLabel("Seleccione el tipo de vehículo:"));
+        String[] tiposVehiculo = {"Automóvil", "Moto", "ATV", "Bicicleta", "Bicicleta Eléctrica", "Patineta Eléctrica"};
+        JComboBox<String> tipoVehiculoComboBox = new JComboBox<>(tiposVehiculo);
+        dialog.add(tipoVehiculoComboBox);
+        JLabel warningLabelTipoVehiculo = new JLabel(" ");
+        dialog.add(warningLabelTipoVehiculo);
 
         // Add title, text field, and label for categoria
         dialog.add(new JLabel("Ingrese la categoria del vehiculo:"));
@@ -418,7 +442,10 @@ public class MAdminGeneral extends JPanel implements IOpciones {
                     warningLabelColorVehiculo.setText(textFieldColorVehiculo.getText().isEmpty() ? "Llene este espacio!" : " ");
                     warningLabelTipoTransmisionVehiculo.setText(textFieldTipoTransmisionVehiculo.getText().isEmpty() ? "Llene este espacio!" : " ");
                     warningLabelCodigoSede.setText(textFieldCodigoSede.getText().isEmpty() ? "Llene este espacio!" : " ");
+                    warningLabelTipoVehiculo.setText("Seleccione un tipo de vehículo");
+                    
                 } else {
+                    
                     // Close the dialog if all text fields are filled
                     dialog.dispose();
                 }
@@ -450,7 +477,7 @@ public class MAdminGeneral extends JPanel implements IOpciones {
             // Return values entered in the text fields (Accept clicked)
             return new String[]{textFieldCategoriaVehiculo.getText(), textFieldPlacaVehiculo.getText(), textFieldMarcaVehiculo.getText(),
                     textFieldModeloVehiculo.getText(), textFieldColorVehiculo.getText(), textFieldTipoTransmisionVehiculo.getText(),
-                    textFieldCodigoSede.getText()};
+                    textFieldCodigoSede.getText(), (String) tipoVehiculoComboBox.getSelectedItem()};
         }
     }
 
