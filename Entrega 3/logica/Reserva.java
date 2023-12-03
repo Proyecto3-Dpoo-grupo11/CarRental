@@ -7,6 +7,17 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Period;
 
+//TODO Y HAY MAS QUE IMPROTAR
+
+/**
+ * <!-- ACA VA LA DOCUMENTACION -->
+ * TODO constructor, un monton, implementar las relaciones y demas cosas, los metodos etc. 
+ * 
+ *  PERO ES MEJOR que empiecen desde implementar el metodo crear reserva en cliente y empleado y ahi trabajen 
+ *  con esta clase como quieran.-->
+ */
+//Esta se llamaria cuando se inicie la reserva desde cliente o desde empleado
+
 
 public class Reserva implements Serializable
 {
@@ -39,14 +50,20 @@ public class Reserva implements Serializable
 			String sedeRecogida,String sedeEntrega,String fechaHoraRecogida, String fechaHoraEntrega,
 		    String usernameCliente, String rutaImagenConductorAdiciones, int cantidadConductoresAdicionales,
 			int duracionPorDia, Entrega estadoEntrega) {
+	public Reserva(String codigoReserva,  String tipoDeCarro,
+			String sedeRecogida,String sedeEntrega, String nuevaSedeEntrega,String fechaHoraRecogida, String fechaHoraEntrega,
+			String placaVehiculo, String usernameCliente, String rutaImagenConductorAdiciones, int cantidadConductoresAdicionales,
+			 Entrega estadoEntrega) {
 		super();
 		this.codigoReserva = codigoReserva;
 		this.listaConductoresAdicionales = listaConductoresAdicionales;
 		this.tipoDeCarro = tipoDeCarro;
 		this.sedeRecogida = sedeRecogida;
 		this.sedeEntrega = sedeEntrega;
+		this.nuevaSedeEntrega = nuevaSedeEntrega;
 		this.fechaHoraRecogida = fechaHoraRecogida;
 		this.fechaHoraEntrega = fechaHoraEntrega;
+		this.placaVehiculo = placaVehiculo;
 		this.usernameCliente = usernameCliente;
 		this.rutaImagenConductorAdiciones = rutaImagenConductorAdiciones;
 		this.cantidadConductoresAdicionales = cantidadConductoresAdicionales;
@@ -58,7 +75,11 @@ public class Reserva implements Serializable
 	 * <!-- METODOS DE LA RESERVA -->
 	 */
 	
-
+	// TODO ACA DEBERIA IR LO DE COMPROBAR EL USUARIO, 
+			//si es empleado entonces si puede anadir esto, o si es usuario tambien (no se, miren documentacion)	
+			//if usuario.cargo = ROLES.EMPLEADO ||  usuario.cargo = ROLES.CLIENTE
+			// then crear el conductor adicional y guardarlo en la reserva, no se si este metodo deberia
+			//ir aqui o la reserva, ahi miramos cuando lo implementemos
 	public void addConductorAdicional(String rutaImagen) {
 		listaConductoresAdicionales.add(rutaImagen);
 		
@@ -83,12 +104,16 @@ public class Reserva implements Serializable
 		String[] partesRecogida = fechaHoraRecogida.split("/");
 		String[] partesEntrega = fechaHoraEntrega.split("/");
 		
+		
 		LocalDate startDate = LocalDate.of(Integer.parseInt(partesRecogida[0]),Integer.parseInt(partesRecogida[1]),Integer.parseInt(partesRecogida[2]));
         LocalDate endDate = LocalDate.of(Integer.parseInt(partesEntrega[0]),Integer.parseInt(partesEntrega[1]),Integer.parseInt(partesEntrega[2]));
         Period period = Period.between(startDate, endDate);
         this.duracionPorDia = period.getDays();
         Duration duracionTotal = Duration.between(startDate, endDate);
 		
+        
+        
+        
 		//cantidad_listaConductoresAdd:
 		this.cantidadConductoresAdicionales=listaConductoresAdicionales.size();
 		//Tarifa por entregar en otra sede:
@@ -103,6 +128,8 @@ public class Reserva implements Serializable
 		this.calculoPrecioFinal= calculoPrecioAntesDePrima  + calculoPrecioAntesDePrima * porcentajePrima;
 		
 		ocuparVehiculo(duracionPorDia);
+		int randomNumber = new Random().nextInt(100) + 1;
+		this.numeroTransaccion=randomNumber;
 		
 		String factura30Porciento=generarFactura(30);
 		
@@ -133,7 +160,8 @@ public class Reserva implements Serializable
 		+fechaHoraEntrega+"\n."
 		+"Recuerde que debe pagar el 30% del valor del alquiler \n. "
 		+"Su factura por el 30% es"
-		+factura30Porciento;
+		+factura30Porciento+
+		"Numero de transaccion"+ numeroTransaccion;
 		
 		
 
@@ -145,7 +173,8 @@ public class Reserva implements Serializable
 	
 	// al terminar la reserva ya se deberia hacer eso automaticamente
 	
-	void entregaACliente() {
+	
+	public void entregaACliente() {
 		generarFactura(70);
 		estadoEntrega=Entrega.ENTREGADOACIENTE;
 		
@@ -237,6 +266,7 @@ public class Reserva implements Serializable
 	public String getSedeRecogida() {
 		return sedeRecogida;
 	}
+	
 
 	public void setSedeRecogida(String sedeRecogida) {
 		this.sedeRecogida = sedeRecogida;
@@ -297,6 +327,23 @@ public class Reserva implements Serializable
 	public void setSeguro(Seguro seguro) {
 		this.seguro = seguro;
 	}
+
+	public int getCalculoPrecioFinal() {
+		return calculoPrecioFinal;
+	}
+
+	public void setCalculoPrecioFinal(int calculoPrecioFinal) {
+		this.calculoPrecioFinal = calculoPrecioFinal;
+	}
+
+	public int getNumeroTransaccion() {
+		return numeroTransaccion;
+	}
+
+	public void setNumeroTransaccion(int numeroTransaccion) {
+		this.numeroTransaccion = numeroTransaccion;
+	}
+	
 	
 	
 	
