@@ -6,7 +6,7 @@ import logica.Cliente;
 public class CargaDinamica {
     public MMetodosDePago pagos;
 
-    public CargaDinamica(String clasePago, Cliente cliente, int monto, int numCuenta, int numTransaccion) {
+    public CargaDinamica(String clasePago, Cliente cliente, double monto, int numCuenta, int numTransaccion) {
         try {
             // 1. Dado el nombre completo (claseAgenda), encontramos un objeto de la clase
             // Class

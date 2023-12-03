@@ -111,10 +111,10 @@ public class MEmpleado extends JPanel implements IOpciones {
                                 break;
                         }
                 	
-                    	((logica.Empleado)Control.usuarioActual).iniciarReserva(tipo, res[0], res[1],res[2], res[3], res[4], res[5], Integer.parseInt(res[6]));
+                    	//((logica.Empleado)Control.usuarioActual).iniciarReserva(tipo, res[0], res[1],res[2], res[3], res[4], res[5], Integer.parseInt(res[6]));
                 }
-                	String[] res = IniciarReserva();
-                	((logica.Empleado)Control.usuarioActual).iniciarReserva(res[0],res[1], res[2],res[3], res[4], res[5], res[6], res[7], res[8], res[9],Integer.parseInt( res[11]));
+                	//String[] res = IniciarReserva();
+                	//((logica.Empleado)Control.usuarioActual).iniciarReserva(res[0],res[1], res[2],res[3], res[4], res[5], res[6], res[7], res[8], res[9],Integer.parseInt( res[11]));
                 }
             }
         });
