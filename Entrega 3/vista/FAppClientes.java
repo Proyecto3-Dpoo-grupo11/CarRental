@@ -62,7 +62,6 @@ public class FAppClientes {
                     
                     menuOpcionesPanel.mostrarMenu();
                     
-                    revalidarFrame();
                 }
             }
         });
@@ -79,6 +78,7 @@ public class FAppClientes {
 	protected void revalidarFrame() {
     	
         statusLabel.setText("Usuario actual: " + Control.usuarioActual.getUsername());
+        
         frame.revalidate();
 	}
 
