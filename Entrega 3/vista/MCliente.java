@@ -3,14 +3,7 @@ package vista;
 import javax.swing.*;
 
 import control.Control;
-<<<<<<< HEAD
 import logica.TipoVehiculo;
-=======
-import logica.Entrega;
-import logica.Roles;
-
-
->>>>>>> refs/remotes/origin/Carlos
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -56,7 +49,6 @@ public class MCliente extends JPanel implements IOpciones {
             	JButton btnPress = (JButton) e.getSource();
                 String coordenada = btnPress.getActionCommand();
                 if(coordenada.equals("Iniciar Reserva")){
-<<<<<<< HEAD
                 	
                 	String[] res = IniciarReserva(); //res[1 es tipo de vehiculo
                 	
@@ -85,7 +77,7 @@ public class MCliente extends JPanel implements IOpciones {
                 	
                 	((logica.Cliente)Control.usuarioActual).iniciarReserva(tipo, res[0], res[1],res[2], res[3], res[4], res[5], Integer.parseInt(res[6]));
                 }
-=======
+
                 	String[] res = IniciarReserva();
                 	
                 	((logica.Cliente)Control.usuarioActual).iniciarReserva(res[0],res[1], res[2],
@@ -119,7 +111,7 @@ public class MCliente extends JPanel implements IOpciones {
                      }
                     
                 	
->>>>>>> refs/remotes/origin/Carlos
+
                 }
             }
             ActionListener botonesListener = new ActionListener() {
@@ -141,10 +133,6 @@ public class MCliente extends JPanel implements IOpciones {
             };
         });
         
-<<<<<<< HEAD
-=======
-        
->>>>>>> refs/remotes/origin/Carlos
         btnCerrarGuardarReserva.addActionListener(new ActionListener() {
              
             public void actionPerformed(ActionEvent e) {
@@ -183,7 +171,6 @@ public class MCliente extends JPanel implements IOpciones {
     }
     
     protected String[] IniciarReserva() {
-<<<<<<< HEAD
 		 	String[] res = dialogIniciarReserva(this);
 		return res;
 	}
@@ -290,7 +277,7 @@ public class MCliente extends JPanel implements IOpciones {
         }
     }
 
-=======
+
     	String[] res = dialogIniciarReserva(this);
     	return res;
 	}
@@ -302,7 +289,7 @@ public class MCliente extends JPanel implements IOpciones {
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         dialog.setLayout(new GridLayout(19, 2, 15, 5)); // 19 filas para 19 parámetros
         dialog.setLocationRelativeTo(SwingUtilities.getWindowAncestor(parent));
->>>>>>> refs/remotes/origin/Carlos
+
      
         JTextField codigoReservaField = new JTextField();
         dialog.add(new JLabel("Código de Reserva:"));

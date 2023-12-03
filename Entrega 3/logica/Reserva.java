@@ -32,33 +32,29 @@ public class Reserva implements Serializable
 	public int duracionPorDia;
 	public String textoFactura;
 	public Entrega estadoEntrega;
+	public int numeroTransaccion;
 	
 	/**
 	 * <!-- CONSTRUCTOR -->
 	 */
-	public Reserva(String codigoReserva, ArrayList<String> listaConductoresAdicionales, TipoVehiculo tipoDeCarro,
-			String sedeRecogida,String sedeEntrega,String fechaHoraRecogida, String fechaHoraEntrega,
-		    String usernameCliente, String rutaImagenConductorAdiciones, int cantidadConductoresAdicionales,
-			int duracionPorDia, Entrega estadoEntrega) {
 	
-		public Reserva(String codigoReserva,  String tipoDeCarro,
+	
+		public Reserva(String codigoReserva,TipoVehiculo tipoDeCarro,
 			String sedeRecogida,String sedeEntrega, String nuevaSedeEntrega,String fechaHoraRecogida, String fechaHoraEntrega,
-			String placaVehiculo, String usernameCliente, String rutaImagenConductorAdiciones, int cantidadConductoresAdicionales,
+			 String usernameCliente, String rutaImagenConductorAdiciones, int cantidadConductoresAdicionales,
 			 Entrega estadoEntrega) {
 		super();
 		this.codigoReserva = codigoReserva;
-		this.listaConductoresAdicionales = listaConductoresAdicionales;
 		this.tipoDeCarro = tipoDeCarro;
 		this.sedeRecogida = sedeRecogida;
 		this.sedeEntrega = sedeEntrega;
 		this.nuevaSedeEntrega = nuevaSedeEntrega;
 		this.fechaHoraRecogida = fechaHoraRecogida;
 		this.fechaHoraEntrega = fechaHoraEntrega;
-		this.placaVehiculo = placaVehiculo;
+		
 		this.usernameCliente = usernameCliente;
 		this.rutaImagenConductorAdiciones = rutaImagenConductorAdiciones;
 		this.cantidadConductoresAdicionales = cantidadConductoresAdicionales;
-		this.duracionPorDia = duracionPorDia;
 		this.estadoEntrega = estadoEntrega;
 	}
 	
@@ -315,7 +311,7 @@ public class Reserva implements Serializable
 		this.seguro = seguro;
 	}
 
-	public int getCalculoPrecioFinal() {
+	public double getCalculoPrecioFinal() {
 		return calculoPrecioFinal;
 	}
 
