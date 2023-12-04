@@ -8,19 +8,18 @@ public class CargaDinamica {
 
     public CargaDinamica(String clasePago, Cliente cliente, double monto, int numCuenta, int numTransaccion) {
         try {
-            // 1. Dado el nombre completo (claseAgenda), encontramos un objeto de la clase
-            // Class
-            Class clase = Class.forName(clasePago);
+            // 1. Given the fully qualified name (clasePago), find a Class object
+            Class<?> clase = Class.forName(clasePago);
 
-            // 2. Le pedimos a la clase un constructor con los parámetros adecuados
-            Class[] parameterTypes = {Cliente.class, int.class, int.class, int.class};
+            // 2. Request a constructor with the appropriate parameters from the class
+            Class<?>[] parameterTypes = {Cliente.class, double.class, int.class, int.class,};
             this.pagos = (MMetodosDePago) clase.getDeclaredConstructor(parameterTypes).newInstance(cliente, monto, numCuenta, numTransaccion);
 
             // Rest of your code...
         } catch (ClassNotFoundException e) {
-            System.out.println("No existe la clase " + clasePago);
+            System.out.println("Class not found: " + clasePago);
         } catch (Exception e) {
-            System.out.println("Hubo otro error construyendo la agenda telefónica: " + e.getMessage());
+            System.out.println("Error constructing the payment method: " + e.getMessage());
             e.printStackTrace();
         }
     }

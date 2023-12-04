@@ -1,2 +1,2 @@
-MPayPal.java
-MPayU.java
+vista.MPayPal
+vista.MPayU

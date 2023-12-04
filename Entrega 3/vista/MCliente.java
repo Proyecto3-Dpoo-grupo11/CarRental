@@ -25,6 +25,7 @@ public class MCliente extends JPanel implements IOpciones {
 	private int numeroTarjeta;
 	
 	private TipoVehiculo tipoVehiculo;
+	public String[] respuestas;
 
 	public MCliente(Control control, String username) {
 
@@ -55,7 +56,8 @@ public class MCliente extends JPanel implements IOpciones {
 				String coordenada = btnPress.getActionCommand();
 				if (coordenada.equals("Iniciar Reserva")) {
 
-					String[] res = IniciarReserva(); // res[1 es tipo de vehiculo
+					String[] res = IniciarReserva();
+					MCliente.this.respuestas=res;// res[1 es tipo de vehiculo
 
 					if (res != null) {
 						MCliente.this.tipoVehiculo = null;
@@ -87,7 +89,7 @@ public class MCliente extends JPanel implements IOpciones {
 							res[4], res[5], res[6], Integer.parseInt(res[7]),Entrega.ESPERANDOASERENTREGADOACLIENTE);
 
 					MCliente.this.numeroTarjeta = Integer.parseInt(res[9]);
-					String filePath = "data/empresaAlquiler.dat";
+					String filePath = "data/metodosDePago.txt";
 					ArrayList<String> lines = readLinesFromFile(filePath);
 					
 
@@ -101,13 +103,18 @@ public class MCliente extends JPanel implements IOpciones {
 					if (lines != null) {
 						// Print the lines read from the file
 						for (String line : lines) {
-							CargaDinamica carga = new CargaDinamica(line, ((logica.Cliente) Control.usuarioActual),
-									((logica.Cliente) Control.usuarioActual).getPrecioFinal(),
-									Integer.parseInt(res[9]),
-									((logica.Cliente) Control.usuarioActual).getNumeroTransaccion());
-							String nombreClase = carga.pagos.nombre;
-							if (nombreClase != null) {
-								JButton botonNuevo = new JButton(nombreClase);
+							
+							
+
+							// Find the index of "vista.M"
+							int startIndex = line.indexOf("vista.M");
+
+							// Extract everything after "vista.M"
+							String result = (startIndex != -1) ? line.substring(startIndex + "vista.M".length()) : line;
+							
+							
+							if (result != null) {
+								JButton botonNuevo = new JButton(result);
 								botonNuevo.addActionListener(botonesListener);
 								dialog.add(botonNuevo);
 
@@ -116,6 +123,8 @@ public class MCliente extends JPanel implements IOpciones {
 					} else {
 						System.out.println("An error occurred while reading the file.");
 					}
+					dialog.setSize(600, 600); // Ajusta el tamaño según tus necesidades
+					dialog.setVisible(true);
 
 				}
 			}
@@ -125,15 +134,37 @@ public class MCliente extends JPanel implements IOpciones {
 				public void actionPerformed(ActionEvent e) {
 					JButton botonPresionado = (JButton) e.getSource();
 					String coordenada = botonPresionado.getActionCommand();
-
-					if (coordenada.equals("PayU")) {
-						CargaDinamica carga = new CargaDinamica("MPayU.java", ((logica.Cliente) Control.usuarioActual),
-								((logica.Cliente) Control.usuarioActual).getPrecioFinal(), MCliente.this.numeroTarjeta,
-								((logica.Cliente) Control.usuarioActual).getNumeroTransaccion());
-						carga.pagos.realizarPago();
-						;
-
+					String filePath = "data/metodosDePago.txt";
+					ArrayList<String> lines = readLinesFromFile(filePath);
+					if (lines != null) {
+						// Print the lines read from the file
+						
+							
+							
+							if (coordenada.equals("PayU")) {
+								CargaDinamica carga = new CargaDinamica("vista.MPayU", ((logica.Cliente) Control.usuarioActual),
+										((logica.Cliente) Control.usuarioActual).getPrecioFinal(), MCliente.this.numeroTarjeta,
+										((logica.Cliente) Control.usuarioActual).getNumeroTransaccion());
+								carga.pagos.realizarPago();
+								;
+								
+							}
+							
+							if (coordenada.equals("PayPal")) {
+								CargaDinamica carga = new CargaDinamica("vista.MPayPal", ((logica.Cliente) Control.usuarioActual),
+										((logica.Cliente) Control.usuarioActual).getPrecioFinal(), MCliente.this.numeroTarjeta,
+										((logica.Cliente) Control.usuarioActual).getNumeroTransaccion());
+								carga.pagos.realizarPago();
+								;
+								
+							}
+							
+							
+						
+					} else {
+						System.out.println("An error occurred while reading the file.");
 					}
+
 
 				}
 			};

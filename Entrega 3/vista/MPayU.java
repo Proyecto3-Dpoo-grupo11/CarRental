@@ -1,23 +1,17 @@
 package vista;
 
+import java.util.Random;
+
 import logica.Cliente;
 
-
 public class MPayU extends MMetodosDePago {
-String nombre= "PayU";
-	public MPayU(Cliente cliente, int monto, int numCuenta, int numTransaccion) {
-		super(cliente, monto, numCuenta, numTransaccion);
-		// TODO Auto-generated constructor stub
-	}
+    int saldo;
 
-	@Override
-	public void realizarPago() {
-		// TODO Auto-generated method stub
-		
-	}
+    public MPayU(Cliente cliente, double monto, int numCuenta, int numTransaccion) {
+        super(cliente, monto, numCuenta, numTransaccion);
+        // Set the nombre field to "PayU" when an instance is instantiated
+        
+    }
 
-	
-
+    
 }
-
-
