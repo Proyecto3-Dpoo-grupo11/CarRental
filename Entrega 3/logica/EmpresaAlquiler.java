@@ -36,7 +36,8 @@ public class EmpresaAlquiler implements Serializable
 		
 		Usuario u= new AdminGeneral("0","0",Roles.ADMINISTRADORGENERAL, this);
 		this.mapaUsuarios.put("0",u);
-		
+		Usuario uc= new Cliente("1", "1", Roles.CLIENTE, "1", "1", "1", "1", "1", "1", "1", "1", "1", "1");
+		this.mapaUsuarios.put("1",uc);
 		//TODO IMPLEMENTAR SEDES
 		ArrayList<String> lineas;
 		lineas = LectorArchivo.leer("sedes.dat");

@@ -73,8 +73,6 @@ public class FAppClientes {
         frame.add(statusLabel, BorderLayout.SOUTH);
     }
 
-    
-
 	protected void revalidarFrame() {
     	
         statusLabel.setText("Usuario actual: " + Control.usuarioActual.getUsername());

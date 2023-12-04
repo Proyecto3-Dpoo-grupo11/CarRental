@@ -310,7 +310,7 @@ public class MCliente extends JPanel implements IOpciones {
 	@Override
 	public Component getVisualComponent() {
 		// TODO Auto-generated method stub
-		return null;
+		return this;
 	}
 }
 
