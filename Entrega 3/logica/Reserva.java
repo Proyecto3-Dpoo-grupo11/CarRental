@@ -77,10 +77,9 @@ public class Reserva implements Serializable
 	public String iniciarReserva() {
 		//inicializaciones:
 		
-		
-		
-		HashMap<String, Tarifa> mapaTarifa = tarifa.getMapaTarifa();
-		Tarifa valuesMapaTarifa=mapaTarifa.get(tarifa.categoria);
+		HashMap<String, Tarifa> mapaTarifa = new HashMap<String, Tarifa>();
+		Tarifa tarifaPredeterminada = new Tarifa("predeterminada",10000,1000,1000,mapaTarifa);
+		 
 		
 		
 		// Formato Fecha:YY//MM//DD//HH//MIN//SEG
@@ -95,17 +94,19 @@ public class Reserva implements Serializable
         LocalDate endDate = LocalDate.of(Integer.parseInt(partesEntrega[0]),Integer.parseInt(partesEntrega[1]),Integer.parseInt(partesEntrega[2]));
         Period period = Period.between(startDate, endDate);
         this.duracionPorDia = period.getDays();
-        Duration duracionTotal = Duration.between(startDate, endDate);
+        
 		
 		//cantidad_listaConductoresAdd:
-		this.cantidadConductoresAdicionales=listaConductoresAdicionales.size();
+        if (listaConductoresAdicionales!=null) {
+		this.cantidadConductoresAdicionales=listaConductoresAdicionales.size();}
+        else {this.cantidadConductoresAdicionales=0;}
 		//Tarifa por entregar en otra sede:
 		//Si nuevaSedeEntrega es igual a 0 es por que se entrega en la misma no hay cambio de sede
 		if (nuevaSedeEntrega=="") {
-			valuesMapaTarifa.valorPorEntregaOtraSede=0;
+			tarifaPredeterminada.valorPorEntregaOtraSede=0;
 		}
 		
-		double calculoPrecioAntesDePrima = (duracionPorDia*valuesMapaTarifa.tarifaPorDia)+(cantidadConductoresAdicionales*valuesMapaTarifa.valorExtraConductorAdicional)+(valuesMapaTarifa.valorPorEntregaOtraSede);
+		double calculoPrecioAntesDePrima = (duracionPorDia*tarifaPredeterminada.tarifaPorDia)+(cantidadConductoresAdicionales*tarifaPredeterminada.valorExtraConductorAdicional)+(tarifaPredeterminada.valorPorEntregaOtraSede);
 				
 		double porcentajePrima = this.tipoDeCarro.getPorcentajeComision();
 		this.calculoPrecioFinal= calculoPrecioAntesDePrima  + calculoPrecioAntesDePrima * porcentajePrima;
@@ -120,7 +121,7 @@ public class Reserva implements Serializable
 		+"Su codigo de reserva es: "
 		+codigoReserva+"\n."
 		
-		+"Usted registro"+listaConductoresAdicionales.size()+"conductores adicionales"+"\n."
+		+"Usted registro"+cantidadConductoresAdicionales+"conductores adicionales"+"\n."
 		
 		+"Su vehiculo es del tipo: "+"\n."
 		+tipoDeCarro+"\n."
@@ -138,7 +139,7 @@ public class Reserva implements Serializable
 		+duracionPorDia
 		+" dias."
 		+"Duracion general de: "
-		+duracionTotal
+		
 		+"En la fecha: "
 		+fechaHoraEntrega+"\n."
 		+"Recuerde que debe pagar el 30% del valor del alquiler \n. "
@@ -178,8 +179,8 @@ public class Reserva implements Serializable
 	private void ocuparVehiculo(int duracion) {
 		// TODO implement me	
 		//ACA SOLO SE CAMBIARIA EL ESTADO USANDO EL ENUM
-		
-		vehiculo.setEstados(Estados.NODISPONIBLE);
+		if (vehiculo!=null) {
+		vehiculo.setEstados(Estados.NODISPONIBLE);}
 		
 	}
 	
@@ -189,22 +190,24 @@ public class Reserva implements Serializable
 		String PrintConductoresAdicionales="";
 		String PrintEntregarOtraSede="";
 		
-		HashMap<String, Tarifa> mapaTarifa = tarifa.getMapaTarifa();
-		Tarifa valuesMapaTarifa=mapaTarifa.get(tarifa.categoria);
+		HashMap<String, Tarifa> mapaTarifa = new HashMap<String, Tarifa>();
+		Tarifa tarifaPredeterminada = new Tarifa("predeterminada",10000,1000,1000,mapaTarifa);
+		
+		
 		
 		//	logica Print conductores addicionales
 		if (cantidadConductoresAdicionales!=0) {
 				PrintConductoresAdicionales="Tarifa por conductor adicional: "+ 
-				(porcentaje*valuesMapaTarifa.valorExtraConductorAdicional)+" $"
+				(porcentaje*tarifaPredeterminada.valorExtraConductorAdicional)+" $"
 				+" x "+cantidadConductoresAdicionales + " conductores adicionales.\n" ;
 		}
 		
-		if (valuesMapaTarifa.valorPorEntregaOtraSede!=0) {
+		if (tarifaPredeterminada.valorPorEntregaOtraSede!=0) {
 			PrintEntregarOtraSede="Tarifa por Entregar en otra sede: "+ 
-			(porcentaje*valuesMapaTarifa.valorPorEntregaOtraSede)+" $.\n";}
+			(porcentaje*tarifaPredeterminada.valorPorEntregaOtraSede)+" $.\n";}
 	
 		return 	"Tarifa por dia: "
-				+(porcentaje*valuesMapaTarifa.tarifaPorDia)+" $"+" x "+duracionPorDia+" Dias/n"
+				+(porcentaje*tarifaPredeterminada.tarifaPorDia)+" $"+" x "+duracionPorDia+" Dias/n"
 				+"/n"
 				//Print conductores addicionales
 				+ PrintConductoresAdicionales

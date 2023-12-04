@@ -9,6 +9,7 @@ import logica.TipoVehiculo;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.font.NumericShaper;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -99,7 +100,7 @@ public class MCliente extends JPanel implements IOpciones {
 						for (String line : lines) {
 							CargaDinamica carga = new CargaDinamica(line, ((logica.Cliente) Control.usuarioActual),
 									((logica.Cliente) Control.usuarioActual).getPrecioFinal(),
-									Integer.parseInt(res[11]),
+									Integer.parseInt(res[9]),
 									((logica.Cliente) Control.usuarioActual).getNumeroTransaccion());
 							String nombreClase = carga.pagos.nombre;
 							if (nombreClase != null) {
@@ -201,7 +202,7 @@ public class MCliente extends JPanel implements IOpciones {
 		dialog.add(sedeEntregaField);
 
 		JTextField nuevaSedeEntregaField = new JTextField();
-		dialog.add(new JLabel("Duración por Día:"));
+		dialog.add(new JLabel("Nueva Sede De entrega:"));
 		dialog.add(nuevaSedeEntregaField);
 		
 		JTextField fechaHoraRecogidaField = new JTextField();
@@ -223,6 +224,10 @@ public class MCliente extends JPanel implements IOpciones {
 		JTextField cantidadConductoresAdiccionales = new JTextField();
 		dialog.add(new JLabel("Ruta Imagen Conductor Adicional:"));
 		dialog.add(cantidadConductoresAdiccionales );
+		
+		JTextField numeroTarjeta = new JTextField();
+		dialog.add(new JLabel("Numero de su Tarjeta:"));
+		dialog.add(numeroTarjeta);
 
 
 		JLabel warningLabel = new JLabel(" ");
@@ -262,7 +267,7 @@ public class MCliente extends JPanel implements IOpciones {
 		if (sedeRecogidaField.getText().isEmpty() || sedeEntregaField.getText().isEmpty() ||nuevaSedeEntregaField.getText().isEmpty()
 				|| fechaHoraRecogidaField.getText().isEmpty() || fechaHoraEntregaField.getText().isEmpty()
 				|| usernameClienteField.getText().isEmpty() || rutaImagenConductorAdicionesField.getText().isEmpty()
-				|| cantidadConductoresAdiccionales.getText().isEmpty()) {
+				|| cantidadConductoresAdiccionales.getText().isEmpty()|| numeroTarjeta.getText().isEmpty()) {
 
 			return null; // Retornar null si algún campo está vacío (cancelado)
 
@@ -285,7 +290,8 @@ public class MCliente extends JPanel implements IOpciones {
 					
 					cantidadConductoresAdiccionales.getText(),//7
 					
-					(String) tipoVehiculoComboBox.getSelectedItem() };//8
+					(String) tipoVehiculoComboBox.getSelectedItem(),//8
+					numeroTarjeta.getText()		};//9
 		}
 	}
 

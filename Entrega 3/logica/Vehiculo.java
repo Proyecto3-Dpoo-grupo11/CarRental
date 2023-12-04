@@ -139,6 +139,16 @@ public class Vehiculo implements Serializable
 	public void setCodigoSede(String codigoSede) {
 		this.codigoSede = codigoSede;
 	}
+
+
+	public TipoVehiculo getTipoVehiculo() {
+		return tipoVehiculo;
+	}
+
+
+	public void setTipoVehiculo(TipoVehiculo tipoVehiculo) {
+		this.tipoVehiculo = tipoVehiculo;
+	}
 	
 
 	
