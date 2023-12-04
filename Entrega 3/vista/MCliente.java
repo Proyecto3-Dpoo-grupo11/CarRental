@@ -10,6 +10,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.font.NumericShaper;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -84,9 +86,10 @@ public class MCliente extends JPanel implements IOpciones {
 					((logica.Cliente) Control.usuarioActual).iniciarReserva(tipoVehiculo, res[0], res[1], res[2], res[3],
 							res[4], res[5], res[6], Integer.parseInt(res[7]),Entrega.ESPERANDOASERENTREGADOACLIENTE);
 
-					MCliente.this.numeroTarjeta = Integer.parseInt(res[11]);
-					String filePath = "data/metodos de pago.txt";
+					MCliente.this.numeroTarjeta = Integer.parseInt(res[9]);
+					String filePath = "data/empresaAlquiler.dat";
 					ArrayList<String> lines = readLinesFromFile(filePath);
+					
 
 					JDialog dialog = new JDialog();
 					dialog.setTitle("Metodos de pago");
@@ -312,7 +315,11 @@ public class MCliente extends JPanel implements IOpciones {
 			return null; // Or handle the error as needed
 		}
 	}
-
+	public String cargar(String nombreArchivo) throws IOException {
+	BufferedReader br = new BufferedReader(new FileReader(nombreArchivo));
+	String linea = br.readLine();
+	return linea;
+	}
 	@Override
 	public Component getVisualComponent() {
 		// TODO Auto-generated method stub
