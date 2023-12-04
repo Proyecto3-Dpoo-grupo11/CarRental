@@ -75,6 +75,7 @@
 /MEmpleado$9.class
 /MEmpleado$11.class
 /MEmpleado$12.class
+<<<<<<< HEAD
 /FMenuInicio.class
 /FMenuInicio$1.class
 /FMenuInicio$2.class
@@ -88,3 +89,17 @@
 /FAppClientes$2.class
 /MCliente$5.class
 /MCliente$6.class
+=======
+/MMetodosDePago.class
+/MMetodoDePago.class
+/Paypal.class
+/MPayU.class
+/MPayPal.class
+/MCrearCliente$2.class
+/MCrearCliente$3.class
+/MCliente$5.class
+/MCliente$6.class
+/CargaDinamica.class
+/MCliente$7.class
+/MCliente$1$1.class
+>>>>>>> refs/remotes/origin/Carlos

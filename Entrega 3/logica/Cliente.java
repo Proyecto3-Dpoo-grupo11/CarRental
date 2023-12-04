@@ -1,7 +1,5 @@
 package logica;
 
-import java.util.ArrayList;
-
 /**
  * <!--ACA DOCUMENTACION-->
  * TODO Lo de las imagenes png. Y hacer metodos para que el empleado pueda acceder a el
@@ -24,6 +22,8 @@ public class Cliente extends Usuario {
 	public String metodoDePago; 
 	protected String numeroTarjeta;
 	protected String fechaVencimiento;
+	public double precioFinal;
+	public int numeroTransaccion;
 	
 	/**
 	 * <!--CONSTRUCTOR-->
@@ -49,13 +49,15 @@ public class Cliente extends Usuario {
 	 */
 	
 	public String iniciarReserva(TipoVehiculo tipoDeCarro,
-			String sedeRecogida, String sedeEntrega,String fechaHoraRecogida, String fechaHoraEntrega,
-			String usernameCliente, String rutaImagenConductorAdiciones, int duracionPorDia) {
+			String sedeRecogida, String sedeEntrega,String nuevaSedeEntrega,String fechaHoraRecogida, String fechaHoraEntrega,
+			String usernameCliente, String rutaImagenConductorAdiciones, int cantidadConductoresAdicionales, Entrega estadoEntrega) {
 			
-			ArrayList<String> listaConductoresAdicionales= new ArrayList<String>();
 			
-			Reserva reserva= new Reserva(Reserva.generarNumeroReserva(), listaConductoresAdicionales, tipoDeCarro, sedeRecogida, sedeEntrega, fechaHoraRecogida, fechaHoraEntrega, usernameCliente, rutaImagenConductorAdiciones, 0,0, Entrega.ESPERANDOASERENTREGADOACLIENTE);
+			
+			Reserva reserva= new Reserva(Reserva.generarNumeroReserva(), tipoDeCarro,sedeRecogida, sedeEntrega,nuevaSedeEntrega, fechaHoraRecogida, fechaHoraEntrega, usernameCliente, rutaImagenConductorAdiciones,cantidadConductoresAdicionales,estadoEntrega );
 			String Mensaje =reserva.iniciarReserva();
+			setPrecioFinal(reserva.getCalculoPrecioFinal());
+			setNumeroTransaccion(reserva.getNumeroTransaccion());
 		
 		return Mensaje ;	
 	}
@@ -154,6 +156,22 @@ public class Cliente extends Usuario {
 	
 	public void getCerrarSesion() {
 		cerrarGuardarReserva();
+	}
+
+	public double getPrecioFinal() {
+		return precioFinal;
+	}
+
+	public void setPrecioFinal(double precioFinal) {
+		this.precioFinal = precioFinal;
+	}
+
+	public int getNumeroTransaccion() {
+		return numeroTransaccion;
+	}
+
+	public void setNumeroTransaccion(int numeroTransaccion) {
+		this.numeroTransaccion = numeroTransaccion;
 	}
 	
 	

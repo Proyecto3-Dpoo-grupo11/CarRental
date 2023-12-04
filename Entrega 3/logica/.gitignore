@@ -16,4 +16,10 @@
 /MetodosDePago.class
 /PayU.class
 /Paypal.class
+<<<<<<< HEAD
+=======
+/CargaDinamica.class
+/Banco.class
+>>>>>>> refs/remotes/origin/Carlos
 /TipoVehiculo.class
+/Reserva.java
