@@ -102,9 +102,10 @@ public class Control {
             empresa.crearCliente(nuevoUsername, newPassword, Roles.CLIENTE, nombreCliente,
                                  email, telefono, fechaNacimiento, nacionalidad,
                                  imagenCedula, imagenLicencia, metodoDePago,
-                                 numeroTarjeta, fechaVencimiento); //TODO Revisar.
+                                 numeroTarjeta, fechaVencimiento); 
         }
     }
+    
     public void mandarMantenimiento(String placaMan, String username) {
 		Empleado accesoEmpleado = (Empleado) this.empresa.mapaUsuarios.get(username);
 		accesoEmpleado.mandarMantenimiento(placaMan);
@@ -130,7 +131,6 @@ public class Control {
 	public void addConductorAdicional(String imagen, String code, String code2, String username) {
 		Empleado accesoEmpleado = (Empleado) this.empresa.mapaUsuarios.get(username);
 		accesoEmpleado.addConductorAdicional(imagen, code, code2);
-		
 	}
 
 	public void getCerrarSesion(String username) {
@@ -141,6 +141,11 @@ public class Control {
 	public void getMetodoDePago(String username) {
 		Cliente accesoCliente = (Cliente) this.empresa.mapaUsuarios.get(username);
 		accesoCliente.getMetodoDePago();
+		
+	}
+	public Cliente getCliente(String username) {
+		Cliente accesoCliente = (Cliente) this.empresa.mapaUsuarios.get(username);
+		return accesoCliente;
 		
 	}
 }
