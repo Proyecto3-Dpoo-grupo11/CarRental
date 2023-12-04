@@ -23,9 +23,10 @@ public class MCliente extends JPanel implements IOpciones {
 	private JPanel clientePanel;
 
 	private int numeroTarjeta;
-	
+
 	private TipoVehiculo tipoVehiculo;
 	public String[] respuestas;
+	public String recibo;
 
 	public MCliente(Control control, String username) {
 
@@ -57,7 +58,7 @@ public class MCliente extends JPanel implements IOpciones {
 				if (coordenada.equals("Iniciar Reserva")) {
 
 					String[] res = IniciarReserva();
-					MCliente.this.respuestas=res;// res[1 es tipo de vehiculo
+					MCliente.this.respuestas = res;// res[1 es tipo de vehiculo
 
 					if (res != null) {
 						MCliente.this.tipoVehiculo = null;
@@ -72,7 +73,7 @@ public class MCliente extends JPanel implements IOpciones {
 							MCliente.this.tipoVehiculo = TipoVehiculo.ATV;
 							break;
 						case "Bicicleta":
-							MCliente.this.tipoVehiculo= TipoVehiculo.BICICLETA;
+							MCliente.this.tipoVehiculo = TipoVehiculo.BICICLETA;
 							break;
 						case "Bicicleta Eléctrica":
 							MCliente.this.tipoVehiculo = TipoVehiculo.BICICLETA_ELECTRICA;
@@ -80,18 +81,17 @@ public class MCliente extends JPanel implements IOpciones {
 						case "Patineta Eléctrica":
 							MCliente.this.tipoVehiculo = TipoVehiculo.PATINETA_ELECTRICA;
 							break;
-						}
+						}	
 
-						
 					}
 
-					((logica.Cliente) Control.usuarioActual).iniciarReserva(tipoVehiculo, res[0], res[1], res[2], res[3],
-							res[4], res[5], res[6], Integer.parseInt(res[7]),Entrega.ESPERANDOASERENTREGADOACLIENTE);
+					MCliente.this.recibo=((logica.Cliente) Control.usuarioActual).iniciarReserva(tipoVehiculo, res[0], res[1], res[2],
+							res[3], res[4], res[5], res[6], Integer.parseInt(res[7]),
+							Entrega.ESPERANDOASERENTREGADOACLIENTE);
 
 					MCliente.this.numeroTarjeta = Integer.parseInt(res[9]);
 					String filePath = "data/metodosDePago.txt";
 					ArrayList<String> lines = readLinesFromFile(filePath);
-					
 
 					JDialog dialog = new JDialog();
 					dialog.setTitle("Metodos de pago");
@@ -103,16 +103,13 @@ public class MCliente extends JPanel implements IOpciones {
 					if (lines != null) {
 						// Print the lines read from the file
 						for (String line : lines) {
-							
-							
 
 							// Find the index of "vista.M"
 							int startIndex = line.indexOf("vista.M");
 
 							// Extract everything after "vista.M"
 							String result = (startIndex != -1) ? line.substring(startIndex + "vista.M".length()) : line;
-							
-							
+
 							if (result != null) {
 								JButton botonNuevo = new JButton(result);
 								botonNuevo.addActionListener(botonesListener);
@@ -138,33 +135,32 @@ public class MCliente extends JPanel implements IOpciones {
 					ArrayList<String> lines = readLinesFromFile(filePath);
 					if (lines != null) {
 						// Print the lines read from the file
-						
-							
-							
-							if (coordenada.equals("PayU")) {
-								CargaDinamica carga = new CargaDinamica("vista.MPayU", ((logica.Cliente) Control.usuarioActual),
-										((logica.Cliente) Control.usuarioActual).getPrecioFinal(), MCliente.this.numeroTarjeta,
-										((logica.Cliente) Control.usuarioActual).getNumeroTransaccion());
-								carga.pagos.realizarPago();
-								;
-								
-							}
-							
-							if (coordenada.equals("PayPal")) {
-								CargaDinamica carga = new CargaDinamica("vista.MPayPal", ((logica.Cliente) Control.usuarioActual),
-										((logica.Cliente) Control.usuarioActual).getPrecioFinal(), MCliente.this.numeroTarjeta,
-										((logica.Cliente) Control.usuarioActual).getNumeroTransaccion());
-								carga.pagos.realizarPago();
-								;
-								
-							}
-							
-							
-						
+
+						if (coordenada.equals("PayU")) {
+							CargaDinamica carga = new CargaDinamica("vista.MPayU",
+									((logica.Cliente) Control.usuarioActual),
+									((logica.Cliente) Control.usuarioActual).getPrecioFinal(),
+									MCliente.this.numeroTarjeta,
+									((logica.Cliente) Control.usuarioActual).getNumeroTransaccion(),MCliente.this.recibo);
+							carga.pagos.realizarPago();
+							;
+
+						}
+
+						if (coordenada.equals("PayPal")) {
+							CargaDinamica carga = new CargaDinamica("vista.MPayPal",
+									((logica.Cliente) Control.usuarioActual),
+									((logica.Cliente) Control.usuarioActual).getPrecioFinal(),
+									MCliente.this.numeroTarjeta,
+									((logica.Cliente) Control.usuarioActual).getNumeroTransaccion(),MCliente.this.recibo);
+							carga.pagos.realizarPago();
+							;
+
+						}
+
 					} else {
 						System.out.println("An error occurred while reading the file.");
 					}
-
 
 				}
 			};
@@ -238,14 +234,20 @@ public class MCliente extends JPanel implements IOpciones {
 		JTextField nuevaSedeEntregaField = new JTextField();
 		dialog.add(new JLabel("Nueva Sede De entrega:"));
 		dialog.add(nuevaSedeEntregaField);
-		
+
 		JTextField fechaHoraRecogidaField = new JTextField();
 		dialog.add(new JLabel("Fecha y Hora de Recogida:"));
 		dialog.add(fechaHoraRecogidaField);
 
+		JLabel warningLabelFRecogida = new JLabel(" ");
+		dialog.add(warningLabelFRecogida);
+
 		JTextField fechaHoraEntregaField = new JTextField();
 		dialog.add(new JLabel("Fecha y Hora de Entrega:"));
 		dialog.add(fechaHoraEntregaField);
+
+		JLabel warningLabelFEntrega = new JLabel(" ");
+		dialog.add(warningLabelFEntrega);
 
 		JTextField usernameClienteField = new JTextField();
 		dialog.add(new JLabel("Nombre de Usuario del Cliente:"));
@@ -254,21 +256,14 @@ public class MCliente extends JPanel implements IOpciones {
 		JTextField rutaImagenConductorAdicionesField = new JTextField();
 		dialog.add(new JLabel("Ruta Imagen Conductor Adicional:"));
 		dialog.add(rutaImagenConductorAdicionesField);
-		
+
 		JTextField cantidadConductoresAdiccionales = new JTextField();
 		dialog.add(new JLabel("Ruta Imagen Conductor Adicional:"));
-		dialog.add(cantidadConductoresAdiccionales );
-		
+		dialog.add(cantidadConductoresAdiccionales);
+
 		JTextField numeroTarjeta = new JTextField();
 		dialog.add(new JLabel("Numero de su Tarjeta:"));
 		dialog.add(numeroTarjeta);
-
-
-		JLabel warningLabel = new JLabel(" ");
-		dialog.add(warningLabel);
-
-		JLabel warningLabel2 = new JLabel(" ");
-		dialog.add(warningLabel2);
 
 		// Crear botones
 		JButton acceptButton = new JButton("Aceptar");
@@ -279,6 +274,71 @@ public class MCliente extends JPanel implements IOpciones {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dialog.dispose();
+				if (fechaHoraRecogidaField.getText().isEmpty() || fechaHoraEntregaField.getText().isEmpty()) {
+					// Display a warning message near the text fields
+					warningLabelFEntrega
+							.setText(fechaHoraEntregaField.getText().isEmpty() ? "Llene este espacio!" : " ");
+					warningLabelFRecogida
+							.setText(fechaHoraRecogidaField.getText().isEmpty() ? "Llene este espacio!" : " ");
+
+				}
+				String[] partesRecogida = fechaHoraRecogidaField.getText().split("/");
+				String[] partesEntrega = fechaHoraEntregaField.getText().split("/");
+				if (partesEntrega.length == 3 || partesRecogida.length == 3) {
+					if (Integer.parseInt(partesEntrega[2]) < 30 || Integer.parseInt(partesEntrega[2]) == 0
+					// Para Meses
+							|| Integer.parseInt(partesEntrega[1]) < 12 || Integer.parseInt(partesEntrega[1]) == 0
+
+							|| Integer.parseInt(partesRecogida[2]) < 30 || Integer.parseInt(partesRecogida[2]) == 0
+							|| Integer.parseInt(partesRecogida[1]) < 12 || Integer.parseInt(partesRecogida[1]) == 0
+							|| ((Integer.parseInt(partesRecogida[2]) + Integer.parseInt(partesRecogida[1])
+									+ Integer.parseInt(partesRecogida[0])) < (Integer.parseInt(partesEntrega[2])
+											+ Integer.parseInt(partesEntrega[1])
+											+ Integer.parseInt(partesEntrega[0])))) {
+
+						// Display a warning message near the text fields
+						warningLabelFRecogida
+								.setText((partesRecogida.length < 3) ? "Ingrese una fecha valida (YY/MM/DD)" : " ");
+						warningLabelFEntrega
+								.setText((partesEntrega.length < 3) ? "Ingrese una fecha valida (YY/MM/DD)" : " ");
+
+						warningLabelFRecogida.setText(
+								(Integer.parseInt(partesRecogida[1]) > 12 || Integer.parseInt(partesRecogida[1]) == 0)
+										? "Ingrese un mes valido"
+										: " ");
+						warningLabelFRecogida.setText(
+								(Integer.parseInt(partesRecogida[2]) > 30 || Integer.parseInt(partesRecogida[2]) == 0)
+										? "Ingrese un dia valido"
+										: " ");
+
+						warningLabelFEntrega.setText(
+								(Integer.parseInt(partesEntrega[2]) > 30 || Integer.parseInt(partesEntrega[2]) == 0)
+										? "Ingrese un dia valido"
+										: " ");
+						warningLabelFEntrega.setText(
+								(Integer.parseInt(partesEntrega[1]) > 12 || Integer.parseInt(partesEntrega[1]) == 0)
+										? "Ingrese un mes valido"
+										: " ");
+						warningLabelFEntrega.setText(
+								((Integer.parseInt(partesRecogida[2]) + Integer.parseInt(partesRecogida[1])
+								+ Integer.parseInt(partesRecogida[0])) > (Integer.parseInt(partesEntrega[2])
+										+ Integer.parseInt(partesEntrega[1])
+										+ Integer.parseInt(partesEntrega[0])))
+										? "Ingrese un mes valido"
+										: " ");
+						warningLabelFRecogida.setText(
+								((Integer.parseInt(partesRecogida[2]) + Integer.parseInt(partesRecogida[1])
+								+ Integer.parseInt(partesRecogida[0])) > (Integer.parseInt(partesEntrega[2])
+										+ Integer.parseInt(partesEntrega[1])
+										+ Integer.parseInt(partesEntrega[0])))
+										? "Ingrese un mes valido"
+										: " ");
+					}
+
+				} else {
+					// Close the dialog if all text fields are filled
+					dialog.dispose();
+				}
 			}
 		});
 
@@ -297,42 +357,49 @@ public class MCliente extends JPanel implements IOpciones {
 		dialog.setSize(600, 600); // Ajusta el tamaño según tus necesidades
 		dialog.setVisible(true);
 
+		String[] partesRecogida = fechaHoraRecogidaField.getText().split("/");
+		String[] partesEntrega = fechaHoraEntregaField.getText().split("/");
 		// Retornar valores ingresados en los campos de texto
-		if (sedeRecogidaField.getText().isEmpty() || sedeEntregaField.getText().isEmpty() ||nuevaSedeEntregaField.getText().isEmpty()
-				|| fechaHoraRecogidaField.getText().isEmpty() || fechaHoraEntregaField.getText().isEmpty()
+		if (sedeRecogidaField.getText().isEmpty() || sedeEntregaField.getText().isEmpty()
+				|| nuevaSedeEntregaField.getText().isEmpty() || fechaHoraRecogidaField.getText().isEmpty()
+				|| partesRecogida.length > 3 || fechaHoraEntregaField.getText().isEmpty() || partesEntrega.length < 3
 				|| usernameClienteField.getText().isEmpty() || rutaImagenConductorAdicionesField.getText().isEmpty()
-				|| cantidadConductoresAdiccionales.getText().isEmpty()|| numeroTarjeta.getText().isEmpty()) {
+				|| cantidadConductoresAdiccionales.getText().isEmpty() || numeroTarjeta.getText().isEmpty()
+				|| Integer.parseInt(partesRecogida[1]) > 12 || Integer.parseInt(partesRecogida[1])==0 
+				||Integer.parseInt(partesRecogida[2]) > 30 || Integer.parseInt(partesRecogida[2]) == 0 
+				||Integer.parseInt(partesEntrega[2]) > 30 || Integer.parseInt(partesEntrega[2]) == 0
+				||Integer.parseInt(partesEntrega[1]) > 12 || Integer.parseInt(partesEntrega[1]) == 0
+				||(Integer.parseInt(partesRecogida[2]) + Integer.parseInt(partesRecogida[1])
+				+ Integer.parseInt(partesRecogida[0])) > (Integer.parseInt(partesEntrega[2])
+						+ Integer.parseInt(partesEntrega[1])
+						+ Integer.parseInt(partesEntrega[0]))
+				
+				) {
 
 			return null; // Retornar null si algún campo está vacío (cancelado)
 
 		} else {
 			// Retornar valores ingresados en los campos de texto (aceptado)
-			return new String[] { 
-					sedeRecogidaField.getText(), //0
-					
-					sedeEntregaField.getText(),//1
-					
-					nuevaSedeEntregaField.getText(),//2
-					
-					fechaHoraRecogidaField.getText(), //3
-					
-					fechaHoraEntregaField.getText(), //4
-					
-					usernameClienteField.getText(),//5
-					
-					rutaImagenConductorAdicionesField.getText(), //6
-					
-					cantidadConductoresAdiccionales.getText(),//7
-					
-					(String) tipoVehiculoComboBox.getSelectedItem(),//8
-					numeroTarjeta.getText()		};//9
+			return new String[] { sedeRecogidaField.getText(), // 0
+
+					sedeEntregaField.getText(), // 1
+
+					nuevaSedeEntregaField.getText(), // 2
+
+					fechaHoraRecogidaField.getText(), // 3
+
+					fechaHoraEntregaField.getText(), // 4
+
+					usernameClienteField.getText(), // 5
+
+					rutaImagenConductorAdicionesField.getText(), // 6
+
+					cantidadConductoresAdiccionales.getText(), // 7
+
+					(String) tipoVehiculoComboBox.getSelectedItem(), // 8
+					numeroTarjeta.getText() };// 9
 		}
 	}
-
-	
-	
-
-	
 
 	public static ArrayList<String> readLinesFromFile(String filePath) {
 		Path path = Paths.get(filePath);
@@ -346,15 +413,16 @@ public class MCliente extends JPanel implements IOpciones {
 			return null; // Or handle the error as needed
 		}
 	}
+
 	public String cargar(String nombreArchivo) throws IOException {
-	BufferedReader br = new BufferedReader(new FileReader(nombreArchivo));
-	String linea = br.readLine();
-	return linea;
+		BufferedReader br = new BufferedReader(new FileReader(nombreArchivo));
+		String linea = br.readLine();
+		return linea;
 	}
+
 	@Override
 	public Component getVisualComponent() {
 		// TODO Auto-generated method stub
 		return this;
 	}
 }
-
