@@ -3,8 +3,11 @@ package vista;
 import javax.swing.*;
 
 import control.Control;
+import logica.EmpresaAlquiler;
 import logica.Entrega;
+import logica.Sede;
 import logica.TipoVehiculo;
+import logica.Vehiculo;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -16,6 +19,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class MCliente extends JPanel implements IOpciones {
@@ -27,6 +32,9 @@ public class MCliente extends JPanel implements IOpciones {
 	private TipoVehiculo tipoVehiculo;
 	public String[] respuestas;
 	public String recibo="";
+	public JButton botonReserva;
+	public boolean descuento=false;
+	
 
 	public MCliente(Control control, String username) {
 
@@ -38,7 +46,7 @@ public class MCliente extends JPanel implements IOpciones {
 
 		// Crear botones para cada opción
 		JButton btnIniciarReserva = new JButton("Iniciar Reserva");
-		JButton btnDisponibilad = new JButton("Ver isponibilidad de vehiculos");
+		JButton btnDisponibilad = new JButton("Ver Disponibilidad de vehiculos");
 		JButton btnCerrarGuardarReserva = new JButton("Cerrar y Guardar Reserva");
 		JButton btnVerMetodoPago = new JButton("Ver Método de Pago");
 		JButton btnSalir = new JButton("Salir");
@@ -49,6 +57,8 @@ public class MCliente extends JPanel implements IOpciones {
 		clientePanel.add(btnCerrarGuardarReserva);
 		clientePanel.add(btnVerMetodoPago);
 		clientePanel.add(btnSalir);
+		
+		this.botonReserva=btnIniciarReserva;
 
 		// Configurar listeners para cada botón
 		btnIniciarReserva.addActionListener(new ActionListener() {
@@ -58,7 +68,7 @@ public class MCliente extends JPanel implements IOpciones {
 				JButton btnPress = (JButton) e.getSource();
 				String coordenada = btnPress.getActionCommand();
 				if (coordenada.equals("Iniciar Reserva")) {
-
+					
 					String[] res = IniciarReserva();
 					MCliente.this.respuestas = res;// res[1 es tipo de vehiculo
 
@@ -86,10 +96,10 @@ public class MCliente extends JPanel implements IOpciones {
 						}	
 
 					
-
+						
 					MCliente.this.recibo=((logica.Cliente) Control.usuarioActual).iniciarReserva(tipoVehiculo, res[0], res[1], res[2],
 							res[3], res[4], res[5], res[6], Integer.parseInt(res[7]),
-							Entrega.ESPERANDOASERENTREGADOACLIENTE);}
+							Entrega.ESPERANDOASERENTREGADOACLIENTE, control.getEmpresa().BuscarSede(res[0]),descuento);}
 
 					
 					String filePath = "data/metodosDePago.txt";
@@ -174,8 +184,47 @@ public class MCliente extends JPanel implements IOpciones {
 				// Lógica para la opción "Cerrar y Guardar Reserva"
 				JButton btnPress = (JButton) e.getSource();
 				String coordenada = btnPress.getActionCommand();
-				if (coordenada.equals("Ver isponibilidad de vehiculos")) {
-				
+				if (coordenada.equals("Ver Disponibilidad de vehiculos")) {
+					
+					
+					
+					String[] res=dialogBuscarDisponiblidad(clientePanel);
+					
+					
+					java.util.List<Vehiculo> vehiculos = control.getEmpresa().BuscarSede(res[0])
+					        .getAvailableVehiclesBetweenDates(LocalDate.parse(res[1], DateTimeFormatter.ofPattern("yyyy/MM/dd")),
+					                                           LocalDate.parse(res[2], DateTimeFormatter.ofPattern("yyyy/MM/dd")));
+					
+					JDialog dialog = new JDialog();
+					dialog.setTitle("Metodos de pago");
+					dialog.setModal(true);
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setLayout(new GridLayout(19, 2, 15, 5)); // 19 filas para 19 parámetros
+					JLabel labelDisponibilidad = new JLabel(" ");
+					JLabel labelVehiculos= new JLabel(" ");
+					dialog.add(labelDisponibilidad);
+					dialog.add(labelVehiculos);
+					if (vehiculos== null) {
+						labelDisponibilidad.setText("No hay vehiculos disponibles");
+					}
+					else {
+					    String infoVehiculo = " ";
+					    for (Vehiculo vehiculoActual : vehiculos) {
+					        infoVehiculo += " " + vehiculoActual.marca + vehiculoActual.getTipoVehiculo().name();
+					    }
+					    labelDisponibilidad.setText("Estos son los vehículos disponibles: ");
+					    labelVehiculos.setText(infoVehiculo);
+					    dialog.add(botonReserva);
+					    MCliente.this.descuento=true;
+					    
+					}
+					
+					
+
+					
+					
+					dialog.setSize(600, 600); // Ajusta el tamaño según tus necesidades
+					dialog.setVisible(true);	
 				}
 			}
 		});
@@ -412,6 +461,87 @@ public class MCliente extends JPanel implements IOpciones {
 					 };
 		}
 	}
+	public static String[] dialogBuscarDisponiblidad(JPanel parent) {
+        // Create the JDialog
+        JDialog dialog = new JDialog();
+        dialog.setTitle("Enter Values");
+        dialog.setModal(true);
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        dialog.setLayout(new GridLayout(4, 2));
+        dialog.setLocationRelativeTo(SwingUtilities.getWindowAncestor(parent));
+
+        // Create text fields
+        JTextField textFieldSede = new JTextField();
+        JTextField textFieldFechaRecogida = new JTextField();
+        JTextField textFieldFechaEntrega = new JTextField();
+
+        // Create labels for warnings
+        JLabel warningLabelUsuario = new JLabel(" ");
+        JLabel warningLabelContraseña = new JLabel(" ");
+        JLabel warningLabelCodigoSede = new JLabel(" ");
+
+        // Add labels and text fields to the dialog
+        dialog.add(new JLabel("Ingrese la sede sobre la cual desea ver la disponibilidad:"));
+        dialog.add(textFieldSede);
+        dialog.add(warningLabelUsuario);
+
+        dialog.add(new JLabel("Fecha de recogida"));
+        dialog.add(textFieldFechaRecogida);
+        dialog.add(warningLabelContraseña);
+
+        dialog.add(new JLabel("Fecha de entrega"));
+        dialog.add(textFieldFechaEntrega);
+        dialog.add(warningLabelCodigoSede);
+
+        // Set preferred size for text fields
+        textFieldSede.setPreferredSize(new Dimension(150, 25));
+        textFieldFechaRecogida.setPreferredSize(new Dimension(150, 25));
+        textFieldFechaEntrega.setPreferredSize(new Dimension(200, 25));  // Increased size for "Código de la sede"
+
+        // Create buttons
+        JButton acceptButton = new JButton("Aceptar");
+        JButton cancelButton = new JButton("Cancelar");
+
+        // Add action listeners to the buttons
+        acceptButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Check if any of the text fields is empty
+                if (textFieldSede.getText().isEmpty() || textFieldFechaRecogida.getText().isEmpty() || textFieldFechaEntrega.getText().isEmpty()) {
+                    // Display a warning message near the text fields
+                    warningLabelUsuario.setText(textFieldSede.getText().isEmpty() ? "Llene este espacio!" : " ");
+                    warningLabelContraseña.setText(textFieldFechaRecogida.getText().isEmpty() ? "Llene este espacio!" : " ");
+                    warningLabelCodigoSede.setText(textFieldFechaEntrega.getText().isEmpty() ? "Llene este espacio!" : " ");
+                } else {
+                    // Close the dialog if all text fields are filled
+                    dialog.dispose();
+                }
+            }
+        });
+
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dialog.dispose(); // Close the dialog
+            }
+        });
+
+        // Add buttons to the dialog
+        dialog.add(acceptButton);
+        dialog.add(cancelButton);
+
+        // Set the size and make the dialog visible
+        dialog.setSize(400, 200);  // Increased size for the dialog
+        dialog.setVisible(true);
+
+        // Check which button was clicked and return values accordingly
+        if (textFieldSede.getText().isEmpty() || textFieldFechaRecogida.getText().isEmpty() || textFieldFechaEntrega.getText().isEmpty()) {
+            return null; // Return null if any of the text fields is empty (Cancel clicked)
+        } else {
+            // Return values entered in the text fields (Accept clicked)
+            return new String[]{textFieldSede.getText(), textFieldFechaRecogida.getText(), textFieldFechaEntrega.getText()};
+        }
+    }
 
 	public static ArrayList<String> readLinesFromFile(String filePath) {
 		Path path = Paths.get(filePath);

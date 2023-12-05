@@ -50,11 +50,11 @@ public class Cliente extends Usuario {
 	
 	public String iniciarReserva(TipoVehiculo tipoDeCarro,
 			String sedeRecogida, String sedeEntrega,String nuevaSedeEntrega,String fechaHoraRecogida, String fechaHoraEntrega,
-			String usernameCliente, String rutaImagenConductorAdiciones, int cantidadConductoresAdicionales, Entrega estadoEntrega) {
+			String usernameCliente, String rutaImagenConductorAdiciones, int cantidadConductoresAdicionales, Entrega estadoEntrega,Sede sede,boolean descuento) {
 			
 			
 			
-			Reserva reserva= new Reserva(Reserva.generarNumeroReserva(), tipoDeCarro,sedeRecogida, sedeEntrega,nuevaSedeEntrega, fechaHoraRecogida, fechaHoraEntrega, usernameCliente, rutaImagenConductorAdiciones,cantidadConductoresAdicionales,estadoEntrega );
+			Reserva reserva= new Reserva(Reserva.generarNumeroReserva(), tipoDeCarro,sedeRecogida, sedeEntrega,nuevaSedeEntrega, fechaHoraRecogida, fechaHoraEntrega, usernameCliente, rutaImagenConductorAdiciones,cantidadConductoresAdicionales,estadoEntrega,sede, descuento );
 			String Mensaje =reserva.iniciarReserva();
 			setPrecioFinal(reserva.getCalculoPrecioFinal());
 			setNumeroTransaccion(reserva.getNumeroTransaccion());

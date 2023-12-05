@@ -146,7 +146,7 @@ public class Sede implements Serializable
         	
         	if  (vehiculos.getEstados()==Estados.NODISPONIBLE) {
         		
-        		
+        		if (mapaReservas.get(vehiculos.getCodigoReservaActual() ) != null){
         		Reserva reserva =mapaReservas.get(vehiculos.getCodigoReservaActual());
         		LocalDate fechaRecogida = LocalDate.parse(reserva.getFechaHoraRecogida());
                 LocalDate fechaEntrega = LocalDate.parse(reserva.getFechaHoraEntrega());
@@ -158,7 +158,7 @@ public class Sede implements Serializable
                         // Add the vehicle to the list of available vehicles
                         availableVehicles.add(vehiculos);
                     
-                }
+                }}
         	}
         
         

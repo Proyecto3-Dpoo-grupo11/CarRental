@@ -97,6 +97,37 @@ public class EmpresaAlquiler implements Serializable
 			Usuario user = new Cliente(datos[0], datos[1], Roles.CLIENTE, datos[2], datos[3], datos[4], datos[5], datos[6], datos[7], datos[8], datos[9], datos[10], datos[11]); 
 			this.mapaUsuarios.put(datos[0], user);		
 		}
+		lineas = LectorArchivo.leer("vehiculos.dat"); 
+		for(String linea : lineas) {
+			String []datos = linea.split(";");
+			for(Sede sedes : this.listaSedes) {
+				if (sedes.codigoSede.equals(datos[7])) {
+						
+						TipoVehiculo tipo = null;
+			            switch (datos[8]) {
+			                case "AUTOMOVIL":
+			                    tipo = TipoVehiculo.AUTOMOVIL;
+			                    break;
+			                case "MOTO":
+			                    tipo = TipoVehiculo.MOTO;
+			                    break;
+			                case "ATV":
+			                    tipo = TipoVehiculo.ATV;
+			                    break;
+			                case "BICICLETA":
+			                    tipo = TipoVehiculo.BICICLETA;
+			                    break;
+			                case "BICICLETA_ELECTRICA":
+			                    tipo = TipoVehiculo.BICICLETA_ELECTRICA;
+			                    break;
+			                case "PATINETA_ELECTRICA":
+			                    tipo = TipoVehiculo.PATINETA_ELECTRICA;
+			                    break;
+			            }
+						
+			Vehiculo v = new Vehiculo(datos[0], datos[1], datos[2], datos[3], datos[4], datos[5], Estados.DISPONIBLE, datos[6], datos[7], tipo);
+			sedes.listaVehiculos.add(v);			
+		}}}
 		
 		
 			
@@ -135,7 +166,7 @@ public class EmpresaAlquiler implements Serializable
 		public Sede BuscarSede(String codigoSede) {
 			Sede res = null;
 			for(Sede sedes : listaSedes) {
-				if (sedes.codigoSede==codigoSede) {
+				if (sedes.codigoSede.equals(codigoSede)) {
 					res= sedes;
 				}
 			}

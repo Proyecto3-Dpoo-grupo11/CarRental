@@ -26,7 +26,7 @@ public abstract class MMetodosDePago extends JDialog {
 
     private JLabel labelNumeroTarjeta = new JLabel("Numero de su Tarjeta");
     private JTextField textFieldNumTarjeta;
-    private JTextArea textAreaRecibo = new JTextArea(10, 40); // Adjust rows and columns as needed
+   
 
     public MMetodosDePago(Cliente cliente, double monto, int numTransaccion, String recibo) {
         super();
@@ -53,9 +53,7 @@ public abstract class MMetodosDePago extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 boolean imprimirRecibo = Pagar();
                 if (imprimirRecibo) {
-                    textAreaRecibo.setText(recibo);
-                    JOptionPane.showMessageDialog(MMetodosDePago.this, new JScrollPane(textAreaRecibo),
-                            "Recibo", JOptionPane.INFORMATION_MESSAGE);
+                    
                 }
             }
         });
