@@ -38,12 +38,14 @@ public class MCliente extends JPanel implements IOpciones {
 
 		// Crear botones para cada opción
 		JButton btnIniciarReserva = new JButton("Iniciar Reserva");
+		JButton btnDisponibilad = new JButton("Ver isponibilidad");
 		JButton btnCerrarGuardarReserva = new JButton("Cerrar y Guardar Reserva");
 		JButton btnVerMetodoPago = new JButton("Ver Método de Pago");
 		JButton btnSalir = new JButton("Salir");
 
 		// Agregar botones al panel
 		clientePanel.add(btnIniciarReserva);
+		clientePanel.add(btnDisponibilad);
 		clientePanel.add(btnCerrarGuardarReserva);
 		clientePanel.add(btnVerMetodoPago);
 		clientePanel.add(btnSalir);
@@ -164,6 +166,18 @@ public class MCliente extends JPanel implements IOpciones {
 
 				}
 			};
+		});
+		
+		btnDisponibilad.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				// Lógica para la opción "Cerrar y Guardar Reserva"
+				JButton btnPress = (JButton) e.getSource();
+				String coordenada = btnPress.getActionCommand();
+				if (coordenada.equals("Cerrar y Guardar Reserva")) {
+					control.getCerrarSesion(username);
+				}
+			}
 		});
 
 		btnCerrarGuardarReserva.addActionListener(new ActionListener() {

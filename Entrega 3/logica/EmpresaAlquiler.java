@@ -44,6 +44,7 @@ public class EmpresaAlquiler implements Serializable
 		for(String linea : lineas) {
 			String []datos = linea.split(";");
 			ArrayList<Vehiculo> listaVehiculos = new ArrayList<Vehiculo>();
+			
 			HashMap<String,Reserva> mapaReservas= new HashMap<String,Reserva>();
 			HashMap<String,Empleado>mapaEmpleados= new HashMap<String,Empleado>();
 			Sede sede = new Sede(datos[0], datos[1], datos[2],listaVehiculos,mapaReservas,mapaEmpleados); 
@@ -118,8 +119,14 @@ public class EmpresaAlquiler implements Serializable
 
 	}
 		
-		public void crearCliente(String username, String password, Roles cargo, String nombreCliente, String email, String telefono, String fechaNacimiento, String nacionalidad, String imagenCedula,String imagenLicencia, String metodoDePago, String numeroTarjeta, String fechaVencimiento) {
-			Usuario u = new Cliente(username,password,cargo,nombreCliente,email,telefono,fechaNacimiento,nacionalidad,imagenCedula,imagenCedula,metodoDePago,numeroTarjeta,fechaVencimiento);
+		public void crearCliente(String username, String password, Roles cargo, 
+				String nombreCliente, String email, String telefono, String fechaNacimiento, 
+				String nacionalidad, String imagenCedula,String imagenLicencia, 
+				String metodoDePago, String numeroTarjeta, String fechaVencimiento) {
+			
+			Usuario u = new Cliente(username,password,cargo,nombreCliente,
+					email,telefono,fechaNacimiento,nacionalidad,imagenCedula,imagenCedula,
+					metodoDePago,numeroTarjeta,fechaVencimiento);
 			this.mapaUsuarios.put(username, u);
 			// TODO implement me
 				

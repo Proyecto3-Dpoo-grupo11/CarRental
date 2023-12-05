@@ -159,7 +159,7 @@ public class Reserva implements Serializable
 			PDPageContentStream contenido = new PDPageContentStream(documento,pagina);
 			
 			contenido.beginText();
-			contenido.setFont(PDType1Font.TIMES_BOLD, 12);
+			
 			contenido.newLineAtOffset(20, pagina.getMediaBox().getHeight()-52);
 			contenido.showText(retorno);
 			contenido.endText();
