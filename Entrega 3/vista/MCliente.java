@@ -26,7 +26,7 @@ public class MCliente extends JPanel implements IOpciones {
 
 	private TipoVehiculo tipoVehiculo;
 	public String[] respuestas;
-	public String recibo;
+	public String recibo="";
 
 	public MCliente(Control control, String username) {
 
@@ -83,13 +83,13 @@ public class MCliente extends JPanel implements IOpciones {
 							break;
 						}	
 
-					}
+					
 
 					MCliente.this.recibo=((logica.Cliente) Control.usuarioActual).iniciarReserva(tipoVehiculo, res[0], res[1], res[2],
 							res[3], res[4], res[5], res[6], Integer.parseInt(res[7]),
-							Entrega.ESPERANDOASERENTREGADOACLIENTE);
+							Entrega.ESPERANDOASERENTREGADOACLIENTE);}
 
-					MCliente.this.numeroTarjeta = Integer.parseInt(res[9]);
+					
 					String filePath = "data/metodosDePago.txt";
 					ArrayList<String> lines = readLinesFromFile(filePath);
 
@@ -140,7 +140,7 @@ public class MCliente extends JPanel implements IOpciones {
 							CargaDinamica carga = new CargaDinamica("vista.MPayU",
 									((logica.Cliente) Control.usuarioActual),
 									((logica.Cliente) Control.usuarioActual).getPrecioFinal(),
-									MCliente.this.numeroTarjeta,
+									
 									((logica.Cliente) Control.usuarioActual).getNumeroTransaccion(),MCliente.this.recibo);
 							carga.pagos.realizarPago();
 							;
@@ -151,7 +151,7 @@ public class MCliente extends JPanel implements IOpciones {
 							CargaDinamica carga = new CargaDinamica("vista.MPayPal",
 									((logica.Cliente) Control.usuarioActual),
 									((logica.Cliente) Control.usuarioActual).getPrecioFinal(),
-									MCliente.this.numeroTarjeta,
+									
 									((logica.Cliente) Control.usuarioActual).getNumeroTransaccion(),MCliente.this.recibo);
 							carga.pagos.realizarPago();
 							;
@@ -258,12 +258,10 @@ public class MCliente extends JPanel implements IOpciones {
 		dialog.add(rutaImagenConductorAdicionesField);
 
 		JTextField cantidadConductoresAdiccionales = new JTextField();
-		dialog.add(new JLabel("Ruta Imagen Conductor Adicional:"));
+		dialog.add(new JLabel("Cantidad Conductores adicionales:"));
 		dialog.add(cantidadConductoresAdiccionales);
 
-		JTextField numeroTarjeta = new JTextField();
-		dialog.add(new JLabel("Numero de su Tarjeta:"));
-		dialog.add(numeroTarjeta);
+	
 
 		// Crear botones
 		JButton acceptButton = new JButton("Aceptar");
@@ -364,8 +362,8 @@ public class MCliente extends JPanel implements IOpciones {
 				|| nuevaSedeEntregaField.getText().isEmpty() || fechaHoraRecogidaField.getText().isEmpty()
 				|| partesRecogida.length > 3 || fechaHoraEntregaField.getText().isEmpty() || partesEntrega.length < 3
 				|| usernameClienteField.getText().isEmpty() || rutaImagenConductorAdicionesField.getText().isEmpty()
-				|| cantidadConductoresAdiccionales.getText().isEmpty() || numeroTarjeta.getText().isEmpty()
-				|| Integer.parseInt(partesRecogida[1]) > 12 || Integer.parseInt(partesRecogida[1])==0 
+				|| cantidadConductoresAdiccionales.getText().isEmpty() || 
+				 Integer.parseInt(partesRecogida[1]) > 12 || Integer.parseInt(partesRecogida[1])==0 
 				||Integer.parseInt(partesRecogida[2]) > 30 || Integer.parseInt(partesRecogida[2]) == 0 
 				||Integer.parseInt(partesEntrega[2]) > 30 || Integer.parseInt(partesEntrega[2]) == 0
 				||Integer.parseInt(partesEntrega[1]) > 12 || Integer.parseInt(partesEntrega[1]) == 0
@@ -397,7 +395,7 @@ public class MCliente extends JPanel implements IOpciones {
 					cantidadConductoresAdiccionales.getText(), // 7
 
 					(String) tipoVehiculoComboBox.getSelectedItem(), // 8
-					numeroTarjeta.getText() };// 9
+					 };
 		}
 	}
 

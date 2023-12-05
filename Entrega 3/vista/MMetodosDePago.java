@@ -28,11 +28,11 @@ public abstract class MMetodosDePago extends JDialog {
     private JTextField textFieldNumTarjeta;
     private JTextArea textAreaRecibo = new JTextArea(10, 40); // Adjust rows and columns as needed
 
-    public MMetodosDePago(Cliente cliente, double monto, int numCuenta, int numTransaccion, String recibo) {
+    public MMetodosDePago(Cliente cliente, double monto, int numTransaccion, String recibo) {
         super();
         this.cliente = cliente;
         this.monto = monto;
-        NumCuenta = numCuenta;
+        
         NumTransaccion = numTransaccion;
         this.recibo = recibo;
     }

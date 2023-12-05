@@ -6,14 +6,14 @@ import logica.Cliente;
 public class CargaDinamica {
     public MMetodosDePago pagos;
 
-    public CargaDinamica(String clasePago, Cliente cliente, double monto, int numCuenta, int numTransaccion,String recibo) {
+    public CargaDinamica(String clasePago, Cliente cliente, double monto, int numTransaccion,String recibo) {
         try {
             // 1. Given the fully qualified name (clasePago), find a Class object
             Class<?> clase = Class.forName(clasePago);
 
             // 2. Request a constructor with the appropriate parameters from the class
-            Class<?>[] parameterTypes = {Cliente.class, double.class, int.class, int.class,String.class};
-            this.pagos = (MMetodosDePago) clase.getDeclaredConstructor(parameterTypes).newInstance(cliente, monto, numCuenta, numTransaccion,recibo);
+            Class<?>[] parameterTypes = {Cliente.class, double.class, int.class,String.class};
+            this.pagos = (MMetodosDePago) clase.getDeclaredConstructor(parameterTypes).newInstance(cliente, monto, numTransaccion,recibo);
 
             // Rest of your code...
         } catch (ClassNotFoundException e) {
