@@ -97,6 +97,8 @@ public class EmpresaAlquiler implements Serializable
 			Usuario user = new Cliente(datos[0], datos[1], Roles.CLIENTE, datos[2], datos[3], datos[4], datos[5], datos[6], datos[7], datos[8], datos[9], datos[10], datos[11]); 
 			this.mapaUsuarios.put(datos[0], user);		
 		}
+		
+		
 		lineas = LectorArchivo.leer("vehiculos.dat"); 
 		for(String linea : lineas) {
 			String []datos = linea.split(";");

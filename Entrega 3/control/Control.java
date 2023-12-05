@@ -23,9 +23,8 @@ public class Control {
 	
 		this.empresa = PersistenciaEmpresaAlquiler.cargarEmpresaAlquiler();
 		try {
-			if (empresa.getMapaUsuarios().isEmpty()) {
 				this.empresa.leerArchivos();
-			}
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
