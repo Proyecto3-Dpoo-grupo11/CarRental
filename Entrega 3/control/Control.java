@@ -148,4 +148,13 @@ public class Control {
 		return accesoCliente;
 		
 	}
+
+	public EmpresaAlquiler getEmpresa() {
+		return empresa;
+	}
+
+	public void setEmpresa(EmpresaAlquiler empresa) {
+		this.empresa = empresa;
+	}
+	
 }

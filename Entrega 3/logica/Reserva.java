@@ -122,32 +122,23 @@ public class Reserva implements Serializable
 		
 		String factura30Porciento=generarFactura(30);
 		
-		String retorno="Felicidades!!! "+ usernameCliente+ "Usted ha reservado el vehiculo con placa"+placaVehiculo+"\n."
-		+"Su codigo de reserva es: "
-		+codigoReserva+"\n."
-		
-		+"Usted registro"+cantidadConductoresAdicionales+"conductores adicionales"+"\n."
-		
-		+"Su vehiculo es del tipo: "+"\n."
-		+tipoDeCarro+"\n."
-		
-		+"Su vehiculo sera recogido en la sede: "
-		+sedeRecogida+"\n."
-		
+		String retorno="Felicidades!!! "+ usernameCliente+ "Usted ha reservado el vehiculo con placa"+placaVehiculo +
+		"Su codigo de reserva es: " +codigoReserva+"Usted registro"+cantidadConductoresAdicionales+"conductores adicionales"
+		+"Su vehiculo es del tipo:"
+		+tipoDeCarro +
+		"Su vehiculo sera recogido en la sede: "
+		+sedeRecogida
 		+"En la fecha: "
-		+fechaHoraRecogida+"\n."
-		
+		+fechaHoraRecogida
 		+"Su vehiculo sera entregado en la sede: "
-		+sedeEntrega+"\n."
-		
+		+sedeEntrega
 		+"Por un total de: "
 		+duracionPorDia
 		+" dias."
 		+"Duracion general de: "
-		
 		+"En la fecha: "
-		+fechaHoraEntrega+"\n."
-		+"Recuerde que debe pagar el 30% del valor del alquiler \n. "
+		+fechaHoraEntrega
+		+"Recuerde que debe pagar el 30% del valor del alquiler"
 		+"Su factura por el 30% es"
 		+factura30Porciento+
 		"Numero de transaccion"+ numeroTransaccion;
@@ -159,14 +150,14 @@ public class Reserva implements Serializable
 			PDPageContentStream contenido = new PDPageContentStream(documento,pagina);
 			
 			contenido.beginText();
-			
+			contenido.setFont(PDType1Font.TIMES_BOLD, 12);
 			contenido.newLineAtOffset(20, pagina.getMediaBox().getHeight()-52);
 			contenido.showText(retorno);
 			contenido.endText();
 
 			contenido.close();
 
-			documento.save("\factura.pdf");
+			documento.save("facturas/factura.pdf");
 			}
 			catch(Exception e){
 			System.out.println("Error: " + e.getMessage().toString());
@@ -222,22 +213,19 @@ public class Reserva implements Serializable
 		if (cantidadConductoresAdicionales!=0) {
 				PrintConductoresAdicionales="Tarifa por conductor adicional: "+ 
 				(porcentaje*tarifaPredeterminada.valorExtraConductorAdicional)+" $"
-				+" x "+cantidadConductoresAdicionales + " conductores adicionales.\n" ;
+				+" x "+cantidadConductoresAdicionales + " conductores adicionales" ;
 		}
 		
 		if (tarifaPredeterminada.valorPorEntregaOtraSede!=0) {
 			PrintEntregarOtraSede="Tarifa por Entregar en otra sede: "+ 
-			(porcentaje*tarifaPredeterminada.valorPorEntregaOtraSede)+" $.\n";}
+			(porcentaje*tarifaPredeterminada.valorPorEntregaOtraSede)+" $.";}
 	
 		return 	"Tarifa por dia: "
-				+(porcentaje*tarifaPredeterminada.tarifaPorDia)+" $"+" x "+duracionPorDia+" Dias/n"
-				+"/n"
+				+(porcentaje*tarifaPredeterminada.tarifaPorDia)+" $"+" x "+duracionPorDia+" Dias"
 				//Print conductores addicionales
 				+ PrintConductoresAdicionales
-				+ "\n"
 				+ PrintEntregarOtraSede
-				+ "\n"
-				+ "Total: \n"
+				+ "Total: "
 				+ (porcentaje*calculoPrecioFinal)
 				+" $.";
 	}
@@ -358,4 +346,3 @@ public class Reserva implements Serializable
 	
 	
 }
-

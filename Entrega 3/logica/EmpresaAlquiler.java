@@ -131,6 +131,18 @@ public class EmpresaAlquiler implements Serializable
 			// TODO implement me
 				
 		}
+		
+		public Sede BuscarSede(String codigoSede) {
+			Sede res = null;
+			for(Sede sedes : listaSedes) {
+				if (sedes.codigoSede==codigoSede) {
+					res= sedes;
+				}
+			}
+			return res;
+		}
+		
+	
 
 		
 	/**

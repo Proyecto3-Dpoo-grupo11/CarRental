@@ -134,6 +134,41 @@ public class Sede implements Serializable
         }
         return carrosDisponibles;
     }
+    
+    public List<Vehiculo> getAvailableVehiclesBetweenDates(LocalDate startDate, LocalDate endDate) {
+        List<Vehiculo> availableVehicles = new ArrayList<>();
+
+        for (Vehiculo vehiculos : listaVehiculos) {
+        	
+        	if (vehiculos.getEstados()==Estados.DISPONIBLE) {
+        		availableVehicles.add(vehiculos);
+        	}
+        	
+        	if  (vehiculos.getEstados()==Estados.NODISPONIBLE) {
+        		
+        		
+        		Reserva reserva =mapaReservas.get(vehiculos.getCodigoReservaActual());
+        		LocalDate fechaRecogida = LocalDate.parse(reserva.getFechaHoraRecogida());
+                LocalDate fechaEntrega = LocalDate.parse(reserva.getFechaHoraEntrega());
+
+                // Check if the reservation is within the specified date range
+                if (!fechaEntrega.isBefore(startDate) && !fechaRecogida.isAfter(endDate)) {
+                    // Check if the associated vehicle is in the DISPONIBLE state
+                    
+                        // Add the vehicle to the list of available vehicles
+                        availableVehicles.add(vehiculos);
+                    
+                }
+        	}
+        
+        
+         // Iterate through all reservations
+        
+        }
+        return availableVehicles;
+    }
+
+    
 	/**
 	 * <!-- GETTERS AND SETTERS -->
 	 * @generated
