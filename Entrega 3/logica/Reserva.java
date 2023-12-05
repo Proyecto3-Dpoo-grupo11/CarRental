@@ -2,6 +2,7 @@ package logica;
 import java.util.ArrayList;
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -11,6 +12,8 @@ import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.font.PDType3Font;
+
 
 
 
@@ -120,51 +123,50 @@ public class Reserva implements Serializable
 		int randomNumber = new Random().nextInt(100) + 1;
 		this.numeroTransaccion=randomNumber;
 		
-		String factura30Porciento=generarFactura(30);
+		List<String> texto = new ArrayList<>();
 		
-		String retorno="Felicidades!!! "+ usernameCliente+ "Usted ha reservado el vehiculo con placa"+placaVehiculo +
-		"Su codigo de reserva es: " +codigoReserva+"Usted registro"+cantidadConductoresAdicionales+"conductores adicionales"
-		+"Su vehiculo es del tipo:"
-		+tipoDeCarro +
-		"Su vehiculo sera recogido en la sede: "
-		+sedeRecogida
-		+"En la fecha: "
-		+fechaHoraRecogida
-		+"Su vehiculo sera entregado en la sede: "
-		+sedeEntrega
-		+"Por un total de: "
-		+duracionPorDia
-		+" dias."
-		+"Duracion general de: "
-		+"En la fecha: "
-		+fechaHoraEntrega
-		+"Recuerde que debe pagar el 30% del valor del alquiler"
-		+"Su factura por el 30% es"
-		+factura30Porciento+
-		"Numero de transaccion"+ numeroTransaccion;
+		texto = generarFactura(30);
 		
 		try {
 			PDDocument documento = new PDDocument();
 			PDPage pagina = new PDPage (PDRectangle.A6);
 			documento.addPage(pagina);
 			PDPageContentStream contenido = new PDPageContentStream(documento,pagina);
-			
-			contenido.beginText();
-			contenido.setFont(PDType1Font.TIMES_BOLD, 12);
+
+			contenido.beginText();	
 			contenido.newLineAtOffset(20, pagina.getMediaBox().getHeight()-52);
-			contenido.showText(retorno);
+			contenido.setFont(PDType1Font.TIMES_BOLD, 12);
+			contenido.showText("Felicidades!!! " + usernameCliente);
 			contenido.endText();
-
+			
+			contenido.beginText();	
+			contenido.newLineAtOffset(20, pagina.getMediaBox().getHeight()-104);
+			contenido.setFont(PDType1Font.HELVETICA, 8);
+			contenido.showText("Usted ha reservado el vehiculo con placa"+placaVehiculo);
+			contenido.endText();
+			
+			int i = 1;
+			
+			for (String elementoDeLaLista : texto) {
+			    contenido.beginText();
+			    contenido.newLineAtOffset(20, pagina.getMediaBox().getHeight() - 104 - (i*20));
+			    contenido.setFont(PDType1Font.HELVETICA, 8);
+			    contenido.showText(elementoDeLaLista);
+			    contenido.endText();
+			    
+			    i++;
+			}
+			
 			contenido.close();
-
-			documento.save("facturas/factura.pdf");
+			
+			documento.save("./data/factura.pdf");
 			}
 			catch(Exception e){
 			System.out.println("Error: " + e.getMessage().toString());
 			}
 
 		;
-		return retorno;
+		return "";
 		
 	} //imprimir la factura al final de pronto osea llamar metodo generarfactura, la fecha y todo lo demas.
 	
@@ -198,7 +200,7 @@ public class Reserva implements Serializable
 		
 	}
 	
-	public String generarFactura(int porcentaje) {
+	public List<String> generarFactura(int porcentaje) {
 		// TODO implement me	
 		porcentaje=porcentaje/100;
 		String PrintConductoresAdicionales="";
@@ -207,27 +209,39 @@ public class Reserva implements Serializable
 		HashMap<String, Tarifa> mapaTarifa = new HashMap<String, Tarifa>();
 		Tarifa tarifaPredeterminada = new Tarifa("predeterminada",10000,1000,1000,mapaTarifa);
 		
+		List<String> texto = new ArrayList<>();
+		texto.add("Su codigo de reserva es: " + codigoReserva);
+		texto.add(" Usted registro " + cantidadConductoresAdicionales + " conductores adicionales");
+		texto.add("Su vehiculo es del tipo:" + tipoDeCarro);
+		texto.add("Su vehiculo sera recogido en la sede: " + sedeRecogida);
+		texto.add("En la fecha: " + fechaHoraRecogida);
+		texto.add("Su vehiculo sera entregado en la sede: " + sedeEntrega);
+		texto.add("Por un total de: " + duracionPorDia + " dias.");
+		texto.add("Hasta la fecha: " + fechaHoraEntrega);
+		texto.add("Recuerde que debe pagar el 30% del valor del alquiler");
 		
 		
 		//	logica Print conductores addicionales
 		if (cantidadConductoresAdicionales!=0) {
 				PrintConductoresAdicionales="Tarifa por conductor adicional: "+ 
-				(porcentaje*tarifaPredeterminada.valorExtraConductorAdicional)+" $"
-				+" x "+cantidadConductoresAdicionales + " conductores adicionales" ;
+				(porcentaje*tarifaPredeterminada.valorExtraConductorAdicional)+" $";
+				
+				texto.add(PrintConductoresAdicionales);
 		}
 		
 		if (tarifaPredeterminada.valorPorEntregaOtraSede!=0) {
 			PrintEntregarOtraSede="Tarifa por Entregar en otra sede: "+ 
-			(porcentaje*tarifaPredeterminada.valorPorEntregaOtraSede)+" $.";}
+			(porcentaje*tarifaPredeterminada.valorPorEntregaOtraSede)+" $.";
+			
+			texto.add(PrintEntregarOtraSede);
+			
+		}
+		
+		texto.add( "Tarifa por dia: " +(porcentaje*tarifaPredeterminada.tarifaPorDia)+" $");
+		texto.add(duracionPorDia+" Dias" );
+		texto.add("Total: " + (porcentaje*calculoPrecioFinal) +" $.");
 	
-		return 	"Tarifa por dia: "
-				+(porcentaje*tarifaPredeterminada.tarifaPorDia)+" $"+" x "+duracionPorDia+" Dias"
-				//Print conductores addicionales
-				+ PrintConductoresAdicionales
-				+ PrintEntregarOtraSede
-				+ "Total: "
-				+ (porcentaje*calculoPrecioFinal)
-				+" $.";
+		return 	texto; 
 	}
 	
 	 
