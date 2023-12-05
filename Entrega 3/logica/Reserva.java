@@ -6,6 +6,11 @@ import java.util.Random;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Period;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.common.PDRectangle;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
 
 
@@ -147,7 +152,25 @@ public class Reserva implements Serializable
 		+factura30Porciento+
 		"Numero de transaccion"+ numeroTransaccion;
 		
-		
+		try {
+			PDDocument documento = new PDDocument();
+			PDPage pagina = new PDPage (PDRectangle.A6);
+			documento.addPage(pagina);
+			PDPageContentStream contenido = new PDPageContentStream(documento,pagina);
+			
+			contenido.beginText();
+			contenido.setFont(PDType1Font.TIMES_BOLD, 12);
+			contenido.newLineAtOffset(20, pagina.getMediaBox().getHeight()-52);
+			contenido.showText(retorno);
+			contenido.endText();
+
+			contenido.close();
+
+			documento.save("\facturas\factura.pdf");
+			}
+			catch(Exception e){
+			System.out.println("Error: " + e.getMessage().toString());
+			}
 
 		;
 		return retorno;
