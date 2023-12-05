@@ -166,7 +166,7 @@ public class Reserva implements Serializable
 
 			contenido.close();
 
-			documento.save("\facturas\factura.pdf");
+			documento.save("\factura.pdf");
 			}
 			catch(Exception e){
 			System.out.println("Error: " + e.getMessage().toString());
