@@ -210,7 +210,7 @@ public class MCliente extends JPanel implements IOpciones {
 					else {
 					    String infoVehiculo = " ";
 					    for (Vehiculo vehiculoActual : vehiculos) {
-					        infoVehiculo += " " + vehiculoActual.marca + vehiculoActual.getTipoVehiculo().name();
+					        infoVehiculo += " " +"Marca: "+ vehiculoActual.marca +" Modelo: "+vehiculoActual.marca+" Tipo: "+ vehiculoActual.getTipoVehiculo().name();
 					    }
 					    labelDisponibilidad.setText("Estos son los vehículos disponibles: ");
 					    labelVehiculos.setText(infoVehiculo);
