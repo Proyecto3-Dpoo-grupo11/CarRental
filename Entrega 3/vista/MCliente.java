@@ -151,9 +151,11 @@ public class MCliente extends JPanel implements IOpciones {
 						if (coordenada.equals("PayU")) {
 							CargaDinamica carga = new CargaDinamica("vista.MPayU",
 									((logica.Cliente) Control.usuarioActual),
-									((logica.Cliente) Control.usuarioActual).getPrecioFinal(),
+									((logica.Cliente) Control.usuarioActual).
+									getPrecioFinal(),
 									
-									((logica.Cliente) Control.usuarioActual).getNumeroTransaccion(),MCliente.this.recibo);
+									((logica.Cliente) Control.usuarioActual).
+									getNumeroTransaccion(),MCliente.this.recibo);
 							carga.pagos.realizarPago();
 							;
 
@@ -162,9 +164,11 @@ public class MCliente extends JPanel implements IOpciones {
 						if (coordenada.equals("PayPal")) {
 							CargaDinamica carga = new CargaDinamica("vista.MPayPal",
 									((logica.Cliente) Control.usuarioActual),
-									((logica.Cliente) Control.usuarioActual).getPrecioFinal(),
+									((logica.Cliente) Control.usuarioActual).
+									getPrecioFinal(),
 									
-									((logica.Cliente) Control.usuarioActual).getNumeroTransaccion(),MCliente.this.recibo);
+									((logica.Cliente) Control.usuarioActual)
+									.getNumeroTransaccion(),MCliente.this.recibo);
 							carga.pagos.realizarPago();
 							;
 
