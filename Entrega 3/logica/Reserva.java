@@ -185,7 +185,7 @@ public class Reserva implements Serializable {
 				i++;
 			}
 			
-			PDImageXObject firma = PDImageXObject.createFromFile("./Entrega-2/data/firma.png", documento);
+			PDImageXObject firma = PDImageXObject.createFromFile("/Proyecto3/Firma.png", documento);
 
 			contenido.drawImage(firma, 40, 20);
 
