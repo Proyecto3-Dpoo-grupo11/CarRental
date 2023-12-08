@@ -251,7 +251,7 @@ public class Reserva implements Serializable {
 
 	}
 
-	public List<String> generarFactura(int porcentaje) {
+	public List<String> generarFactura(float porcentaje) {
 		// TODO implement me
 		porcentaje = porcentaje / 100;
 		String PrintConductoresAdicionales = "";
