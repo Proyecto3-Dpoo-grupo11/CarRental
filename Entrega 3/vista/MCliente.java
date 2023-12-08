@@ -204,11 +204,11 @@ public class MCliente extends JPanel implements IOpciones {
 			        JLabel labelDisponibilidad = new JLabel(" ");
 			        dialog.add(labelDisponibilidad);
 
-			        JTextArea textAreaVehiculos = new JTextArea();
+			        JTextArea textAreaVehiculos = new JTextArea(20, 40); // Set rows and columns
 			        textAreaVehiculos.setEditable(false); // Make it non-editable
 			        JScrollPane scrollPane = new JScrollPane(textAreaVehiculos);
 			        dialog.add(scrollPane);
-					if (vehiculos == null) {
+			        if (vehiculos == null) {
 			            labelDisponibilidad.setText("No hay vehiculos disponibles");
 			        } else {
 			            String infoVehiculo = " ";
@@ -225,8 +225,8 @@ public class MCliente extends JPanel implements IOpciones {
 
 					
 					
-					dialog.setSize(700, 700); // Ajusta el tamaño según tus necesidades
-					dialog.setVisible(true);	
+			        dialog.setSize(800, 800); // Ajusta el tamaño según tus necesidades
+			        dialog.setVisible(true);	
 				}
 			}
 		});

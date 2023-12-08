@@ -170,7 +170,7 @@ public class Reserva implements Serializable {
 			contenido.beginText();
 			contenido.newLineAtOffset(20, pagina.getMediaBox().getHeight() - 104);
 			contenido.setFont(PDType1Font.HELVETICA, 8);
-			contenido.showText("Usted ha reservado el vehiculo con placa" + placaVehiculo);
+			contenido.showText("Usted ha reservado el vehiculo con placa: " + vehiculo.placa);
 			contenido.endText();
 
 			int i = 1;
