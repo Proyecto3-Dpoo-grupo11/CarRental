@@ -10,5 +10,6 @@
 	<classpathentry kind="lib" path="C:/Users/cfvm0/Downloads/apache/apache/pdfbox-2.0.19.jar"/>
 	<classpathentry kind="lib" path="C:/Users/cfvm0/Downloads/apache/apache/pdfbox-tools-2.0.19.jar"/>
 	<classpathentry kind="lib" path="C:/Users/cfvm0/Downloads/apache/apache/commons-logging-1.2.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="output" path="Entrega 3"/>
 </classpath>
