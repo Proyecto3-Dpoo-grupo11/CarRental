@@ -185,9 +185,9 @@ public class Reserva implements Serializable {
 				i++;
 			}
 			
-			PDImageXObject firma = PDImageXObject.createFromFile("/Proyecto3/Entrega 3/Firma.png", documento);
+			PDImageXObject firma = PDImageXObject.createFromFile("Entrega 3/Firma.png", documento);
 
-			contenido.drawImage(firma, 40, 20);
+			contenido.drawImage(firma, 4, 2);
 
 			contenido.close();
 
@@ -289,7 +289,8 @@ public class Reserva implements Serializable {
 
 		texto.add("Tarifa por dia: " + (porcentaje * tarifaPredeterminada.tarifaPorDia) + " $");
 		texto.add(duracionPorDia + " Dias");
-		texto.add("Total: " + (porcentaje * calculoPrecioFinal) + " $.");
+		float redondeo=Math.round((porcentaje * calculoPrecioFinal) * 100.0)/100;
+		texto.add("Total: " + redondeo + " $.");
 
 		return texto;
 	}
