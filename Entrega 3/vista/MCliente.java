@@ -196,34 +196,36 @@ public class MCliente extends JPanel implements IOpciones {
 					                                           LocalDate.parse(res[2], DateTimeFormatter.ofPattern("yyyy/MM/dd")));
 					
 					JDialog dialog = new JDialog();
-					dialog.setTitle("Metodos de pago");
-					dialog.setModal(true);
-					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-					dialog.setLayout(new GridLayout(19, 2, 15, 5)); // 19 filas para 19 parámetros
-					JLabel labelDisponibilidad = new JLabel(" ");
-					JLabel labelVehiculos= new JLabel(" ");
-					dialog.add(labelDisponibilidad);
-					dialog.add(labelVehiculos);
-					if (vehiculos== null) {
-						labelDisponibilidad.setText("No hay vehiculos disponibles");
-					}
-					else {
-					    String infoVehiculo = " ";
-					    for (Vehiculo vehiculoActual : vehiculos) {
-					        infoVehiculo += " " +"Marca: "+ vehiculoActual.marca +" Modelo: "+vehiculoActual.marca+" Tipo: "+ vehiculoActual.getTipoVehiculo().name();
-					    }
-					    labelDisponibilidad.setText("Estos son los vehículos disponibles: ");
-					    labelVehiculos.setText(infoVehiculo);
-					    dialog.add(botonReserva);
-					    MCliente.this.descuento=true;
-					    
-					}
+			        dialog.setTitle("Metodos de pago");
+			        dialog.setModal(true);
+			        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			        dialog.setLayout(new GridLayout(19, 2, 15, 5)); // 19 filas para 19 parámetros
+
+			        JLabel labelDisponibilidad = new JLabel(" ");
+			        dialog.add(labelDisponibilidad);
+
+			        JTextArea textAreaVehiculos = new JTextArea();
+			        textAreaVehiculos.setEditable(false); // Make it non-editable
+			        JScrollPane scrollPane = new JScrollPane(textAreaVehiculos);
+			        dialog.add(scrollPane);
+					if (vehiculos == null) {
+			            labelDisponibilidad.setText("No hay vehiculos disponibles");
+			        } else {
+			            String infoVehiculo = " ";
+			            for (Vehiculo vehiculoActual : vehiculos) {
+			                infoVehiculo += " " + "Marca: " + vehiculoActual.marca + " Modelo: " + vehiculoActual.marca + " Tipo: " + vehiculoActual.getTipoVehiculo().name() + "\n";
+			            }
+			            labelDisponibilidad.setText("Estos son los vehículos disponibles: ");
+			            textAreaVehiculos.setText(infoVehiculo); // Set the text in JTextArea
+			            dialog.add(botonReserva);
+			            MCliente.this.descuento = true;
+			        }
 					
 					
 
 					
 					
-					dialog.setSize(600, 600); // Ajusta el tamaño según tus necesidades
+					dialog.setSize(700, 700); // Ajusta el tamaño según tus necesidades
 					dialog.setVisible(true);	
 				}
 			}
