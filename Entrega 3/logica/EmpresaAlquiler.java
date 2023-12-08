@@ -99,8 +99,8 @@ public class EmpresaAlquiler implements Serializable
 		}
 		
 		
-		//lineas = LectorArchivo.leer("Entrega 3/vehiculos.dat");  // para el compu de carlos
-		lineas = LectorArchivo.leer("vehiculos.dat"); 
+		lineas = LectorArchivo.leer("Entrega 3/vehiculos.dat");  // para el compu de carlos
+		//lineas = LectorArchivo.leer("vehiculos.dat"); 
 
 		for(String linea : lineas) {
 			String []datos = linea.split(";");

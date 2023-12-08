@@ -25,7 +25,7 @@ class reservaTest {
 //	AdminGeneral admin;
 	Sede sede;
 //	AdminSede adminSede;
-//	Empleado empleado;
+//	Empleado empleado; 
 	Cliente cliente;
 	Reserva reserva; 
 	
