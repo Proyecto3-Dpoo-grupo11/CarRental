@@ -14,6 +14,8 @@ import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.font.PDType3Font;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
+
 
 import vista.MCliente;
 
@@ -182,6 +184,10 @@ public class Reserva implements Serializable {
 
 				i++;
 			}
+			
+			PDImageXObject firma = PDImageXObject.createFromFile("./Entrega-2/data/firma.png", documento);
+
+			contenido.drawImage(firma, 40, 20);
 
 			contenido.close();
 

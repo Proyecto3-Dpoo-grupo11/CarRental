@@ -17,7 +17,7 @@ public class Cliente extends Usuario {
 	public String telefono;
 	public String fechaNacimiento;
 	public String nacionalidad;	
-	public String imagenCedula; //TODO .... No se como se hace para aceptar imagenes png
+	public String imagenCedula; 
 	public String imagenLicencia;
 	public String metodoDePago; 
 	protected String numeroTarjeta;
@@ -36,7 +36,7 @@ public class Cliente extends Usuario {
 		this.telefono = telefono;
 		this.fechaNacimiento = fechaNacimiento;
 		this.nacionalidad = nacionalidad;	
-		this.imagenCedula = imagenCedula; //TODO ... Cambiar a imagen png
+		this.imagenCedula = imagenCedula; 
 		this.imagenLicencia = imagenCedula;
 		this.metodoDePago = metodoDePago; 
 		this.numeroTarjeta = numeroTarjeta;
@@ -140,8 +140,6 @@ public class Cliente extends Usuario {
 		return numeroTarjeta;
 	}
 
-	//La idea seria hacer un metodo arriba que solo te deje extraer estos valores si eres empleado, ya que recuerden
-	//Que el empleado tambien puede crear un cliente. Si no se puede entonces dejenlos publicos y ya.
 	private void setNumeroTarjeta(String numeroTarjeta) {
 		this.numeroTarjeta = numeroTarjeta;
 	}
