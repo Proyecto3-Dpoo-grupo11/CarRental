@@ -1,3 +1,5 @@
+### UML
+A UML diagram was provided to illustrate the overall structure.
 ![class-diagram](https://github.com/Proyecto3-Dpoo-grupo11/Proyecto-3/assets/123647043/15041271-b44b-4bd5-bbf3-e645aac3eea2)
 
 ## Manual
@@ -84,9 +86,6 @@ Find the class by name, enter the necessary parameters, and create an instance o
 
 ### Structure
 The project has 4 main packages: `logica`, `control`, `vista`, and `pruebas`. The focus was on optimizing the reservation system by separating the client and employee applications into distinct frames within the `vista` package.
-
-### UML
-A UML diagram was provided to illustrate the overall structure, focusing on class interactions and relationships.
 
 ### Tests
 Encountered issues with reservation tests due to tight coupling. Dynamic loading tests had 86% coverage and worked well, excluding a specific catch block deemed unnecessary to test.
