@@ -1,7 +1,10 @@
 # Project 3 Documentation
 
-## Invoice Issuance
-This section provides a step-by-step guide to generating invoices using the application.
+## UML
+![UML P3 DPOO](https://github.com/Proyecto3-Dpoo-grupo11/Proyecto-3/assets/123647043/b75c8606-7553-4cba-ad42-01285c191440)
+
+## Manual
+This section provides a step-by-step guide to generating outputs using the application.
 
 ### Step 1:
 Upon opening the application, the main screen appears. Select "Iniciar como Cliente" (Start as a Client).
